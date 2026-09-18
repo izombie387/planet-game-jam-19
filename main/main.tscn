@@ -129,6 +129,22 @@ height = 16
 fill_to = Vector2(0.5, 0.5)
 metadata/_snap_enabled = true
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwkvk"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.094000004, 0.2, 0.15936668, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c651c"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.30588236, 0.64705884, 0.5137255, 1)
+corner_detail = 1
+
 [node name="Main" type="Node2D" unique_id=1129783564 node_paths=PackedStringArray("map", "character", "digging_sprite", "digging_timer")]
 script = ExtResource("1_xwkvk")
 map = NodePath("map")
@@ -168,3 +184,15 @@ texture = SubResource("GradientTexture2D_6t0lm")
 
 [node name="DiggingTimer" type="Timer" parent="." unique_id=614684359]
 wait_time = 0.25
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=1406439974]
+offset_left = 32.0
+offset_top = 28.0
+offset_right = 48.0
+offset_bottom = 32.0
+theme_override_styles/background = SubResource("StyleBoxFlat_xwkvk")
+theme_override_styles/fill = SubResource("StyleBoxFlat_c651c")
+max_value = 10.0
+step = 1.0
+value = 5.0
+show_percentage = false

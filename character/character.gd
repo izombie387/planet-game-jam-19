@@ -6,7 +6,14 @@ enum State { IDLE, DIGGING, MOVING }
 signal started_digging(pos: Vector2i)
 signal stopped_digging()
 
-var _is_moving := false
+const ACTION_DIRECTIONS: Dictionary[StringName, Vector2i] = {
+	&"ui_left": Vector2i.LEFT,
+	&"ui_right": Vector2i.RIGHT,
+	&"ui_up": Vector2i.UP,
+	&"ui_down": Vector2i.DOWN
+}
+
+var _input_stack : Array[StringName]
 var _current_pos := Vector2i()
 var _state : State
 
@@ -18,23 +25,40 @@ func _ready() -> void:
 	_set_state(State.IDLE)
 	_current_pos = Vector2i(-2,-2)
 	_move_to(_current_pos)
-	anim.animation_finished.connect(_anim_finished)
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and not event.is_echo():
+		for action in ACTION_DIRECTIONS:
+			if event.is_action_pressed(action):
+				if not _input_stack.has(action):
+					_input_stack.append(action)
+			elif event.is_action_released(action):
+				_input_stack.erase(action)
+				
+		_check_movement()
+			
 func _get_input() -> Vector2i:
-	var input_dir := Vector2i.ZERO
-	if Input.is_action_pressed("ui_left"): input_dir = Vector2i.LEFT
-	elif Input.is_action_pressed("ui_right"): input_dir = Vector2i.RIGHT
-	elif Input.is_action_pressed("ui_down"): input_dir = Vector2i.DOWN
-	elif Input.is_action_pressed("ui_up"): input_dir = Vector2i.UP
-	
-	return input_dir
+	for i in range(_input_stack.size() - 1, -1, -1):
+		var action = _input_stack[i]
+		if not Input.is_action_pressed(action):
+			_input_stack.remove_at(i)
 
-func _process(_delta: float) -> void:
+	if not _input_stack.is_empty():
+		var newest_action: String = _input_stack.back()
+		return ACTION_DIRECTIONS[newest_action]
+	
+	return Vector2i.ZERO
+	
+func _check_movement() -> void:
+	if _state == State.MOVING:
+		return
+		
 	var input_dir = _get_input()
 	
 	if input_dir == Vector2i.ZERO:
 		_set_state(State.IDLE)
-	elif _state == State.IDLE:
+	#elif _state == State.IDLE:
+	else:
 		_try_move_or_dig(input_dir)
 	
 func _try_move_or_dig(dir: Vector2i) -> void:
@@ -55,7 +79,6 @@ func _dig_at(pos: Vector2i, atlas_pos: Vector2i) -> void:
 func _move_to(pos: Vector2i) -> void:
 	var t = create_tween()
 	var new_position = map.map_to_local(pos)
-	_is_moving = true
 	t.tween_property(self, "position", new_position, 0.25)
 	t.tween_callback(_done_moving)
 	_current_pos = pos
@@ -67,10 +90,6 @@ func _done_moving() -> void:
 		_set_state(State.IDLE)
 	else:
 		_try_move_or_dig(input_dir)
-	
-func _anim_finished(anim_name: StringName) -> void:
-	pass
-	#_set_state(State.IDLE)
 
 func _set_state(new_state: State) -> void:
 	var anim_name := ""
