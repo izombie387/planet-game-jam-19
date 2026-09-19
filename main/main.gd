@@ -9,21 +9,22 @@ extends Node2D
 var _block_healths: Dictionary[Vector2i, int]
 var _current_digging_pos : Vector2i
 # probably put in a player stats class
-var _total_blocks_gained : int
+var player_stats = PlayerStats.new()
 var tile_manager := TileManager.new()
 
-var _mine_bounds := Vector2i(20,20)
-
 func _ready() -> void:
-	map.clear()
-	_generate_tiles()
+	tile_manager.setup(map, Vector2i(20,20))
+	var half_width := floori(tile_manager.world_bounds.x / 2.0)
+	
 	character.started_digging.connect(_on_started_digging)
 	character.stopped_digging.connect(_on_stopped_digging)
-	var half_width := floori(_mine_bounds.x / 2.0)
-	character.teleport(Vector2i(half_width, -1))
+	character.teleport(Vector2i(half_width, tile_manager.world_bounds.y))
+	
 	digging_timer.timeout.connect(_on_dug)
-	tile_manager.setup(map)
-	character.tile_manager = tile_manager
+	character.setup(map, tile_manager)
+	
+	map.clear()
+	_generate_tiles()
 	
 func _on_dug() -> void:
 	digging_sprite.flip_h = not digging_sprite.flip_h
@@ -40,8 +41,8 @@ func _on_dug() -> void:
 		digging_sprite.progress_bar.value = new_block_health
 	
 func _gain_block_value(_block_data: BlockData) -> void:
-	_total_blocks_gained += 1
-	ui.update_blocks_gained(_total_blocks_gained)
+	player_stats.total_blocks_mined += 1
+	ui.update_blocks_gained(player_stats.total_blocks_mined)
 	
 func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 	_current_digging_pos = pos
@@ -70,8 +71,8 @@ func _on_stopped_digging() -> void:
 	
 func _generate_tiles() -> void:
 	var cell_pos : Vector2i
-	for x in _mine_bounds.x:
-		for y in _mine_bounds.y:
+	for x in tile_manager.world_bounds.x:
+		for y in tile_manager.world_bounds.y:
 			if randf() < 0.5:
 				continue
 			cell_pos = Vector2i(x,y)
@@ -79,13 +80,18 @@ func _generate_tiles() -> void:
 			map.set_cell(cell_pos, 0, random_block.atlas_coords)
 			tile_manager.set_block(random_block, cell_pos)
 			
-	#var top = -1
-	var bottom = _mine_bounds.y
+	var top = -1
+	var bottom = tile_manager.world_bounds.y
 	var left = -1
-	var right = _mine_bounds.x
-	var wall = tile_manager.get_wall()
+	var right = tile_manager.world_bounds.x
+	var wall = tile_manager.WALL
+	var ground_atlas_coords = Vector2i(3,0)
+	
 	for x in range(-1, right + 1):
 		cell_pos = Vector2i(x, bottom)
+		map.set_cell(cell_pos, 0, ground_atlas_coords)
+		
+		cell_pos = Vector2i(x, top)
 		map.set_cell(cell_pos, 0, wall.atlas_coords)
 		tile_manager.set_block(wall, cell_pos)
 		

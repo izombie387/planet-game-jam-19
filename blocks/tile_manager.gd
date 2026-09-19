@@ -7,7 +7,9 @@ var _block_types : Array[BlockData]
 var _wall_types : Array[BlockData]
 var _blocks : Dictionary[Vector2i, BlockData]
 var map : TileMapLayer
+var world_bounds : Vector2i
 
+const WALL : BlockData = preload("res://blocks/block_resources/pillar.tres")
 const RESOURCES : Array[BlockData] = [
 	preload("res://blocks/block_resources/stone.tres"),
 	preload("res://blocks/block_resources/rock.tres"),
@@ -17,8 +19,9 @@ const RESOURCES : Array[BlockData] = [
 func _init() -> void:
 	load_resources()
 	
-func setup(current_map: TileMapLayer) -> void:
+func setup(current_map: TileMapLayer, p_world_bounds: Vector2i) -> void:
 	map = current_map
+	world_bounds = p_world_bounds
 
 func get_block_from_local(position: Vector2) -> BlockData:
 	var coords = map.local_to_map(position)

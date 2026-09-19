@@ -33,6 +33,10 @@ func _ready() -> void:
 	_set_state(State.IDLE)
 	sprite.play()
 
+func setup(p_map: TileMapLayer, p_tile_manager: TileManager) -> void:
+	map = p_map
+	tile_manager = p_tile_manager
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_echo():
 		for action in ACTION_DIRECTIONS:
@@ -64,14 +68,15 @@ func _check_movement() -> void:
 	
 	if input_dir == Vector2i.ZERO:
 		_set_state(State.IDLE)
-	#elif _state == State.IDLE:
 	else:
 		_try_move_or_dig(input_dir)
 	
 func _try_move_or_dig(dir: Vector2i) -> void:
 	sprite.rotation = DIRECTION_ROTATIONS[dir]
-	print("setting rot to ", DIRECTION_ROTATIONS[dir])
 	var target_pos = _current_pos + dir
+	if target_pos.y > tile_manager.world_bounds.y:
+		_set_state(State.DIGGING)
+		return
 	var block = tile_manager.get_block(target_pos)
 	if not block:
 		_move_to(target_pos)
@@ -97,6 +102,8 @@ func _move_to(pos: Vector2i) -> void:
 	t.tween_callback(_done_moving)
 	_current_pos = pos
 	_set_state(State.MOVING)
+	
+	label.text = "%s" % pos
 
 func _done_moving() -> void:
 	var input_dir := _get_input()
@@ -125,6 +132,6 @@ func _set_state(new_state: State) -> void:
 		anim.stop()
 	
 	_state = new_state
-	label.text = str(State.find_key(_state))
+	#label.text = str(State.find_key(_state))
 	
 	
