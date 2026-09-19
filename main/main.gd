@@ -11,12 +11,17 @@ var _block_healths: Dictionary[Vector2i, int]
 var _current_digging_pos : Vector2i
 # probably put in a player stats class
 var _total_blocks_gained : int
+var _tile_manager := TileManager.new()
+
+var _mine_bounds := Vector2i(20,20)
 
 func _ready() -> void:
 	map.clear()
 	_generate_tiles()
 	character.started_digging.connect(_on_started_digging)
 	character.stopped_digging.connect(_on_stopped_digging)
+	var half_width := floori(_mine_bounds.x / 2.0)
+	character.teleport(Vector2i(half_width, -1))
 	digging_timer.timeout.connect(_on_dug)
 	
 func _on_dug() -> void:
@@ -60,14 +65,36 @@ func _on_stopped_digging() -> void:
 	print("  stopping dig timer")
 	
 func _generate_tiles() -> void:
-	var sample_block = load("res://blocks/block_resources/sample-block.tres")
-	for x in 20:
-		for y in 20:
+	for x in _mine_bounds.x:
+		for y in _mine_bounds.y:
 			if randf() < 0.5:
 				continue
-			var rand_x = randi_range(0,7)
-			var rand_y = randi_range(0,7)
-			var rand_atlas_coords = Vector2i(rand_x, rand_y)
 			var cell_pos = Vector2i(x,y)
-			map.set_cell(cell_pos, 0, rand_atlas_coords)
-			_blocks[cell_pos] = sample_block
+			var random_block := _tile_manager.get_random_block()
+			map.set_cell(cell_pos, 0, random_block.atlas_coords)
+			_blocks[cell_pos] = random_block
+			
+	#var top = -1
+	var bottom = _mine_bounds.y
+	var left = -1
+	var right = _mine_bounds.x
+	var wall = _tile_manager.get_wall()
+	var cell_pos := Vector2i()
+	for x in range(-1, right + 1):
+		#cell_pos = Vector2i(x, top)
+		#map.set_cell(cell_pos, 0, wall.atlas_coords)
+		#_blocks[cell_pos] = wall
+
+		cell_pos = Vector2i(x, bottom)
+		map.set_cell(cell_pos, 0, wall.atlas_coords)
+		_blocks[cell_pos] = wall
+		
+	for y in bottom:
+		cell_pos = Vector2i(left, y)
+		map.set_cell(cell_pos, 0, wall.atlas_coords)
+		_blocks[cell_pos] = wall
+
+		cell_pos = Vector2i(right, y)
+		map.set_cell(cell_pos, 0, wall.atlas_coords)
+		_blocks[cell_pos] = wall
+		

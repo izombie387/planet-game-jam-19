@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://hufeksc8a0vr"]
+
+[ext_resource type="Script" uid="uid://bjch5nrqx0npy" path="res://blocks/block_data.gd" id="1_7ut1h"]
+
+[resource]
+script = ExtResource("1_7ut1h")
+name = "Mossy Rock"
+atlas_coords = Vector2i(1, 0)
+rarity = 3
+metadata/_custom_type_script = "uid://bjch5nrqx0npy"

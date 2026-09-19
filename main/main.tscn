@@ -1,81 +1,43 @@
-[gd_scene format=4 uid="uid://drxb2wtqhqtnq"]
+[gd_scene format=3 uid="uid://drxb2wtqhqtnq"]
 
-[ext_resource type="Texture2D" uid="uid://b2stweirblayh" path="res://icon.svg" id="1_53q0u"]
 [ext_resource type="Script" uid="uid://ck5mbb5cu12ow" path="res://main/main.gd" id="1_xwkvk"]
+[ext_resource type="Texture2D" uid="uid://cj0e8ouc0v4ck" path="res://art/blocks-sheet.png" id="2_4dugh"]
 [ext_resource type="Script" uid="uid://bifhfpblj3i7a" path="res://character/character.gd" id="2_pjrb6"]
 [ext_resource type="Script" uid="uid://bfyoqcullthvw" path="res://main/digging_sprite.gd" id="4_c651c"]
 [ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://character/player_v3.png" id="4_kfbq2"]
 [ext_resource type="Script" uid="uid://b56v3dlpn0hcf" path="res://ui/ui.gd" id="5_3wy1v"]
+[ext_resource type="Texture2D" uid="uid://u2vsi28nc5f6" path="res://character/player_v2.png" id="5_4dugh"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pjrb6"]
-texture = ExtResource("1_53q0u")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_67ri8"]
+texture = ExtResource("2_4dugh")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
-3:0/0 = 0
-4:0/0 = 0
-5:0/0 = 0
-6:0/0 = 0
-7:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-4:1/0 = 0
-5:1/0 = 0
-6:1/0 = 0
-7:1/0 = 0
-0:2/0 = 0
-1:2/0 = 0
-2:2/0 = 0
-3:2/0 = 0
-4:2/0 = 0
-5:2/0 = 0
-6:2/0 = 0
-7:2/0 = 0
-0:3/0 = 0
-1:3/0 = 0
-2:3/0 = 0
-3:3/0 = 0
-4:3/0 = 0
-5:3/0 = 0
-6:3/0 = 0
-7:3/0 = 0
-0:4/0 = 0
-1:4/0 = 0
-2:4/0 = 0
-3:4/0 = 0
-4:4/0 = 0
-5:4/0 = 0
-6:4/0 = 0
-7:4/0 = 0
-0:5/0 = 0
-1:5/0 = 0
-2:5/0 = 0
-3:5/0 = 0
-4:5/0 = 0
-5:5/0 = 0
-6:5/0 = 0
-7:5/0 = 0
-0:6/0 = 0
-1:6/0 = 0
-2:6/0 = 0
-3:6/0 = 0
-4:6/0 = 0
-5:6/0 = 0
-6:6/0 = 0
-7:6/0 = 0
-0:7/0 = 0
-1:7/0 = 0
-2:7/0 = 0
-3:7/0 = 0
-4:7/0 = 0
-5:7/0 = 0
-6:7/0 = 0
-7:7/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_4fa2g"]
-sources/0 = SubResource("TileSetAtlasSource_pjrb6")
+sources/0 = SubResource("TileSetAtlasSource_67ri8")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mjt85"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_kfbq2")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_4dugh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_kfbq2")
+}],
+"loop": 1,
+"name": &"digging",
+"speed": 4.0
+}]
 
 [sub_resource type="Animation" id="Animation_xwkvk"]
 length = 0.001
@@ -150,7 +112,6 @@ digging_timer = NodePath("DiggingTimer")
 ui = NodePath("CanvasLayer/UI")
 
 [node name="map" type="TileMapLayer" parent="." unique_id=891292557]
-tile_map_data = PackedByteArray("AAAGAAcAAAADAAIAAAAHAAcAAAACAAEAAAAMAAsAAAACAAQAAAANAAsAAAAEAAEAAAAOAAwAAAABAAEAAAAVAAgAAAABAAIAAAAVAAcAAAACAAIAAAAUAAYAAAADAAEAAAATAAYAAAAEAAMAAAAQAAYAAAAEAAIAAAAPAAYAAAAEAAIAAAAOAAYAAAADAAEAAAANAAcAAAACAAIAAAAMAAgAAAABAAEAAAAMAAkAAAADAAIAAAALAAkAAAACAAQAAAALAAoAAAADAAQAAAAGAAsAAAAEAAIAAAAGAAoAAAACAAMAAAAFAAoAAAADAAQAAAABAAUAAAACAAMAAAABAAQAAAABAAQAAAABAAMAAAAEAAMAAAACAAIAAAABAAMAAAADAAIAAAADAAIAAAAEAAIAAAACAAIAAAAFAAMAAAACAAIAAAAFAAQAAAAEAAIAAAAGAAQAAAADAAEAAAAGAAUAAAABAAIAAAALAAgAAAAEAAMAAAALAAcAAAACAAIAAAANAAkAAAABAAMAAAAOAAoAAAADAAMAAAAPAAsAAAABAAIAAAAQAAsAAAACAAQAAAARAAwAAAAEAAMAAAASAAwAAAABAAIAAAATAAwAAAADAAEAAAAUAAwAAAADAAQAAAAVAAsAAAADAAEAAAAWAAsAAAABAAEAAAAXAAoAAAABAAQAAAAYAAkAAAAEAAMAAAAZAAgAAAADAAIAAAAZAAYAAAAEAAMAAAA=")
 tile_set = SubResource("TileSet_4fa2g")
 
 [node name="Character" type="Node2D" parent="." unique_id=626718084 node_paths=PackedStringArray("sprite", "label", "anim", "map")]
@@ -164,8 +125,9 @@ map = NodePath("../map")
 [node name="Camera2D" type="Camera2D" parent="Character" unique_id=68938292]
 zoom = Vector2(1.5, 1.5)
 
-[node name="Sprite" type="Sprite2D" parent="Character" unique_id=226542678]
-texture = ExtResource("4_kfbq2")
+[node name="Sprite" type="AnimatedSprite2D" parent="Character" unique_id=1744177911]
+sprite_frames = SubResource("SpriteFrames_mjt85")
+frame_progress = 0.8399098
 
 [node name="Anim" type="AnimationPlayer" parent="Character" unique_id=2052103371]
 libraries/ = SubResource("AnimationLibrary_3wy1v")

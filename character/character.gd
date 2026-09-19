@@ -23,15 +23,14 @@ var _input_stack : Array[StringName]
 var _current_pos := Vector2i()
 var _state : State
 
-@export var sprite: Sprite2D
+@export var sprite: AnimatedSprite2D
 @export var label: Label
 @export var anim: AnimationPlayer
 @export var map: TileMapLayer
 
 func _ready() -> void:
 	_set_state(State.IDLE)
-	_current_pos = Vector2i(-2,-2)
-	_move_to(_current_pos)
+	sprite.play()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_echo():
@@ -85,6 +84,11 @@ func _dig_at(pos: Vector2i, atlas_pos: Vector2i) -> void:
 	started_digging.emit(pos)
 	_set_state(State.DIGGING)
 	
+func teleport(pos: Vector2i) -> void:
+	var new_position = map.map_to_local(pos)
+	position = new_position
+	_current_pos = pos
+	
 func _move_to(pos: Vector2i) -> void:
 	var t = create_tween()
 	var new_position = map.map_to_local(pos)
@@ -106,15 +110,16 @@ func _set_state(new_state: State) -> void:
 		State.IDLE:
 			if _state == State.DIGGING:
 				stopped_digging.emit()
-			anim_name = &""
+			anim_name = &"default"
 		State.MOVING:
 			if _state == State.DIGGING:
 				stopped_digging.emit()
-			anim_name = &""
+			anim_name = &"default"
 		State.DIGGING:
 			anim_name = &"digging"
 	if anim_name:
-		anim.play(anim_name)
+		#anim.play(anim_name)
+		sprite.animation = anim_name
 	else:
 		anim.stop()
 	
