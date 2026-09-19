@@ -22,6 +22,7 @@ const ACTION_DIRECTIONS: Dictionary[StringName, Vector2i] = {
 var _input_stack : Array[StringName]
 var _current_pos := Vector2i()
 var _state : State
+var tile_manager : TileManager
 
 @export var sprite: AnimatedSprite2D
 @export var label: Label
@@ -71,17 +72,17 @@ func _try_move_or_dig(dir: Vector2i) -> void:
 	sprite.rotation = DIRECTION_ROTATIONS[dir]
 	print("setting rot to ", DIRECTION_ROTATIONS[dir])
 	var target_pos = _current_pos + dir
-	var target_atlas_pos = map.get_cell_atlas_coords(target_pos)
-	if target_atlas_pos == Vector2i(-1,-1):
+	var block = tile_manager.get_block(target_pos)
+	if not block:
 		_move_to(target_pos)
 	else:
-		_dig_at(target_pos, target_atlas_pos)
+		_dig_at(target_pos, block)
 		
-func on_block_erased(pos: Vector2i) -> void:
+func on_block_erased(_pos: Vector2i) -> void:
 	_done_moving()
 		
-func _dig_at(pos: Vector2i, atlas_pos: Vector2i) -> void:
-	started_digging.emit(pos)
+func _dig_at(pos: Vector2i, block: BlockData) -> void:
+	started_digging.emit(pos, block)
 	_set_state(State.DIGGING)
 	
 func teleport(pos: Vector2i) -> void:

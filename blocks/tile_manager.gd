@@ -3,8 +3,10 @@ extends RefCounted
 
 var rng := RandomNumberGenerator.new()
 var _block_weights := PackedFloat32Array()
-var _blocks : Array[BlockData]
-var _walls : Array[BlockData]
+var _block_types : Array[BlockData]
+var _wall_types : Array[BlockData]
+var _blocks : Dictionary[Vector2i, BlockData]
+var map : TileMapLayer
 
 const RESOURCES : Array[BlockData] = [
 	preload("res://blocks/block_resources/stone.tres"),
@@ -14,20 +16,36 @@ const RESOURCES : Array[BlockData] = [
 
 func _init() -> void:
 	load_resources()
+	
+func setup(current_map: TileMapLayer) -> void:
+	map = current_map
+
+func get_block_from_local(position: Vector2) -> BlockData:
+	var coords = map.local_to_map(position)
+	return _blocks.get(coords)
+
+func get_block(coords: Vector2i) -> BlockData:
+	return _blocks.get(coords)
+	
+func erase_block(coords: Vector2i) -> void:
+	_blocks.erase(coords)
+	
+func set_block(block: BlockData, coords: Vector2i) -> void:
+	_blocks[coords] = block
 
 func load_resources() -> void:
 	for block in RESOURCES:
 		if block.is_wall:
-			_walls.append(block)
+			_wall_types.append(block)
 		else:
-			_blocks.append(block)
+			_block_types.append(block)
 			var weight = maxf(float(block.drop_rate), 1.0)
 			_block_weights.append(weight)
 	
 func get_random_block() -> BlockData:
 	var idx := rng.rand_weighted(_block_weights)
-	var block = _blocks[idx]
+	var block = _block_types[idx]
 	return block
 	
 func get_wall() -> BlockData:
-	return _walls[0]
+	return _wall_types[0]

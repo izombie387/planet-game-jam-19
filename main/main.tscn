@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ck5mbb5cu12ow" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="Texture2D" uid="uid://cj0e8ouc0v4ck" path="res://art/blocks-sheet.png" id="2_4dugh"]
+[ext_resource type="Material" uid="uid://cwmwdn44t18ur" path="res://art/background/background-noise.material" id="2_67ri8"]
 [ext_resource type="Script" uid="uid://bifhfpblj3i7a" path="res://character/character.gd" id="2_pjrb6"]
 [ext_resource type="Script" uid="uid://bfyoqcullthvw" path="res://main/digging_sprite.gd" id="4_c651c"]
 [ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://character/player_v3.png" id="4_kfbq2"]
@@ -111,6 +112,21 @@ digging_sprite = NodePath("DiggingSprite")
 digging_timer = NodePath("DiggingTimer")
 ui = NodePath("CanvasLayer/UI")
 
+[node name="Parallax" type="Parallax2D" parent="." unique_id=260809456]
+scroll_scale = Vector2(0.75, 0.75)
+
+[node name="Background" type="ColorRect" parent="Parallax" unique_id=258514230]
+material = ExtResource("2_67ri8")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -96.0
+offset_top = -64.0
+offset_right = 432.0
+offset_bottom = 368.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="map" type="TileMapLayer" parent="." unique_id=891292557]
 tile_set = SubResource("TileSet_4fa2g")
 
@@ -127,7 +143,7 @@ zoom = Vector2(1.5, 1.5)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Character" unique_id=1744177911]
 sprite_frames = SubResource("SpriteFrames_mjt85")
-frame_progress = 0.8399098
+frame_progress = 0.5532727
 
 [node name="Anim" type="AnimationPlayer" parent="Character" unique_id=2052103371]
 libraries/ = SubResource("AnimationLibrary_3wy1v")
