@@ -6,6 +6,12 @@ enum State { IDLE, DIGGING, MOVING }
 signal started_digging(pos: Vector2i)
 signal stopped_digging()
 
+const DIRECTION_ROTATIONS: Dictionary[Vector2i, float] = {
+	Vector2i.LEFT: PI,
+	Vector2i.RIGHT: 0.0,
+	Vector2i.UP: PI * 1.5,
+	Vector2i.DOWN: PI * 0.5
+}
 const ACTION_DIRECTIONS: Dictionary[StringName, Vector2i] = {
 	&"ui_left": Vector2i.LEFT,
 	&"ui_right": Vector2i.RIGHT,
@@ -17,6 +23,7 @@ var _input_stack : Array[StringName]
 var _current_pos := Vector2i()
 var _state : State
 
+@export var sprite: Sprite2D
 @export var label: Label
 @export var anim: AnimationPlayer
 @export var map: TileMapLayer
@@ -62,6 +69,8 @@ func _check_movement() -> void:
 		_try_move_or_dig(input_dir)
 	
 func _try_move_or_dig(dir: Vector2i) -> void:
+	sprite.rotation = DIRECTION_ROTATIONS[dir]
+	print("setting rot to ", DIRECTION_ROTATIONS[dir])
 	var target_pos = _current_pos + dir
 	var target_atlas_pos = map.get_cell_atlas_coords(target_pos)
 	if target_atlas_pos == Vector2i(-1,-1):
