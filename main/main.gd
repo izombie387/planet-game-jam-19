@@ -37,6 +37,7 @@ func _on_dug() -> void:
 		character.on_block_erased(_current_digging_pos)
 		digging_sprite.hide()
 	else:
+		Sfx.play(Sfx.Sound.TICK)
 		_block_healths[_current_digging_pos] = new_block_health
 		digging_sprite.progress_bar.value = new_block_health
 	
@@ -63,7 +64,7 @@ func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 		p.value = _block_healths[_current_digging_pos]
 	
 	digging_timer.start()
-	print("starting dig timer")
+	Sfx.play(Sfx.Sound.TICK)
 	
 func _on_stopped_digging() -> void:
 	digging_timer.stop()
