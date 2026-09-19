@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://ck5mbb5cu12ow" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="Script" uid="uid://bifhfpblj3i7a" path="res://character/character.gd" id="2_pjrb6"]
 [ext_resource type="Script" uid="uid://bfyoqcullthvw" path="res://main/digging_sprite.gd" id="4_c651c"]
+[ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://character/player_v3.png" id="4_kfbq2"]
 [ext_resource type="Script" uid="uid://b56v3dlpn0hcf" path="res://ui/ui.gd" id="5_3wy1v"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_pjrb6"]
@@ -75,19 +76,6 @@ texture = ExtResource("1_53q0u")
 
 [sub_resource type="TileSet" id="TileSet_4fa2g"]
 sources/0 = SubResource("TileSetAtlasSource_pjrb6")
-
-[sub_resource type="Gradient" id="Gradient_xwkvk"]
-offsets = PackedFloat32Array(0.1, 0.5, 0.8)
-colors = PackedColorArray(0.34901962, 0, 0, 1, 1, 1, 1, 1, 1, 0.7647059, 0.28627452, 1)
-metadata/_snap_enabled = true
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_4fa2g"]
-gradient = SubResource("Gradient_xwkvk")
-width = 16
-height = 16
-fill_from = Vector2(0, 0.4)
-fill_to = Vector2(1, 0.7)
-metadata/_snap_enabled = true
 
 [sub_resource type="Animation" id="Animation_xwkvk"]
 length = 0.001
@@ -177,7 +165,7 @@ map = NodePath("../map")
 zoom = Vector2(1.5, 1.5)
 
 [node name="Sprite" type="Sprite2D" parent="Character" unique_id=226542678]
-texture = SubResource("GradientTexture2D_4fa2g")
+texture = ExtResource("4_kfbq2")
 
 [node name="Anim" type="AnimationPlayer" parent="Character" unique_id=2052103371]
 libraries/ = SubResource("AnimationLibrary_3wy1v")
