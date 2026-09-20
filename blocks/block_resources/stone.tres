@@ -7,4 +7,6 @@ script = ExtResource("1_85cck")
 name = "Cobble Stone"
 init_health = 3
 drop_rate = 5
+particle_color_inner = Color(0.58431375, 0.47843137, 0.4, 1)
+particle_color_outter = Color(0.043137256, 0.043137256, 0.043137256, 1)
 metadata/_custom_type_script = "uid://bjch5nrqx0npy"

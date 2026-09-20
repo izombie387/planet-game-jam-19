@@ -6,5 +6,6 @@
 script = ExtResource("1_7ut1h")
 name = "Mossy Rock"
 atlas_coords = Vector2i(1, 0)
-rarity = 3
+particle_color_inner = Color(0.3529412, 0.44313726, 0.41568628, 1)
+particle_color_outter = Color(0.25490198, 0.26666668, 0.22352941, 1)
 metadata/_custom_type_script = "uid://bjch5nrqx0npy"

@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://character/player_v3.png" id="4_kfbq2"]
 [ext_resource type="Script" uid="uid://b56v3dlpn0hcf" path="res://ui/ui.gd" id="5_3wy1v"]
 [ext_resource type="Texture2D" uid="uid://u2vsi28nc5f6" path="res://character/player_v2.png" id="5_4dugh"]
+[ext_resource type="Gradient" uid="uid://due5mdn1f2aqi" path="res://character/particles-gradient.tres" id="7_0i4oc"]
+[ext_resource type="Texture2D" uid="uid://helc0rc6tmui" path="res://character/particles-gradient-texture.tres" id="8_bsumw"]
+[ext_resource type="Script" uid="uid://csv2mqoc01da5" path="res://main/particle_spawner.gd" id="10_bsumw"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_67ri8"]
 texture = ExtResource("2_4dugh")
@@ -78,6 +81,27 @@ _data = {
 &"digging": SubResource("Animation_c651c")
 }
 
+[sub_resource type="Curve" id="Curve_5qi6w"]
+_data = [Vector2(0.7428801, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ctmnj"]
+curve = SubResource("Curve_5qi6w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4fa2g"]
+particle_flag_disable_z = true
+angle_min = 1.0728835e-05
+angle_max = 10.0000105
+direction = Vector3(-1, -1, 0)
+spread = 30.0
+initial_velocity_min = 50.0
+initial_velocity_max = 75.0
+angular_velocity_min = -50.000015
+angular_velocity_max = 49.99998
+gravity = Vector3(0, 98, 0)
+damping_max = 10.0
+alpha_curve = SubResource("CurveTexture_ctmnj")
+
 [sub_resource type="Gradient" id="Gradient_c651c"]
 offsets = PackedFloat32Array(0.109352164, 1)
 colors = PackedColorArray(0.33333334, 0, 0, 1, 1, 1, 1, 0)
@@ -131,9 +155,11 @@ grow_vertical = 2
 [node name="map" type="TileMapLayer" parent="." unique_id=891292557]
 tile_set = SubResource("TileSet_4fa2g")
 
-[node name="Character" type="Node2D" parent="." unique_id=626718084 node_paths=PackedStringArray("sprite", "label", "anim", "map")]
+[node name="Character" type="Node2D" parent="." unique_id=626718084 node_paths=PackedStringArray("particles", "sprite", "label", "anim", "map")]
 position = Vector2(240, 128)
 script = ExtResource("2_pjrb6")
+particles = NodePath("Particles")
+particle_gradient = ExtResource("7_0i4oc")
 sprite = NodePath("Sprite")
 label = NodePath("Label")
 anim = NodePath("Anim")
@@ -155,6 +181,12 @@ offset_top = -48.0
 offset_right = 24.0
 offset_bottom = -25.0
 text = "state"
+
+[node name="Particles" type="GPUParticles2D" parent="Character" unique_id=1778403701]
+emitting = false
+texture = ExtResource("8_bsumw")
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_4fa2g")
 
 [node name="DiggingSprite" type="Sprite2D" parent="." unique_id=735836810 node_paths=PackedStringArray("progress_bar")]
 position = Vector2(176, 96)
@@ -185,7 +217,7 @@ wait_time = 0.25
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1486871270]
 
-[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("blocks_gained_label")]
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("blocks_gained_label", "character")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -194,6 +226,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_3wy1v")
 blocks_gained_label = NodePath("PanelContainer/GridContainer/BlocksGainedLabel")
+character = NodePath("../../Character")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI" unique_id=2085223383]
 layout_mode = 0
@@ -210,3 +243,20 @@ text = "total mined:"
 [node name="BlocksGainedLabel" type="Label" parent="CanvasLayer/UI/PanelContainer/GridContainer" unique_id=1717324239]
 layout_mode = 2
 text = "0"
+
+[node name="upgrade_menu_button" type="Button" parent="CanvasLayer/UI" unique_id=1272190977]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -8.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Upgrades"
+
+[node name="ParticleSpawner" type="Node" parent="." unique_id=2084351405]
+script = ExtResource("10_bsumw")

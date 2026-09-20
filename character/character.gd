@@ -3,7 +3,9 @@ extends Node2D
 
 enum State { IDLE, DIGGING, MOVING }
 
-signal started_digging(pos: Vector2i)
+signal surfaced()
+signal submerged()
+signal started_digging(pos: Vector2i, block: BlockData)
 signal stopped_digging()
 
 const DIRECTION_ROTATIONS: Dictionary[Vector2i, float] = {
@@ -23,7 +25,10 @@ var _input_stack : Array[StringName]
 var _current_pos := Vector2i()
 var _state : State
 var tile_manager : TileManager
+var _on_surface := true
 
+@export var particles: GPUParticles2D
+@export var particle_gradient: Gradient
 @export var sprite: AnimatedSprite2D
 @export var label: Label
 @export var anim: AnimationPlayer
@@ -74,9 +79,14 @@ func _check_movement() -> void:
 func _try_move_or_dig(dir: Vector2i) -> void:
 	sprite.rotation = DIRECTION_ROTATIONS[dir]
 	var target_pos = _current_pos + dir
-	if target_pos.y > tile_manager.world_bounds.y:
+	if target_pos.y >= tile_manager.world_bounds.y:
 		_set_state(State.DIGGING)
+		surfaced.emit()
+		_on_surface = true
 		return
+	elif _on_surface:
+		submerged.emit()
+		_on_surface = false
 	var block = tile_manager.get_block(target_pos)
 	if not block:
 		_move_to(target_pos)
@@ -89,6 +99,8 @@ func on_block_erased(_pos: Vector2i) -> void:
 func _dig_at(pos: Vector2i, block: BlockData) -> void:
 	started_digging.emit(pos, block)
 	_set_state(State.DIGGING)
+	if not block.is_wall:
+		particle_gradient.colors = block.get_particles_colors()
 	
 func teleport(pos: Vector2i) -> void:
 	var new_position = map.map_to_local(pos)
@@ -126,12 +138,10 @@ func _set_state(new_state: State) -> void:
 		State.DIGGING:
 			anim_name = &"digging"
 	if anim_name:
-		#anim.play(anim_name)
 		sprite.animation = anim_name
 	else:
 		anim.stop()
-	
+
 	_state = new_state
-	#label.text = str(State.find_key(_state))
 	
 	

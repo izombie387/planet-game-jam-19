@@ -63,10 +63,12 @@ func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 	else:
 		p.value = _block_healths[_current_digging_pos]
 	
+	character.particles.emitting = true
 	digging_timer.start()
 	Sfx.play(Sfx.Sound.TICK)
 	
 func _on_stopped_digging() -> void:
+	character.particles.emitting = false
 	digging_timer.stop()
 	print("  stopping dig timer")
 	
