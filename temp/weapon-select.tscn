@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://cdeax4lemo32t"]
+
+[ext_resource type="Script" uid="uid://x5iqjwm2old4" path="res://temp/weapon_select.gd" id="1_mbjiw"]
+[ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://character/player_v3.png" id="1_mjmid"]
+
+[node name="PanelContainer" type="PanelContainer" unique_id=865294104]
+script = ExtResource("1_mbjiw")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1876642744]
+layout_mode = 2
+columns = 3
+
+[node name="NW" type="CheckButton" parent="GridContainer" unique_id=1456432950]
+layout_mode = 2
+
+[node name="N" type="CheckButton" parent="GridContainer" unique_id=35014744]
+layout_mode = 2
+button_pressed = true
+
+[node name="NE" type="CheckButton" parent="GridContainer" unique_id=937451833]
+layout_mode = 2
+
+[node name="W" type="CheckButton" parent="GridContainer" unique_id=1093365494]
+layout_mode = 2
+
+[node name="CharacterTex" type="Control" parent="GridContainer" unique_id=962833791]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="GridContainer/CharacterTex" unique_id=413750416]
+rotation = -1.5707964
+texture = ExtResource("1_mjmid")
+
+[node name="E" type="CheckButton" parent="GridContainer" unique_id=1949684238]
+layout_mode = 2
+
+[node name="SW" type="CheckButton" parent="GridContainer" unique_id=588461691]
+layout_mode = 2
+
+[node name="Blank" type="Control" parent="GridContainer" unique_id=2140783616]
+layout_mode = 2
+
+[node name="SE" type="CheckButton" parent="GridContainer" unique_id=1766642790]
+layout_mode = 2

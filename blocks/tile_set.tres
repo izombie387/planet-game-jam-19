@@ -1,0 +1,14 @@
+[gd_resource type="TileSet" format=3 uid="uid://dj1yuko67gim"]
+
+[ext_resource type="Texture2D" uid="uid://cj0e8ouc0v4ck" path="res://art/blocks-sheet.png" id="1_0chns"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_67ri8"]
+texture = ExtResource("1_0chns")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+0:1/0 = 0
+
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_67ri8")

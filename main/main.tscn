@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://drxb2wtqhqtnq"]
 
 [ext_resource type="Script" uid="uid://ck5mbb5cu12ow" path="res://main/main.gd" id="1_xwkvk"]
-[ext_resource type="Texture2D" uid="uid://cj0e8ouc0v4ck" path="res://art/blocks-sheet.png" id="2_4dugh"]
 [ext_resource type="Material" uid="uid://cwmwdn44t18ur" path="res://art/background/background-noise.material" id="2_67ri8"]
 [ext_resource type="Script" uid="uid://bifhfpblj3i7a" path="res://character/character.gd" id="2_pjrb6"]
+[ext_resource type="TileSet" uid="uid://dj1yuko67gim" path="res://blocks/tile_set.tres" id="3_fwcvl"]
 [ext_resource type="Script" uid="uid://bfyoqcullthvw" path="res://main/digging_sprite.gd" id="4_c651c"]
 [ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://art/player/player_v3.png" id="4_kfbq2"]
 [ext_resource type="Script" uid="uid://b56v3dlpn0hcf" path="res://ui/ui.gd" id="5_3wy1v"]
@@ -12,16 +12,6 @@
 [ext_resource type="Texture2D" uid="uid://helc0rc6tmui" path="res://character/particles-gradient-texture.tres" id="8_bsumw"]
 [ext_resource type="Script" uid="uid://csv2mqoc01da5" path="res://main/particle_spawner.gd" id="10_bsumw"]
 [ext_resource type="Script" uid="uid://d4lfue1rmro02" path="res://ui/menu.gd" id="11_fwcvl"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_67ri8"]
-texture = ExtResource("2_4dugh")
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_4fa2g"]
-sources/0 = SubResource("TileSetAtlasSource_67ri8")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mjt85"]
 animations = [{
@@ -167,7 +157,7 @@ grow_vertical = 2
 metadata/_edit_lock_ = true
 
 [node name="map" type="TileMapLayer" parent="." unique_id=891292557]
-tile_set = SubResource("TileSet_4fa2g")
+tile_set = ExtResource("3_fwcvl")
 
 [node name="Character" type="Node2D" parent="." unique_id=626718084 node_paths=PackedStringArray("particles", "sprite", "label", "anim", "map")]
 position = Vector2(240, 128)
@@ -180,7 +170,6 @@ anim = NodePath("Anim")
 map = NodePath("../map")
 
 [node name="Camera2D" type="Camera2D" parent="Character" unique_id=68938292]
-zoom = Vector2(1.5, 1.5)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Character" unique_id=1744177911]
 sprite_frames = SubResource("SpriteFrames_mjt85")

@@ -1,0 +1,65 @@
+[gd_scene format=4 uid="uid://wk1rwbag11xv"]
+
+[ext_resource type="Script" uid="uid://53hi11ukcujv" path="res://blocks/bag_puzzle.gd" id="1_s1j75"]
+[ext_resource type="TileSet" uid="uid://dj1yuko67gim" path="res://blocks/tile_set.tres" id="1_w6r1x"]
+[ext_resource type="Script" uid="uid://dbl2xbo348oqu" path="res://blocks/ore_shape.gd" id="3_2my2o"]
+
+[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("ore_container", "map")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_s1j75")
+ore_container = NodePath("ore_container")
+map = NodePath("Map")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1054577995]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.08522359, 0.08522361, 0.08522359, 1)
+metadata/_edit_lock_ = true
+
+[node name="Map" type="TileMapLayer" parent="." unique_id=634805700]
+tile_map_data = PackedByteArray("AAAGAAQAAAAAAAEAAAAHAAQAAAAAAAEAAAAIAAQAAAAAAAEAAAAJAAQAAAAAAAEAAAAKAAQAAAAAAAEAAAAKAAUAAAAAAAEAAAAKAAYAAAAAAAEAAAAJAAYAAAAAAAEAAAAJAAUAAAAAAAEAAAAIAAUAAAAAAAEAAAAHAAUAAAAAAAEAAAAGAAUAAAAAAAEAAAAGAAYAAAAAAAEAAAAHAAYAAAAAAAEAAAAIAAYAAAAAAAEAAAAGAAcAAAAAAAEAAAAHAAcAAAAAAAEAAAAIAAcAAAAAAAEAAAAJAAcAAAAAAAEAAAAKAAcAAAAAAAEAAAAGAAgAAAAAAAEAAAAHAAgAAAAAAAEAAAAIAAgAAAAAAAEAAAAJAAgAAAAAAAEAAAAKAAgAAAAAAAEAAAA=")
+tile_set = ExtResource("1_w6r1x")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=896021652]
+layout_mode = 0
+offset_left = 344.0
+offset_top = 88.0
+offset_right = 344.0
+offset_bottom = 88.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="ore_container" type="Control" parent="." unique_id=1691478881]
+anchors_preset = 0
+offset_left = 288.0
+offset_top = 80.0
+offset_right = 288.0
+offset_bottom = 80.0
+
+[node name="OreShape" type="Node2D" parent="ore_container" unique_id=1583869763 node_paths=PackedStringArray("area", "collision")]
+position = Vector2(64, 16)
+script = ExtResource("3_2my2o")
+area = NodePath("Area")
+cell_offsets = Array[Vector2i]([Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)])
+collision = NodePath("Area/Collision")
+
+[node name="Polygon2D" type="Polygon2D" parent="ore_container/OreShape" unique_id=2087805559]
+polygon = PackedVector2Array(0, -16, 0, -32, 16, -32, 16, 16, -32, 16, -32, -16)
+uv = PackedVector2Array(0, 0, 0, -16, 16, -16, 16, 32, -32, 32, -32, 0)
+
+[node name="Area" type="Area2D" parent="ore_container/OreShape" unique_id=416795923]
+
+[node name="Collision" type="CollisionPolygon2D" parent="ore_container/OreShape/Area" unique_id=1913435856]
+polygon = PackedVector2Array(0, -32, 16, -32, 16, 16, -32, 16, -32, -16, 0, -16)
