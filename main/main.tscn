@@ -5,9 +5,9 @@
 [ext_resource type="Material" uid="uid://cwmwdn44t18ur" path="res://art/background/background-noise.material" id="2_67ri8"]
 [ext_resource type="Script" uid="uid://bifhfpblj3i7a" path="res://character/character.gd" id="2_pjrb6"]
 [ext_resource type="Script" uid="uid://bfyoqcullthvw" path="res://main/digging_sprite.gd" id="4_c651c"]
-[ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://character/player_v3.png" id="4_kfbq2"]
+[ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://art/player/player_v3.png" id="4_kfbq2"]
 [ext_resource type="Script" uid="uid://b56v3dlpn0hcf" path="res://ui/ui.gd" id="5_3wy1v"]
-[ext_resource type="Texture2D" uid="uid://u2vsi28nc5f6" path="res://character/player_v2.png" id="5_4dugh"]
+[ext_resource type="Texture2D" uid="uid://u2vsi28nc5f6" path="res://art/player/player_v2.png" id="5_4dugh"]
 [ext_resource type="Gradient" uid="uid://due5mdn1f2aqi" path="res://character/particles-gradient.tres" id="7_0i4oc"]
 [ext_resource type="Texture2D" uid="uid://helc0rc6tmui" path="res://character/particles-gradient-texture.tres" id="8_bsumw"]
 [ext_resource type="Script" uid="uid://csv2mqoc01da5" path="res://main/particle_spawner.gd" id="10_bsumw"]
@@ -184,7 +184,7 @@ zoom = Vector2(1.5, 1.5)
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Character" unique_id=1744177911]
 sprite_frames = SubResource("SpriteFrames_mjt85")
-frame_progress = 0.5532727
+animation = &"digging"
 
 [node name="Anim" type="AnimationPlayer" parent="Character" unique_id=2052103371]
 libraries/ = SubResource("AnimationLibrary_3wy1v")
@@ -245,6 +245,26 @@ character = NodePath("../../Character")
 menu_button = NodePath("MenuButton")
 menu = NodePath("Menu")
 metadata/_edit_lock_ = true
+
+[node name="BagSizeReference" type="PanelContainer" parent="CanvasLayer/UI" unique_id=2085904344]
+visible = false
+layout_mode = 0
+offset_left = 46.999992
+offset_top = 28.0
+offset_right = 425.0
+offset_bottom = 237.0
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI/BagSizeReference" unique_id=1464614687]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/BagSizeReference/GridContainer" unique_id=1750716058]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 6
+text = "Bag size reference"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI" unique_id=2085223383]
 visible = false
