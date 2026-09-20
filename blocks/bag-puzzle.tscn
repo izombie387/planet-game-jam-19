@@ -49,17 +49,19 @@ offset_right = 288.0
 offset_bottom = 80.0
 
 [node name="OreShape" type="Node2D" parent="ore_container" unique_id=1583869763 node_paths=PackedStringArray("area", "collision")]
-position = Vector2(64, 16)
+position = Vector2(56, 8)
 script = ExtResource("3_2my2o")
 area = NodePath("Area")
 cell_offsets = Array[Vector2i]([Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)])
 collision = NodePath("Area/Collision")
 
 [node name="Polygon2D" type="Polygon2D" parent="ore_container/OreShape" unique_id=2087805559]
+position = Vector2(8, 8)
 polygon = PackedVector2Array(0, -16, 0, -32, 16, -32, 16, 16, -32, 16, -32, -16)
 uv = PackedVector2Array(0, 0, 0, -16, 16, -16, 16, 32, -32, 32, -32, 0)
 
 [node name="Area" type="Area2D" parent="ore_container/OreShape" unique_id=416795923]
+position = Vector2(8, 8)
 
 [node name="Collision" type="CollisionPolygon2D" parent="ore_container/OreShape/Area" unique_id=1913435856]
 polygon = PackedVector2Array(0, -32, 16, -32, 16, 16, -32, 16, -32, -16, 0, -16)

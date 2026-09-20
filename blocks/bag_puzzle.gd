@@ -1,6 +1,6 @@
 extends Control
 
-const HALF_CELL := Vector2(8,8)
+#const HALF_CELL := Vector2(8,8)
 var _dragging_shape : Node2D
 @export var ore_container: Control
 @export var map: TileMapLayer
@@ -23,7 +23,7 @@ func _on_area_input(_vp: Node, event: InputEvent, _idx: int, ore_shape: Node2D) 
 			pass
 		else:
 			_dragging_shape.reset_position()
-			_try_drop(_dragging_shape.global_position - HALF_CELL, _dragging_shape)
+			_try_drop(_dragging_shape.global_position, _dragging_shape)
 		_dragging_shape.modulate.a = 1.0
 		_dragging_shape = null
 		
@@ -42,11 +42,11 @@ func _try_drop(drop_pos: Vector2, shape: OreShape) -> bool:
 		var c = origin + offset
 		_cells[c] = shape
 		
-	shape.global_position = map.map_to_local(origin) + HALF_CELL
+	shape.global_position = map.map_to_local(origin)
 	return true
 	
 func _pickup(shape: OreShape) -> void:
-	var origin = map.local_to_map(shape.global_position - HALF_CELL)
+	var origin = map.local_to_map(shape.global_position)
 	for offset: Vector2i in shape.cell_offsets:
 		var c = origin + offset
 		if _cells.get(c) == shape:
@@ -54,4 +54,4 @@ func _pickup(shape: OreShape) -> void:
 		
 func _process(_delta: float) -> void:
 	if _dragging_shape:
-		_dragging_shape.global_position = get_global_mouse_position() + HALF_CELL
+		_dragging_shape.global_position = get_global_mouse_position()

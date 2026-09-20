@@ -9,6 +9,8 @@ var _blocks : Dictionary[Vector2i, BlockData]
 var map : TileMapLayer
 var world_bounds : Vector2i
 
+const CELL_SIZE := Vector2(16,16)
+const HALF_CELL := Vector2(8,8)
 const WALL : BlockData = preload("res://blocks/block_resources/pillar.tres")
 const RESOURCES : Array[BlockData] = [
 	preload("res://blocks/block_resources/stone.tres"),

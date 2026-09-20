@@ -14,6 +14,16 @@ func _ready() -> void:
 	starting_position = global_position
 	area.input_pickable = true
 	
+#func place_at_cell(cell: Vector2i, map: TileMapLayer) -> void:
+	#var new_position = map.local_to_map(cell)
+	#global_position = new_position + TileManager.HALF_CELL
+	#
+#func move_to_position(new_pos: Vector2) -> void:
+	#global_position = new_pos + TileManager.HALF_CELL
+	#
+#func get_origin() -> Vector2:
+	#return global_position - TileManager.HALF_CELL
+	
 func reset_position() -> void:
 	global_position = starting_position
 
