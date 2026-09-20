@@ -11,6 +11,7 @@
 [ext_resource type="Gradient" uid="uid://due5mdn1f2aqi" path="res://character/particles-gradient.tres" id="7_0i4oc"]
 [ext_resource type="Texture2D" uid="uid://helc0rc6tmui" path="res://character/particles-gradient-texture.tres" id="8_bsumw"]
 [ext_resource type="Script" uid="uid://csv2mqoc01da5" path="res://main/particle_spawner.gd" id="10_bsumw"]
+[ext_resource type="Script" uid="uid://d4lfue1rmro02" path="res://ui/menu.gd" id="11_fwcvl"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_67ri8"]
 texture = ExtResource("2_4dugh")
@@ -129,6 +130,18 @@ content_margin_bottom = 2.0
 bg_color = Color(0.30588236, 0.64705884, 0.5137255, 1)
 corner_detail = 1
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsumw"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
 [node name="Main" type="Node2D" unique_id=1129783564 node_paths=PackedStringArray("map", "character", "digging_sprite", "digging_timer", "ui")]
 script = ExtResource("1_xwkvk")
 map = NodePath("map")
@@ -151,6 +164,7 @@ offset_right = 432.0
 offset_bottom = 368.0
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_lock_ = true
 
 [node name="map" type="TileMapLayer" parent="." unique_id=891292557]
 tile_set = SubResource("TileSet_4fa2g")
@@ -176,6 +190,7 @@ frame_progress = 0.5532727
 libraries/ = SubResource("AnimationLibrary_3wy1v")
 
 [node name="Label" type="Label" parent="Character" unique_id=252449243]
+visible = false
 offset_left = -16.0
 offset_top = -48.0
 offset_right = 24.0
@@ -217,7 +232,7 @@ wait_time = 0.25
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1486871270]
 
-[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("blocks_gained_label", "character")]
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("blocks_gained_label", "character", "menu_button", "menu")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -227,8 +242,12 @@ grow_vertical = 2
 script = ExtResource("5_3wy1v")
 blocks_gained_label = NodePath("PanelContainer/GridContainer/BlocksGainedLabel")
 character = NodePath("../../Character")
+menu_button = NodePath("MenuButton")
+menu = NodePath("Menu")
+metadata/_edit_lock_ = true
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI" unique_id=2085223383]
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -245,18 +264,97 @@ layout_mode = 2
 text = "0"
 
 [node name="upgrade_menu_button" type="Button" parent="CanvasLayer/UI" unique_id=1272190977]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -4.0
-offset_top = -8.0
-offset_right = 4.0
+offset_left = -32.0
+offset_top = -30.0
+offset_right = 50.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
 text = "Upgrades"
+
+[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/UI" unique_id=969672011]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="MenuButton" type="Button" parent="CanvasLayer/UI" unique_id=275690025]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "menu"
+
+[node name="Menu" type="CenterContainer" parent="CanvasLayer/UI" unique_id=226633205 node_paths=PackedStringArray("close_button", "volume_slider")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("11_fwcvl")
+close_button = NodePath("PanelContainer/VBoxContainer/CloseButton")
+volume_slider = NodePath("PanelContainer/VBoxContainer/GridContainer/VolumeSlider")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI/Menu" unique_id=154696299]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bsumw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/Menu/PanelContainer" unique_id=583014151]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer" unique_id=1548707879]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Menu"
+
+[node name="Label2" type="Label" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer" unique_id=219065481]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "WASD / arrow keys -> move"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer" unique_id=540156176]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer/GridContainer" unique_id=1665065233]
+layout_mode = 2
+text = "VOL"
+
+[node name="VolumeSlider" type="HSlider" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer/GridContainer" unique_id=848466240]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+value = 0.4
+
+[node name="CloseButton" type="Button" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer" unique_id=1580209708]
+layout_mode = 2
+text = "CLOSE"
 
 [node name="ParticleSpawner" type="Node" parent="." unique_id=2084351405]
 script = ExtResource("10_bsumw")

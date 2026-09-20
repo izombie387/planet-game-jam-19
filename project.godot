@@ -30,6 +30,10 @@ window/size/window_height_override=540
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[gui]
+
+theme/custom="uid://bh2q7wsrk6cg3"
+
 [input]
 
 ui_left={

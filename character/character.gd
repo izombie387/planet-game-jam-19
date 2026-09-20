@@ -79,7 +79,7 @@ func _check_movement() -> void:
 func _try_move_or_dig(dir: Vector2i) -> void:
 	sprite.rotation = DIRECTION_ROTATIONS[dir]
 	var target_pos = _current_pos + dir
-	if target_pos.y >= tile_manager.world_bounds.y:
+	if target_pos.y > tile_manager.world_bounds.y:
 		_set_state(State.DIGGING)
 		surfaced.emit()
 		_on_surface = true
