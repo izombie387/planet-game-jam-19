@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://cqihesqir17j"]
+
+[ext_resource type="PackedScene" uid="uid://bokvi84dbrh7w" path="res://blocks/ore-shapes/base_ore_shape.tscn" id="1_tqdi2"]
+
+[node name="GoldShape" unique_id=1878491174 instance=ExtResource("1_tqdi2")]

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://b2s77dxr7fdn0"]
+
+[ext_resource type="Script" uid="uid://dbl2xbo348oqu" path="res://blocks/ore_shape.gd" id="1_8hcha"]
+[ext_resource type="Script" uid="uid://vlr77msiqr2o" path="res://blocks/ore-shapes/offset_children.gd" id="2_emsnm"]
+[ext_resource type="Texture2D" uid="uid://be6x0j75ggiyn" path="res://art/blocks/stone_block.png" id="2_euilw"]
+
+[node name="SampleShape" type="Node2D" unique_id=1878491174 node_paths=PackedStringArray("area", "collision", "poly", "offset_children")]
+script = ExtResource("1_8hcha")
+area = NodePath("OffsetChildren/Area")
+cell_offsets = Array[Vector2i]([Vector2i(-1, 0), Vector2i(-1, 1), Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, -1), Vector2i(1, 0), Vector2i(1, 1)])
+collision = NodePath("OffsetChildren/Area/Collision")
+poly = NodePath("OffsetChildren/Poly")
+offset_children = NodePath("OffsetChildren")
+
+[node name="OffsetChildren" type="Node2D" parent="." unique_id=2016866926 node_paths=PackedStringArray("poly")]
+position = Vector2(8, 8)
+script = ExtResource("2_emsnm")
+poly = NodePath("Poly")
+
+[node name="Poly" type="Polygon2D" parent="OffsetChildren" unique_id=413122240]
+show_behind_parent = true
+texture_repeat = 2
+texture = ExtResource("2_euilw")
+polygon = PackedVector2Array(0, -16, 0, -32, 16, -32, 16, 16, -32, 16, -32, -16)
+uv = PackedVector2Array(0, 0, 0, -16, 16, -16, 16, 32, -32, 32, -32, 0)
+
+[node name="Area" type="Area2D" parent="OffsetChildren" unique_id=114794912]
+
+[node name="Collision" type="CollisionPolygon2D" parent="OffsetChildren/Area" unique_id=1331996427]
+polygon = PackedVector2Array(0, -16, 0, -32, 16, -32, 16, 16, -32, 16, -32, -16)

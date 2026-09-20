@@ -13,22 +13,29 @@ func _ready() -> void:
 
 func _on_area_input(_vp: Node, event: InputEvent, _idx: int, ore_shape: Node2D) -> void:
 	if event.is_action_pressed("select"):
+		assert(not _dragging_shape)
 		_pickup(ore_shape)
 		ore_shape.starting_position = ore_shape.global_position
 		_dragging_shape = ore_shape
 		_dragging_shape.modulate.a = 0.75
-		print("set")
+		_dragging_shape.z_index += 10
+		
 	elif event.is_action_released("select"):
+		if not _dragging_shape == ore_shape:
+			return
 		if _try_drop(get_global_mouse_position(), _dragging_shape):
 			pass
 		else:
 			_dragging_shape.reset_position()
 			_try_drop(_dragging_shape.global_position, _dragging_shape)
 		_dragging_shape.modulate.a = 1.0
+		_dragging_shape.z_index -= 10
 		_dragging_shape = null
 		
 func _try_drop(drop_pos: Vector2, shape: OreShape) -> bool:
 	assert(shape)
+	if not shape:
+		return false
 	var origin = map.local_to_map(drop_pos)
 	var grid = map.get_used_cells()
 	for offset: Vector2i in shape.cell_offsets:
