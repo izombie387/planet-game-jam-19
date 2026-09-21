@@ -1,12 +1,15 @@
 [gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://cghbdwub2vh6v"]
 
 [ext_resource type="Script" uid="uid://bjch5nrqx0npy" path="res://blocks/block_data.gd" id="1_85cck"]
+[ext_resource type="Texture2D" uid="uid://be6x0j75ggiyn" path="res://art/blocks/stone_block.png" id="2_mbpc0"]
 
 [resource]
 script = ExtResource("1_85cck")
 name = "Cobble Stone"
-init_health = 3
+init_health = 4
+atlas_coords = Vector2i(4, 0)
 drop_rate = 5
-particle_color_inner = Color(0.58431375, 0.47843137, 0.4, 1)
-particle_color_outter = Color(0.043137256, 0.043137256, 0.043137256, 1)
+particle_color_inner = Color(0.43921143, 0.35053626, 0.28558204, 1)
+particle_color_outter = Color(0.18403974, 0.18403977, 0.18403974, 1)
+texture = ExtResource("2_mbpc0")
 metadata/_custom_type_script = "uid://bjch5nrqx0npy"

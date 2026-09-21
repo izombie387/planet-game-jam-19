@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://d1r05tp2itejv"]
+
+[ext_resource type="Script" uid="uid://bjch5nrqx0npy" path="res://blocks/block_data.gd" id="1_qwjjk"]
+[ext_resource type="Texture2D" uid="uid://b5m6kpat8013y" path="res://art/blocks/diamond.png" id="2_psedy"]
+
+[resource]
+script = ExtResource("1_qwjjk")
+name = "Diamond"
+init_health = 3
+drop_rate = 5
+is_wall = true
+particle_color_inner = Color(0.7688259, 0.99999994, 0.99857956, 1)
+particle_color_outter = Color(0.3540339, 0.9955314, 1, 1)
+texture = ExtResource("2_psedy")
+metadata/_custom_type_script = "uid://bjch5nrqx0npy"

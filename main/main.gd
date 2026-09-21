@@ -79,7 +79,7 @@ func _generate_tiles() -> void:
 			if randf() < 0.5:
 				continue
 			cell_pos = Vector2i(x,y)
-			var random_block := tile_manager.get_random_block()
+			var random_block := TileManager.get_random_block()
 			map.set_cell(cell_pos, 0, random_block.atlas_coords)
 			tile_manager.set_block(random_block, cell_pos)
 			
@@ -88,7 +88,7 @@ func _generate_tiles() -> void:
 	var left = -1
 	var right = tile_manager.world_bounds.x
 	var wall = tile_manager.WALL
-	var ground_atlas_coords = Vector2i(3,0)
+	var ground_atlas_coords = Vector2i(6,0)
 	
 	for x in range(-1, right + 1):
 		cell_pos = Vector2i(x, bottom)

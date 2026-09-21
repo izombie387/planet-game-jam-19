@@ -20,7 +20,13 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 5
 
-[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("ore_pickers", "map")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fa2g"]
+size = Vector2(192, 26)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lftr4"]
+size = Vector2(32, 192)
+
+[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("ore_pickers", "map", "spawn_point")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -31,6 +37,7 @@ mouse_filter = 2
 script = ExtResource("1_s1j75")
 ore_pickers = NodePath("MarginContainer/PanelContainer/OrePickers")
 map = NodePath("Map")
+spawn_point = NodePath("SpawnPoint")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1054577995]
 z_index = -1
@@ -45,7 +52,7 @@ color = Color(0.08522359, 0.08522361, 0.08522359, 1)
 metadata/_edit_lock_ = true
 
 [node name="Map" type="TileMapLayer" parent="." unique_id=634805700]
-tile_map_data = PackedByteArray("AAAGAAQAAAAAAAEAAAAHAAQAAAAAAAEAAAAIAAQAAAAAAAEAAAAJAAQAAAAAAAEAAAAKAAQAAAAAAAEAAAAKAAUAAAAAAAEAAAAKAAYAAAAAAAEAAAAJAAYAAAAAAAEAAAAJAAUAAAAAAAEAAAAIAAUAAAAAAAEAAAAHAAUAAAAAAAEAAAAGAAUAAAAAAAEAAAAGAAYAAAAAAAEAAAAHAAYAAAAAAAEAAAAIAAYAAAAAAAEAAAAGAAcAAAAAAAEAAAAHAAcAAAAAAAEAAAAIAAcAAAAAAAEAAAAJAAcAAAAAAAEAAAAKAAcAAAAAAAEAAAAGAAgAAAAAAAEAAAAHAAgAAAAAAAEAAAAIAAgAAAAAAAEAAAAJAAgAAAAAAAEAAAAKAAgAAAAAAAEAAAA=")
+tile_map_data = PackedByteArray("AAAGAAQAAAAFAAAAAAAGAAUAAAAFAAAAAAAGAAYAAAAFAAAAAAAGAAcAAAAFAAAAAAAGAAgAAAAFAAAAAAACAAQAAAAFAAAAAAADAAQAAAAFAAAAAAAEAAQAAAAFAAAAAAAFAAQAAAAFAAAAAAAFAAUAAAAFAAAAAAAEAAUAAAAFAAAAAAADAAUAAAAFAAAAAAACAAUAAAAFAAAAAAACAAYAAAAFAAAAAAADAAYAAAAFAAAAAAAEAAYAAAAFAAAAAAAFAAYAAAAFAAAAAAAFAAcAAAAFAAAAAAAEAAcAAAAFAAAAAAADAAcAAAAFAAAAAAACAAcAAAAFAAAAAAACAAgAAAAFAAAAAAADAAgAAAAFAAAAAAAEAAgAAAAFAAAAAAAFAAgAAAAFAAAAAAA=")
 tile_set = ExtResource("1_w6r1x")
 
 [node name="GridContainer" type="GridContainer" parent="." unique_id=896021652]
@@ -70,6 +77,7 @@ text = "drag and place
 right click to rotate"
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=57135922]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -119,3 +127,27 @@ keep_pressed_outside = true
 icon = ExtResource("6_n1xir")
 script = ExtResource("6_lftr4")
 ore_shape_scene = ExtResource("3_2my2o")
+
+[node name="Walls" type="Node2D" parent="." unique_id=519457974]
+
+[node name="floor" type="StaticBody2D" parent="Walls" unique_id=1293438538]
+position = Vector2(256, 192)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/floor" unique_id=1476383157]
+position = Vector2(16, 3)
+shape = SubResource("RectangleShape2D_4fa2g")
+
+[node name="left" type="StaticBody2D" parent="Walls" unique_id=779426520]
+position = Vector2(192, 112)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/left" unique_id=1678018581]
+shape = SubResource("RectangleShape2D_lftr4")
+
+[node name="left2" type="StaticBody2D" parent="Walls" unique_id=1678965460]
+position = Vector2(352, 112)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/left2" unique_id=971757936]
+shape = SubResource("RectangleShape2D_lftr4")
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1967652053]
+position = Vector2(272, 0)

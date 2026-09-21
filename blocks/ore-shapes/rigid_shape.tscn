@@ -11,6 +11,7 @@ bounce = 0.25
 blend_mode = 1
 
 [node name="RigidShape" type="RigidBody2D" unique_id=270210559 node_paths=PackedStringArray("collision", "outline")]
+input_pickable = true
 physics_material_override = SubResource("PhysicsMaterial_ndbl3")
 script = ExtResource("1_rrqr5")
 collision = NodePath("Collision")

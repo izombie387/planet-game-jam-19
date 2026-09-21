@@ -16,12 +16,10 @@ collision = NodePath("Outline/Area/Collision")
 poly = NodePath("Outline/Poly")
 outline = NodePath("Outline")
 
-[node name="Outline" type="Node2D" parent="." unique_id=2016866926 node_paths=PackedStringArray("poly")]
+[node name="Outline" type="Node2D" parent="." unique_id=2016866926]
 material = SubResource("CanvasItemMaterial_qnh5g")
 position = Vector2(8, 8)
 script = ExtResource("2_yaf6p")
-poly = NodePath("Poly")
-outline_color = Color(0.8666667, 0.8039216, 0.54901963, 1)
 
 [node name="Poly" type="Polygon2D" parent="Outline" unique_id=413122240]
 show_behind_parent = true

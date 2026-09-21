@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://bm7r3rpmxw20e"]
+
+[ext_resource type="Script" uid="uid://bjch5nrqx0npy" path="res://blocks/block_data.gd" id="1_0x7nq"]
+[ext_resource type="Texture2D" uid="uid://dftuwha7geyqi" path="res://art/blocks/iron.png" id="2_i5x8d"]
+
+[resource]
+script = ExtResource("1_0x7nq")
+name = "Iron"
+init_health = 3
+atlas_coords = Vector2i(3, 0)
+drop_rate = 5
+particle_color_inner = Color(0.42, 0.42, 0.42, 1)
+particle_color_outter = Color(0.68, 0.68, 0.68, 1)
+texture = ExtResource("2_i5x8d")
+metadata/_custom_type_script = "uid://bjch5nrqx0npy"

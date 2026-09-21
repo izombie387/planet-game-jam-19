@@ -26,6 +26,17 @@ func _ready() -> void:
 	starting_position = global_position
 	area.input_pickable = true
 	
+func setup(block: BlockData, polygon_scene: PackedScene) -> void:
+	poly = polygon_scene.instantiate() as Polygon2D
+	outline.add_child(poly)
+	poly.texture = block.texture
+	poly.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	collision.polygon = poly.polygon
+	
+	outline.polygon = poly.polygon
+	outline.color = block.get_outline_color()
+	outline.queue_redraw()
+	
 func rotate_90() -> void:
 	rotation += angle_difference(rotation, rotation + PI / 2.0)
 	_rotate_cell_offsets()

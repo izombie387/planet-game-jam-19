@@ -1,9 +1,9 @@
 extends Node2D
-@export var poly: Polygon2D
-@export var outline_color: Color
+@export var polygon: PackedVector2Array
+@export var color: Color
 
 func _draw() -> void:
-	var p = poly.polygon.duplicate()
+	var p = polygon.duplicate()
 	p.append(p[0])
-	draw_polyline(p, outline_color, 2.0)
+	draw_polyline(p, color, 2.0)
 	

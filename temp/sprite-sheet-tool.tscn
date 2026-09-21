@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dbnaqf6lse4y4"]
+
+[ext_resource type="Script" uid="uid://dy2cywyb6oeuy" path="res://temp/sprite_sheet_tool.gd" id="1_vyg3m"]
+[ext_resource type="Texture2D" uid="uid://b5m6kpat8013y" path="res://art/blocks/diamond.png" id="2_gh1v7"]
+[ext_resource type="Texture2D" uid="uid://ivg4hl017lvg" path="res://art/blocks/emrald.png" id="3_qgm88"]
+[ext_resource type="Texture2D" uid="uid://uj6esio6sieg" path="res://art/blocks/gold.png" id="4_0blrv"]
+[ext_resource type="Texture2D" uid="uid://dftuwha7geyqi" path="res://art/blocks/iron.png" id="5_4cc78"]
+[ext_resource type="Texture2D" uid="uid://be6x0j75ggiyn" path="res://art/blocks/stone_block.png" id="6_8wlsh"]
+[ext_resource type="Texture2D" uid="uid://buls02ir2qq5k" path="res://art/blocks/non-ore/border.png" id="7_674jc"]
+[ext_resource type="Texture2D" uid="uid://wavfy1kkbl4u" path="res://art/blocks/non-ore/cieling.png" id="8_bjhty"]
+[ext_resource type="Texture2D" uid="uid://cejb1jddncbe2" path="res://art/blocks/non-ore/pillar.png" id="9_s2lcc"]
+
+[sub_resource type="DrawableTexture2D" id="DrawableTexture2D_52w8v"]
+
+[node name="SpriteSheetTool" type="Node2D" unique_id=96484517 node_paths=PackedStringArray("tex_rect")]
+script = ExtResource("1_vyg3m")
+tex_rect = NodePath("TexRect")
+textures = Array[Texture2D]([ExtResource("2_gh1v7"), ExtResource("3_qgm88"), ExtResource("4_0blrv"), ExtResource("5_4cc78"), ExtResource("6_8wlsh"), ExtResource("7_674jc"), ExtResource("8_bjhty"), ExtResource("9_s2lcc")])
+
+[node name="TexRect" type="TextureRect" parent="." unique_id=35259474]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("DrawableTexture2D_52w8v")
