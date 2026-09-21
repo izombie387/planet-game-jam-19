@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://dyok6joit83le"]
+
+[ext_resource type="Script" uid="uid://cunce82kcdroh" path="res://blocks/ore-shapes/polygons/polygons-tool.gd" id="1_t260q"]
+
+[node name="PolygonTool" type="Node2D" unique_id=727867955]
+script = ExtResource("1_t260q")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1551678625]
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 0, -16, -32, 0, -32, 0, 0)
+
+[node name="Polygon2D2" type="Polygon2D" parent="." unique_id=1907703751]
+position = Vector2(64, 0)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 0, -16, -32, 0, -32, 0, -16, 16, -16, 16, 0)
+
+[node name="Polygon2D3" type="Polygon2D" parent="." unique_id=1872872294]
+position = Vector2(128, 0)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 0, -16, -32, 16, -32, 16, 0)
+
+[node name="Polygon2D4" type="Polygon2D" parent="." unique_id=647828697]
+position = Vector2(0, 48)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 16, -16, -32, 0, -32, 0, 16)
+
+[node name="Polygon2D5" type="Polygon2D" parent="." unique_id=1964119623]
+position = Vector2(64, 48)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 16, -16, -32, 0, -32, 0, 0, 16, 0, 16, 16)
+
+[node name="Polygon2D6" type="Polygon2D" parent="." unique_id=2031857657]
+position = Vector2(128, 48)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 16, -16, -32, 0, -32, 0, -16, 16, -16, 16, 16)
+
+[node name="Polygon2D7" type="Polygon2D" parent="." unique_id=1618128478]
+position = Vector2(0, 112)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 16, -16, -32, 16, -32, 16, 16)
+
+[node name="Polygon2D8" type="Polygon2D" parent="." unique_id=1797931754]
+position = Vector2(64, 112)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-32, 16, -32, -32, 0, -32, 0, 0, 16, 0, 16, 16)
+
+[node name="Polygon2D9" type="Polygon2D" parent="." unique_id=2128143498]
+position = Vector2(128, 112)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-32.000008, 16, -32.000008, -32, -9.536743e-06, -32, -9.536743e-06, -16, 15.99999, -16, 15.99999, 0, -9.536743e-06, 0, -9.536743e-06, 16)
+
+[node name="Polygon2D10" type="Polygon2D" parent="." unique_id=1995440767]
+position = Vector2(192, 112)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-31.999992, 16, -31.999992, -32, -15.999992, -32, -15.999992, -16, 7.6293945e-06, -16, 7.6293945e-06, 0, 16.000008, 0, 16.000008, 16)
+
+[node name="Polygon2D11" type="Polygon2D" parent="." unique_id=1514849079]
+position = Vector2(272, 112)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 16, -16, 0, -32, 0, -32, -16, -16, -16, -16, -32, 0, -32, 0, -16, 16, -16, 16, 0, 0, 0, 0, 16)
+
+[node name="Polygon2D12" type="Polygon2D" parent="." unique_id=892528538]
+position = Vector2(320, 112)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 16, -16, -32, 0, -32, 0, 0, 32, 0, 32, 16)
+
+[node name="Polygon2D13" type="Polygon2D" parent="." unique_id=1615792906]
+position = Vector2(0, 176)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, -32, 32, -32, 32, -16, 0, -16, 0, 0, 32, 0, 32, 16, -16, 16)
+
+[node name="Polygon2D14" type="Polygon2D" parent="." unique_id=559207913]
+position = Vector2(64, 176)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 16, -16, -32, 16, -32, 16, -16, 0, -16, 0, 0, 32, 0, 32, 16)
+
+[node name="Polygon2D15" type="Polygon2D" parent="." unique_id=134510770]
+position = Vector2(128, 176)
+color = Color(1, 1, 1, 0.39215687)
+
+[node name="Polygon2D16" type="Polygon2D" parent="." unique_id=5683480]
+position = Vector2(208, 176)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(0, 16, 0, 0, -16, 0, -16, -16, -32, -16, -32, -32, 0, -32, 0, -16, 16, -16, 16, 16)
+
+[node name="Polygon2D17" type="Polygon2D" parent="." unique_id=651269931]
+position = Vector2(272, 176)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-32, 16, -32, 0, -16, 0, -16, -16, -32, -16, -32, -32, 0, -32, 0, 0, 16, 0, 16, 16)
+
+[node name="Polygon2D18" type="Polygon2D" parent="." unique_id=612885213]
+position = Vector2(192, 48)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-16, 16, -16, -32, 16, -32, 16, -16, 0, -16, 0, 0, 16, 0, 16, 16)
+
+[node name="Polygon2D19" type="Polygon2D" parent="." unique_id=1695494466]
+position = Vector2(64, 240)
+
+[node name="Polygon2D20" type="Polygon2D" parent="." unique_id=1019046483]
+position = Vector2(128, 240)
+
+[node name="Polygon2D21" type="Polygon2D" parent="." unique_id=241010174]
+position = Vector2(192, 240)
+
+[node name="Polygon2D22" type="Polygon2D" parent="." unique_id=2133641179]
+position = Vector2(336, 176)
+color = Color(1, 1, 1, 0.39215687)
+polygon = PackedVector2Array(-32, 16, -32, -32, 16, -32, 16, 16)
+
+[node name="Polygon2D23" type="Polygon2D" parent="." unique_id=4815814]
+position = Vector2(0, 240)

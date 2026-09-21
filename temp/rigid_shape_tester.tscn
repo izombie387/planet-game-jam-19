@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dddt58pmhslja"]
+
+[ext_resource type="Script" uid="uid://d2225cngpvxe1" path="res://temp/rigid_shape_tester.gd" id="1_ndbl3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4fa2g"]
+size = Vector2(394, 26)
+
+[node name="RigidShapeTester" type="Node2D" unique_id=1066267702]
+script = ExtResource("1_ndbl3")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1631373905]
+position = Vector2(16, 176)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=884588841]
+position = Vector2(187, 3)
+shape = SubResource("RectangleShape2D_4fa2g")

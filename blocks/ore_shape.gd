@@ -22,6 +22,7 @@ var debug_rotated_polygon
 
 func _ready() -> void:
 	_find_cells()
+	_transfer_polygon()
 	starting_position = global_position
 	area.input_pickable = true
 	

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cu1htwhp5o444"]
+
+[ext_resource type="Script" uid="uid://dcrl5m83p6yc8" path="res://blocks/ore-shapes/rigid_shape.gd" id="1_rrqr5"]
+[ext_resource type="Script" uid="uid://cbj2px5pkhcsp" path="res://blocks/ore-shapes/rigid_outline.gd" id="2_rrqr5"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ndbl3"]
+friction = 0.25
+bounce = 0.25
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ndbl3"]
+blend_mode = 1
+
+[node name="RigidShape" type="RigidBody2D" unique_id=270210559 node_paths=PackedStringArray("collision", "outline")]
+physics_material_override = SubResource("PhysicsMaterial_ndbl3")
+script = ExtResource("1_rrqr5")
+collision = NodePath("Collision")
+outline = NodePath("Outline")
+
+[node name="Collision" type="CollisionPolygon2D" parent="." unique_id=1309383571]
+
+[node name="Outline" type="Node2D" parent="." unique_id=1969771661]
+z_index = 1
+material = SubResource("CanvasItemMaterial_ndbl3")
+script = ExtResource("2_rrqr5")

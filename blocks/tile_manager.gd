@@ -1,6 +1,16 @@
 class_name TileManager
 extends RefCounted
 
+enum OreType { DIAMOND, EMERALD, GOLD, IRON, STONE }
+
+const TEXTURES := {
+	OreType.DIAMOND: preload("res://art/blocks/diamond.png"),
+	OreType.EMERALD: preload("res://art/blocks/emrald.png"),
+	OreType.GOLD: preload("res://art/blocks/gold.png"),
+	OreType.IRON: preload("res://art/blocks/iron.png"),
+	OreType.STONE: preload("res://art/blocks/stone_block.png"),
+}
+
 var rng := RandomNumberGenerator.new()
 var _block_weights := PackedFloat32Array()
 var _block_types : Array[BlockData]
@@ -17,6 +27,11 @@ const RESOURCES : Array[BlockData] = [
 	preload("res://blocks/block_resources/rock.tres"),
 	preload("res://blocks/block_resources/pillar.tres")
 ]
+
+static func get_random_polygon() -> PackedScene:
+	var i = randi_range(0,17)
+	var path = "res://blocks/ore-shapes/polygons/poly_%d.tscn" % i
+	return load(path)
 
 func _init() -> void:
 	load_resources()
