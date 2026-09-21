@@ -51,6 +51,19 @@ offset_bottom = 80.0
 
 [node name="GoldShape" parent="ore_container" unique_id=1878491174 instance=ExtResource("3_2my2o")]
 position = Vector2(32, 16)
+cell_offsets = Array[Vector2i]([Vector2i(-1, 0), Vector2i(0, 0), Vector2i(1, -1), Vector2i(1, 0)])
 
 [node name="StoneShape" parent="ore_container" unique_id=1008604321 instance=ExtResource("4_11orn")]
 position = Vector2(32, 64)
+
+[node name="Label" type="Label" parent="." unique_id=1724537818]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 9.0
+grow_horizontal = 2
+text = "drag and place
+right click to rotate"
