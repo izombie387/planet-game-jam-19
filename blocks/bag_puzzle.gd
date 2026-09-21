@@ -1,29 +1,31 @@
 extends Control
 
 var _dragging_shape : OreShape
-@export var ore_container: Control
+@export var ore_pickers: VBoxContainer
 @export var map: TileMapLayer
-@export var _debug_cells := false
 var _cells: Dictionary[Vector2i, OreShape]
 
 func _ready() -> void:
-	var ore_shapes = ore_container.get_children()
-	for ore_shape: Node2D in ore_shapes:
-		ore_shape.area.input_event.connect(_on_area_input.bind(ore_shape))
+	for picker_button: Button in ore_pickers.get_children():
+		picker_button.pressed.connect(_on_picker_pressed.bind(picker_button.ore_shape_scene))
+		
+func _on_picker_pressed(ore_shape_scene: PackedScene) -> void:
+	var new_shape: OreShape = ore_shape_scene.instantiate()
+	add_child(new_shape)
+	new_shape.area.input_event.connect(_on_ore_shape_input.bind(new_shape))
+	_pickup(new_shape)
 
-func _on_area_input(_vp: Node, event: InputEvent, _idx: int, ore_shape: Node2D) -> void:
+func _on_ore_shape_input(_vp: Node, event: InputEvent, _idx: int, shape: OreShape) -> void:
 	if event.is_action_pressed("select"):
-		assert(not _dragging_shape)
-		_pickup(ore_shape)
-		ore_shape.starting_position = ore_shape.global_position
-		_dragging_shape = ore_shape
-		_dragging_shape.modulate.a = 0.75
-		_dragging_shape.z_index += 10
+		if _dragging_shape:
+			return
+		#assert(not _dragging_shape)
+		_pickup(shape)
 		
 		_debug_show_cells()
 		
 	elif event.is_action_released("select"):
-		if not _dragging_shape == ore_shape:
+		if not _dragging_shape == shape:
 			return
 		if _try_drop(get_global_mouse_position(), _dragging_shape):
 			pass
@@ -31,8 +33,7 @@ func _on_area_input(_vp: Node, event: InputEvent, _idx: int, ore_shape: Node2D) 
 			_dragging_shape.queue_free()
 			_dragging_shape = null
 			return
-			#_dragging_shape.reset_position()
-			#_try_drop(_dragging_shape.global_position, _dragging_shape)
+
 		_dragging_shape.modulate.a = 1.0
 		_dragging_shape.z_index -= 10
 		_dragging_shape = null
@@ -72,6 +73,10 @@ func _try_drop(drop_pos: Vector2, shape: OreShape) -> bool:
 	return true
 	
 func _pickup(shape: OreShape) -> void:
+	_dragging_shape = shape
+	_dragging_shape.modulate.a = 0.75
+	_dragging_shape.z_index += 10
+	
 	var origin = map.local_to_map(shape.global_position)
 	for offset: Vector2i in shape.cell_offsets:
 		var c = origin + offset
