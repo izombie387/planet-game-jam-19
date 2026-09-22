@@ -9,8 +9,12 @@ static var ore_collected: Dictionary[TileManager.OreType, int]
 static func _static_init() -> void:
 	for ore_type in TileManager.OreType.values():
 		ore_collected[ore_type] = 0
+	print("ore tracking populated: %s" % ore_collected)
 
 static func add_block(block_type: TileManager.OreType) -> void:
+	if block_type not in ore_collected:
+		print("%s not in ore_collected" % TileManager.OreType.find_key(block_type))
+		return
 	ore_collected[block_type] += 1
 	total_blocks_mined += 1
 	total_ore += 1

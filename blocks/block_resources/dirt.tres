@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BlockData" format=3 uid="uid://hw5g06d6d1jc"]
+
+[ext_resource type="Script" uid="uid://bjch5nrqx0npy" path="res://blocks/block_data.gd" id="1_is6bx"]
+[ext_resource type="Texture2D" uid="uid://bi7llo5lhhsw" path="res://art/blocks/dirt.png" id="2_is6bx"]
+
+[resource]
+script = ExtResource("1_is6bx")
+name = "Dirt"
+ore_type = 7
+init_health = 1
+atlas_coords = Vector2i(0, 1)
+drop_rate = 12
+particle_color_inner = Color(0.2876471, 0.22143307, 0.1761083, 1)
+particle_color_outter = Color(0.12847865, 0.12847835, 0.12847844, 1)
+texture = ExtResource("2_is6bx")
+metadata/_custom_type_script = "uid://bjch5nrqx0npy"

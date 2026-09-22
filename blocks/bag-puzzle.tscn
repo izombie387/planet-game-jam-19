@@ -2,27 +2,10 @@
 
 [ext_resource type="Script" uid="uid://53hi11ukcujv" path="res://blocks/bag_puzzle.gd" id="1_s1j75"]
 [ext_resource type="TileSet" uid="uid://dj1yuko67gim" path="res://blocks/tile_set.tres" id="1_w6r1x"]
-[ext_resource type="PackedScene" uid="uid://cqihesqir17j" path="res://blocks/ore-shapes/gold_shape.tscn" id="3_2my2o"]
-[ext_resource type="PackedScene" uid="uid://de8bb3wgylajx" path="res://blocks/ore-shapes/stone_shape.tscn" id="4_11orn"]
-[ext_resource type="Texture2D" uid="uid://be6x0j75ggiyn" path="res://art/blocks/stone_block.png" id="5_5whsb"]
-[ext_resource type="Script" uid="uid://cj2gvxlg1k6f0" path="res://blocks/ore-shapes/ore-shape-selector.gd" id="6_lftr4"]
-[ext_resource type="Texture2D" uid="uid://uj6esio6sieg" path="res://art/blocks/gold.png" id="6_n1xir"]
 [ext_resource type="Script" uid="uid://dw4bqy3ars6s6" path="res://blocks/smelt_dialog.gd" id="8_lftr4"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lftr4"]
-content_margin_left = 8.0
-content_margin_top = 8.0
-content_margin_right = 8.0
-content_margin_bottom = 8.0
-bg_color = Color(0.29858905, 0.29858908, 0.29858905, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 5
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4fa2g"]
-size = Vector2(192, 26)
+size = Vector2(192, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lftr4"]
 size = Vector2(32, 192)
@@ -34,23 +17,29 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 script = ExtResource("1_s1j75")
-ore_pickers = NodePath("MarginContainer/PanelContainer/OrePickers")
+ore_pickers = NodePath("")
 map = NodePath("Map")
 spawn_point = NodePath("SpawnPoint")
 smelt_button = NodePath("SmeltButton")
 smelt_dialog = NodePath("SmeltDialog")
 drop_button = NodePath("DropButton")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1054577995]
-z_index = -1
+[node name="BackgroundMargin" type="MarginContainer" parent="." unique_id=1609186332]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="Background" type="ColorRect" parent="BackgroundMargin" unique_id=1054577995]
+z_index = -1
+layout_mode = 2
 mouse_filter = 2
 color = Color(0.08522359, 0.08522361, 0.08522359, 1)
 metadata/_edit_lock_ = true
@@ -69,6 +58,7 @@ grow_horizontal = 0
 grow_vertical = 2
 
 [node name="Label" type="Label" parent="." unique_id=1724537818]
+visible = false
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -80,65 +70,13 @@ grow_horizontal = 2
 text = "drag and place
 right click to rotate"
 
-[node name="MarginContainer" type="MarginContainer" parent="." unique_id=57135922]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=288112090]
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_lftr4")
-
-[node name="GoldShape" parent="MarginContainer/PanelContainer" unique_id=1878491174 instance=ExtResource("3_2my2o")]
-visible = false
-position = Vector2(32, 16)
-cell_offsets = Array[Vector2i]([Vector2i(-1, 0), Vector2i(0, 0), Vector2i(1, -1), Vector2i(1, 0)])
-
-[node name="StoneShape" parent="MarginContainer/PanelContainer" unique_id=1008604321 instance=ExtResource("4_11orn")]
-visible = false
-position = Vector2(32, 64)
-
-[node name="OrePickers" type="VBoxContainer" parent="MarginContainer/PanelContainer" unique_id=16715090]
-layout_mode = 2
-theme_override_constants/separation = 8
-
-[node name="StonePicker" type="Button" parent="MarginContainer/PanelContainer/OrePickers" unique_id=351847913]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-action_mode = 0
-keep_pressed_outside = true
-icon = ExtResource("5_5whsb")
-script = ExtResource("6_lftr4")
-ore_shape_scene = ExtResource("4_11orn")
-
-[node name="GoldPicker" type="Button" parent="MarginContainer/PanelContainer/OrePickers" unique_id=354196053]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-action_mode = 0
-keep_pressed_outside = true
-icon = ExtResource("6_n1xir")
-script = ExtResource("6_lftr4")
-ore_shape_scene = ExtResource("3_2my2o")
-
 [node name="Walls" type="Node2D" parent="." unique_id=519457974]
 
 [node name="floor" type="StaticBody2D" parent="Walls" unique_id=1293438538]
 position = Vector2(256, 192)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/floor" unique_id=1476383157]
-position = Vector2(16, 3)
+position = Vector2(16, 0)
 shape = SubResource("RectangleShape2D_4fa2g")
 
 [node name="left" type="StaticBody2D" parent="Walls" unique_id=779426520]
@@ -152,6 +90,10 @@ position = Vector2(352, 112)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/left2" unique_id=971757936]
 shape = SubResource("RectangleShape2D_lftr4")
+
+[node name="BasketPolygon" type="Polygon2D" parent="Walls" unique_id=890396994]
+color = Color(0.3299832, 0.32998317, 0.32998317, 1)
+polygon = PackedVector2Array(208, 16, 208, 176, 336, 176, 336, 16, 352, 16, 352, 192, 192, 192, 192, 16)
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1967652053]
 position = Vector2(272, 0)
@@ -175,6 +117,7 @@ offset_bottom = 33.0
 text = "Drop Ore [5]"
 
 [node name="SmeltDialog" type="PanelContainer" parent="." unique_id=2032398847 node_paths=PackedStringArray("label", "button")]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

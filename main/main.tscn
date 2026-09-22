@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://helc0rc6tmui" path="res://character/particles-gradient-texture.tres" id="8_bsumw"]
 [ext_resource type="Script" uid="uid://csv2mqoc01da5" path="res://main/particle_spawner.gd" id="10_bsumw"]
 [ext_resource type="Script" uid="uid://d4lfue1rmro02" path="res://ui/menu.gd" id="11_fwcvl"]
+[ext_resource type="PackedScene" uid="uid://wk1rwbag11xv" path="res://blocks/bag-puzzle.tscn" id="13_na0o7"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mjt85"]
 animations = [{
@@ -193,6 +194,7 @@ lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_4fa2g")
 
 [node name="DiggingSprite" type="Sprite2D" parent="." unique_id=735836810 node_paths=PackedStringArray("progress_bar")]
+visible = false
 position = Vector2(176, 96)
 texture = SubResource("GradientTexture2D_6t0lm")
 script = ExtResource("4_c651c")
@@ -221,7 +223,7 @@ wait_time = 0.25
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1486871270]
 
-[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("blocks_gained_label", "character", "menu_button", "menu")]
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("blocks_gained_label", "character", "menu_button", "settings_menu", "bag_menu", "bag_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -232,10 +234,13 @@ script = ExtResource("5_3wy1v")
 blocks_gained_label = NodePath("PanelContainer/GridContainer/BlocksGainedLabel")
 character = NodePath("../../Character")
 menu_button = NodePath("MenuButton")
-menu = NodePath("Menu")
+settings_menu = NodePath("SettingsMenu")
+bag_menu = NodePath("../../BagLayer/BagMenu")
+bag_button = NodePath("BagButton")
 metadata/_edit_lock_ = true
 
 [node name="BagSizeReference" type="PanelContainer" parent="CanvasLayer/UI" unique_id=2085904344]
+visible = false
 layout_mode = 0
 offset_left = 46.999992
 offset_top = 28.0
@@ -312,9 +317,21 @@ offset_left = -8.0
 offset_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
-text = "menu"
+focus_mode = 0
+text = "Menu"
 
-[node name="Menu" type="CenterContainer" parent="CanvasLayer/UI" unique_id=226633205 node_paths=PackedStringArray("close_button", "volume_slider")]
+[node name="BagButton" type="Button" parent="CanvasLayer/UI" unique_id=1378165590]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -17.0
+offset_right = 25.0
+grow_vertical = 0
+focus_mode = 0
+text = "Bag [E]"
+
+[node name="SettingsMenu" type="CenterContainer" parent="CanvasLayer/UI" unique_id=226633205 node_paths=PackedStringArray("close_button", "volume_slider")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -326,34 +343,34 @@ script = ExtResource("11_fwcvl")
 close_button = NodePath("PanelContainer/VBoxContainer/CloseButton")
 volume_slider = NodePath("PanelContainer/VBoxContainer/GridContainer/VolumeSlider")
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI/Menu" unique_id=154696299]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI/SettingsMenu" unique_id=154696299]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bsumw")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/Menu/PanelContainer" unique_id=583014151]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/SettingsMenu/PanelContainer" unique_id=583014151]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="Label" type="Label" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer" unique_id=1548707879]
+[node name="Label" type="Label" parent="CanvasLayer/UI/SettingsMenu/PanelContainer/VBoxContainer" unique_id=1548707879]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Menu"
 
-[node name="Label2" type="Label" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer" unique_id=219065481]
+[node name="Label2" type="Label" parent="CanvasLayer/UI/SettingsMenu/PanelContainer/VBoxContainer" unique_id=219065481]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "WASD / arrow keys -> move"
 horizontal_alignment = 1
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer" unique_id=540156176]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI/SettingsMenu/PanelContainer/VBoxContainer" unique_id=540156176]
 layout_mode = 2
 columns = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer/GridContainer" unique_id=1665065233]
+[node name="Label" type="Label" parent="CanvasLayer/UI/SettingsMenu/PanelContainer/VBoxContainer/GridContainer" unique_id=1665065233]
 layout_mode = 2
 text = "VOL"
 
-[node name="VolumeSlider" type="HSlider" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer/GridContainer" unique_id=848466240]
+[node name="VolumeSlider" type="HSlider" parent="CanvasLayer/UI/SettingsMenu/PanelContainer/VBoxContainer/GridContainer" unique_id=848466240]
 custom_minimum_size = Vector2(64, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -361,9 +378,16 @@ max_value = 1.0
 step = 0.05
 value = 0.4
 
-[node name="CloseButton" type="Button" parent="CanvasLayer/UI/Menu/PanelContainer/VBoxContainer" unique_id=1580209708]
+[node name="CloseButton" type="Button" parent="CanvasLayer/UI/SettingsMenu/PanelContainer/VBoxContainer" unique_id=1580209708]
 layout_mode = 2
 text = "CLOSE"
 
 [node name="ParticleSpawner" type="Node" parent="." unique_id=2084351405]
 script = ExtResource("10_bsumw")
+
+[node name="BagLayer" type="CanvasLayer" parent="." unique_id=998629276]
+layer = 2
+
+[node name="BagMenu" parent="BagLayer" unique_id=263022249 instance=ExtResource("13_na0o7")]
+visible = false
+mouse_filter = 1

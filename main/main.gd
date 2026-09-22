@@ -8,12 +8,10 @@ extends Node2D
 
 var _block_healths: Dictionary[Vector2i, int]
 var _current_digging_pos : Vector2i
-# probably put in a player stats class
-#var player_stats = PlayerStats.new()
-#var tile_manager := TileManager.new()
 
 func _ready() -> void:
 	#Sfx.start_music()
+
 	TileManager.setup(Vector2i(20,20))
 	var half_width := floori(TileManager.world_bounds.x / 2.0)
 	
@@ -43,7 +41,6 @@ func _on_dug() -> void:
 		digging_sprite.progress_bar.value = new_block_health
 	
 func _gain_block_value(block_data: BlockData) -> void:
-	#PlayerStats.total_blocks_mined += 1
 	PlayerStats.add_block(block_data.ore_type)
 	ui.update_blocks_gained(PlayerStats.total_blocks_mined)
 	
@@ -78,8 +75,6 @@ func _generate_tiles() -> void:
 	var cell_pos : Vector2i
 	for x in TileManager.world_bounds.x:
 		for y in TileManager.world_bounds.y:
-			if randf() < 0.5:
-				continue
 			cell_pos = Vector2i(x,y)
 			var random_block := TileManager.get_random_block()
 			map.set_cell(cell_pos, 0, random_block.atlas_coords)

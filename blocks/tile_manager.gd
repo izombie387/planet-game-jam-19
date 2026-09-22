@@ -1,7 +1,10 @@
 class_name TileManager
 extends RefCounted
 
-enum OreType { DIAMOND=0, EMERALD=1, GOLD=2, IRON=3, STONE=4, PILLAR=5, NONE=6 }
+enum OreType {
+	DIAMOND=0, EMERALD=1, GOLD=2, IRON=3, 
+	STONE=4, NONE=6, DIRT=7,
+}
 
 #const TEXTURES := {
 	#OreType.DIAMOND: preload("res://art/blocks/diamond.png"),
@@ -30,6 +33,7 @@ static var RESOURCES : Dictionary[OreType, BlockData] = {
 	OreType.GOLD: load("res://blocks/block_resources/gold.tres"),
 	OreType.IRON: load("res://blocks/block_resources/iron.tres"),
 	OreType.STONE: load("res://blocks/block_resources/stone.tres"),
+	OreType.DIRT: load("res://blocks/block_resources/dirt.tres"),
 }
 
 const TOTAL_POLYS = 17

@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_khmt1")
 name = "Pillar"
-ore_type = 5
+ore_type = 6
 atlas_coords = Vector2i(7, 0)
 is_wall = true
 metadata/_custom_type_script = "uid://bjch5nrqx0npy"

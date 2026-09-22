@@ -17,9 +17,16 @@ func _ready() -> void:
 	drop_button.pressed.connect(spawn_random_rigid_shape)
 	smelt_dialog.hide()
 	smelt_button.pressed.connect(_smelt_pressed)
+	visibility_changed.connect(_on_visibility_changed)
+	
+func _on_visibility_changed() -> void:
+	if visible:
+		populate_ore()
 	
 func populate_ore() -> void:
-	drop_button.text = "Drop Ore [%d]" % PlayerStats.total_ore
+	var total = PlayerStats.total_ore
+	drop_button.disabled = total <= 0
+	drop_button.text = "Drop Ore [%d]" % total
 	
 func _smelt_pressed() -> void:
 	var total_cells = map.get_used_cells().size()
@@ -35,7 +42,7 @@ func _smelt_pressed() -> void:
 			bonus_multi = 1.1
 		_:
 			pass
-	#var fill_points = filled_cells * 0.1
+			
 	var total_points = int(filled_cells * bonus_multi)
 	var message = "\n".join([
 			"%d percent full" % percent,
@@ -65,10 +72,12 @@ func spawn_random_rigid_shape(test:= false) -> void:
 		return
 		
 	var block_type = PlayerStats.use_random_block()
-	var block = TileManager.get_block_from_type(block_type)
-	var poly = TileManager.get_random_polygon()
-	spawn_rigid_shape(block, poly)
+	if block_type != TileManager.OreType.NONE:
+		var block = TileManager.get_block_from_type(block_type)
+		var poly = TileManager.get_random_polygon()
+		spawn_rigid_shape(block, poly)
 	
+	populate_ore()
 
 func spawn_rigid_shape(block: BlockData, poly: PackedScene) -> void:
 	var rigid_shape = rigid_shape_scene.instantiate()
@@ -101,6 +110,9 @@ func _on_ore_shape_input(_vp: Node, event: InputEvent, _idx: int, shape: OreShap
 		_debug_show_cells()
 		
 func _unhandled_input(event: InputEvent) -> void:
+	#if event.is_action_pressed("close_menu"):
+		#hide()
+		
 	if not _dragging_shape:
 		return
 		
