@@ -16,6 +16,8 @@ func _ready() -> void:
 	add_child(music_player)
 	music_player.max_polyphony = 1
 	music_player.stream = MUSIC
+	
+func start_music() -> void:
 	music_player.play()
 	
 func play(sound: Sound) -> void:

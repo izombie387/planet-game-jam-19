@@ -24,7 +24,7 @@ const ACTION_DIRECTIONS: Dictionary[StringName, Vector2i] = {
 var _input_stack : Array[StringName]
 var _current_pos := Vector2i()
 var _state : State
-var tile_manager : TileManager
+#var tile_manager : TileManager
 var _on_surface := true
 
 @export var particles: GPUParticles2D
@@ -38,9 +38,8 @@ func _ready() -> void:
 	_set_state(State.IDLE)
 	sprite.play()
 
-func setup(p_map: TileMapLayer, p_tile_manager: TileManager) -> void:
+func setup(p_map: TileMapLayer) -> void:
 	map = p_map
-	tile_manager = p_tile_manager
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_echo():
@@ -79,7 +78,7 @@ func _check_movement() -> void:
 func _try_move_or_dig(dir: Vector2i) -> void:
 	sprite.rotation = DIRECTION_ROTATIONS[dir]
 	var target_pos = _current_pos + dir
-	if target_pos.y > tile_manager.world_bounds.y:
+	if target_pos.y > TileManager.world_bounds.y:
 		_set_state(State.DIGGING)
 		surfaced.emit()
 		_on_surface = true
@@ -87,7 +86,7 @@ func _try_move_or_dig(dir: Vector2i) -> void:
 	elif _on_surface:
 		submerged.emit()
 		_on_surface = false
-	var block = tile_manager.get_block(target_pos)
+	var block = TileManager.get_block(target_pos)
 	if not block:
 		_move_to(target_pos)
 	else:

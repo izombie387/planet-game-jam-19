@@ -6,8 +6,7 @@
 [resource]
 script = ExtResource("1_qwjjk")
 name = "Diamond"
-init_health = 3
-drop_rate = 5
+init_health = 8
 is_wall = true
 particle_color_inner = Color(0.7688259, 0.99999994, 0.99857956, 1)
 particle_color_outter = Color(0.3540339, 0.9955314, 1, 1)

@@ -1,65 +1,68 @@
 class_name TileManager
 extends RefCounted
 
-enum OreType { DIAMOND, EMERALD, GOLD, IRON, STONE, PILLAR }
+enum OreType { DIAMOND=0, EMERALD=1, GOLD=2, IRON=3, STONE=4, PILLAR=5, NONE=6 }
 
-const TEXTURES := {
-	OreType.DIAMOND: preload("res://art/blocks/diamond.png"),
-	OreType.EMERALD: preload("res://art/blocks/emrald.png"),
-	OreType.GOLD: preload("res://art/blocks/gold.png"),
-	OreType.IRON: preload("res://art/blocks/iron.png"),
-	OreType.STONE: preload("res://art/blocks/stone_block.png"),
-}
+#const TEXTURES := {
+	#OreType.DIAMOND: preload("res://art/blocks/diamond.png"),
+	#OreType.EMERALD: preload("res://art/blocks/emrald.png"),
+	#OreType.GOLD: preload("res://art/blocks/gold.png"),
+	#OreType.IRON: preload("res://art/blocks/iron.png"),
+	#OreType.STONE: preload("res://art/blocks/stone_block.png"),
+#}
 
 static var rng := RandomNumberGenerator.new()
 static var _block_weights := PackedFloat32Array()
+static var _poly_weights := PackedFloat32Array()
 static var _block_types : Array[BlockData]
 static var _wall_types : Array[BlockData]
 
-var _blocks : Dictionary[Vector2i, BlockData]
-var map : TileMapLayer
-var world_bounds : Vector2i
+static var _blocks : Dictionary[Vector2i, BlockData]
+#var map : TileMapLayer
+static var world_bounds : Vector2i
 
 const CELL_SIZE := Vector2(16,16)
 const HALF_CELL := Vector2(8,8)
-const WALL : BlockData = preload("res://blocks/block_resources/pillar.tres")
-const RESOURCES : Dictionary[OreType, BlockData] = {
-	OreType.DIAMOND: preload("res://blocks/block_resources/diamond.tres"),
-	OreType.EMERALD: preload("res://blocks/block_resources/emerald.tres"),
-	OreType.GOLD: preload("res://blocks/block_resources/gold.tres"),
-	OreType.IRON: preload("res://blocks/block_resources/iron.tres"),
-	OreType.STONE: preload("res://blocks/block_resources/stone.tres"),
+static var WALL : BlockData = load("res://blocks/block_resources/pillar.tres")
+static var RESOURCES : Dictionary[OreType, BlockData] = {
+	OreType.DIAMOND: load("res://blocks/block_resources/diamond.tres"),
+	OreType.EMERALD: load("res://blocks/block_resources/emerald.tres"),
+	OreType.GOLD: load("res://blocks/block_resources/gold.tres"),
+	OreType.IRON: load("res://blocks/block_resources/iron.tres"),
+	OreType.STONE: load("res://blocks/block_resources/stone.tres"),
 }
 
-#const RESOURCES : Array[BlockData] = [
-	#preload("res://blocks/block_resources/stone.tres"),
-	#preload("res://blocks/block_resources/rock.tres"),
-	#preload("res://blocks/block_resources/pillar.tres")
-#]
+const TOTAL_POLYS = 17
 
 static func get_random_polygon() -> PackedScene:
-	var i = randi_range(0,17)
+	var i = rng.rand_weighted(_poly_weights)
 	var path = "res://blocks/ore-shapes/polygons/poly_%d.tscn" % i
-	return load(path)
+	var poly = load(path)
+	assert(poly, "no poly at %d" % i)
+	return poly
 
 static func _static_init() -> void:
+	_poly_weights = range(2 + TOTAL_POLYS, 2, -1)
 	load_resources()
 	
-func setup(current_map: TileMapLayer, p_world_bounds: Vector2i) -> void:
-	map = current_map
+static func setup(p_world_bounds: Vector2i) -> void:
+	#map = current_map
 	world_bounds = p_world_bounds
 
-func get_block_from_local(position: Vector2) -> BlockData:
+static func get_block_from_local(map: TileMapLayer, position: Vector2) -> BlockData:
 	var coords = map.local_to_map(position)
 	return _blocks.get(coords)
 
-func get_block(coords: Vector2i) -> BlockData:
+static func get_block_from_type(block_type: TileManager.OreType) -> BlockData:
+	return RESOURCES.get(block_type)
+
+static func get_block(coords: Vector2i) -> BlockData:
 	return _blocks.get(coords)
 	
-func erase_block(coords: Vector2i) -> void:
+static func erase_block(coords: Vector2i) -> void:
 	_blocks.erase(coords)
 	
-func set_block(block: BlockData, coords: Vector2i) -> void:
+static func set_block(block: BlockData, coords: Vector2i) -> void:
 	_blocks[coords] = block
 
 static func load_resources() -> void:
@@ -76,5 +79,5 @@ static func get_random_block() -> BlockData:
 	var block = _block_types[idx]
 	return block
 	
-func get_wall() -> BlockData:
+static func get_wall() -> BlockData:
 	return _wall_types[0]

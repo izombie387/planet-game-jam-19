@@ -6,9 +6,10 @@
 [resource]
 script = ExtResource("1_0x7nq")
 name = "Iron"
+ore_type = 3
 init_health = 3
 atlas_coords = Vector2i(3, 0)
-drop_rate = 5
+drop_rate = 2
 particle_color_inner = Color(0.42, 0.42, 0.42, 1)
 particle_color_outter = Color(0.68, 0.68, 0.68, 1)
 texture = ExtResource("2_i5x8d")

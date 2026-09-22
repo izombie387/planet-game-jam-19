@@ -6,9 +6,8 @@
 [resource]
 script = ExtResource("1_qkaes")
 name = "Gold"
-init_health = 3
+ore_type = 2
 atlas_coords = Vector2i(2, 0)
-drop_rate = 5
 particle_color_inner = Color(0.58431375, 0.47843137, 0.4, 1)
 particle_color_outter = Color(0.8156863, 0.81960785, 0, 1)
 texture = ExtResource("2_antv1")

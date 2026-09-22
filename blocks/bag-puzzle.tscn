@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://be6x0j75ggiyn" path="res://art/blocks/stone_block.png" id="5_5whsb"]
 [ext_resource type="Script" uid="uid://cj2gvxlg1k6f0" path="res://blocks/ore-shapes/ore-shape-selector.gd" id="6_lftr4"]
 [ext_resource type="Texture2D" uid="uid://uj6esio6sieg" path="res://art/blocks/gold.png" id="6_n1xir"]
+[ext_resource type="Script" uid="uid://dw4bqy3ars6s6" path="res://blocks/smelt_dialog.gd" id="8_lftr4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lftr4"]
 content_margin_left = 8.0
@@ -26,7 +27,7 @@ size = Vector2(192, 26)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lftr4"]
 size = Vector2(32, 192)
 
-[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("ore_pickers", "map", "spawn_point")]
+[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("ore_pickers", "map", "spawn_point", "smelt_button", "smelt_dialog", "drop_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -38,6 +39,9 @@ script = ExtResource("1_s1j75")
 ore_pickers = NodePath("MarginContainer/PanelContainer/OrePickers")
 map = NodePath("Map")
 spawn_point = NodePath("SpawnPoint")
+smelt_button = NodePath("SmeltButton")
+smelt_dialog = NodePath("SmeltDialog")
+drop_button = NodePath("DropButton")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1054577995]
 z_index = -1
@@ -151,3 +155,49 @@ shape = SubResource("RectangleShape2D_lftr4")
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1967652053]
 position = Vector2(272, 0)
+
+[node name="SmeltButton" type="Button" parent="." unique_id=560673136]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 0
+offset_left = 48.0
+offset_top = 176.0
+offset_right = 56.0
+offset_bottom = 184.0
+text = "Smelt"
+
+[node name="DropButton" type="Button" parent="." unique_id=1698171276]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 0
+offset_left = 256.0
+offset_top = 16.0
+offset_right = 304.0
+offset_bottom = 33.0
+text = "Drop Ore [5]"
+
+[node name="SmeltDialog" type="PanelContainer" parent="." unique_id=2032398847 node_paths=PackedStringArray("label", "button")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_lftr4")
+label = NodePath("VBoxContainer/Label")
+button = NodePath("VBoxContainer/Button")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SmeltDialog" unique_id=2012936306]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="SmeltDialog/VBoxContainer" unique_id=1263536781]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="SmeltDialog/VBoxContainer" unique_id=1152186244]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Collect"

@@ -2,6 +2,7 @@ class_name BlockData
 extends Resource
 
 @export var name := ""
+@export var ore_type: TileManager.OreType
 @export var init_health := 5
 @export var atlas_coords := Vector2i()
 @export var drop_rate := 1
