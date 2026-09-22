@@ -1,11 +1,13 @@
 [gd_resource type="Theme" format=3 uid="uid://bh2q7wsrk6cg3"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_denks"]
+[ext_resource type="StyleBox" uid="uid://d3ipav07vpoja" path="res://ui/button_normal.stylebox" id="1_rqugq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rqugq"]
 content_margin_left = 4.0
 content_margin_top = 4.0
 content_margin_right = 4.0
 content_margin_bottom = 4.0
-bg_color = Color(0.45490196, 0.3764706, 0.2901961, 1)
+bg_color = Color(0.2449455, 0.19680661, 0.14369509, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -17,6 +19,62 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 corner_detail = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6lx7k"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.49993473, 0.41603455, 0.32384938, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5850571, 0.49274844, 0.3916171, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqtc0"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.38896814, 0.31938615, 0.24274778, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5850571, 0.49274844, 0.3916171, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jf26r"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.30213696, 0.2452355, 0.1824896, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.42028344, 0.3479839, 0.26587132, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+corner_detail = 5
+
 [resource]
 default_font_size = 6
-Button/styles/normal = SubResource("StyleBoxFlat_denks")
+Button/colors/font_color = Color(0.5500873, 0.55008817, 0.55008733, 1)
+Button/styles/disabled = SubResource("StyleBoxFlat_rqugq")
+Button/styles/hover = SubResource("StyleBoxFlat_6lx7k")
+Button/styles/normal = ExtResource("1_rqugq")
+Button/styles/pressed = SubResource("StyleBoxFlat_iqtc0")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_jf26r")

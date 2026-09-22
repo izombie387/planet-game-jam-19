@@ -4,13 +4,13 @@ extends Node2D
 @export var character: Character
 @export var digging_sprite: Sprite2D
 @export var digging_timer: Timer
-@export var ui: Control
+@export var ui: UI
 
 var _block_healths: Dictionary[Vector2i, int]
 var _current_digging_pos : Vector2i
 
 func _ready() -> void:
-	#Sfx.start_music()
+	Sfx.start_music()
 
 	TileManager.setup(Vector2i(20,20))
 	var half_width := floori(TileManager.world_bounds.x / 2.0)
@@ -42,7 +42,7 @@ func _on_dug() -> void:
 	
 func _gain_block_value(block_data: BlockData) -> void:
 	PlayerStats.add_block(block_data.ore_type)
-	ui.update_blocks_gained(PlayerStats.total_blocks_mined)
+	ui.update_stats(PlayerStats.upgrade_points, PlayerStats.total_ore)
 	
 func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 	_current_digging_pos = pos

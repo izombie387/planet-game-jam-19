@@ -14,4 +14,4 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			KEY_R:
 				get_tree().reload_current_scene()
 			KEY_M:
-				PlayerStats.points += 100
+				PlayerStats.add_points(100)

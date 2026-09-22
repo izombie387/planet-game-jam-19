@@ -2,7 +2,7 @@ class_name PlayerStats
 extends RefCounted
 
 static var total_blocks_mined := 0
-static var points := 0
+static var upgrade_points := 0
 static var total_ore := 0
 static var ore_collected: Dictionary[TileManager.OreType, int]
 
@@ -30,4 +30,4 @@ static func use_random_block() -> TileManager.OreType:
 	return ore
 
 static func add_points(amount: int) -> void:
-	points += amount
+	upgrade_points += amount

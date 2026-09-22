@@ -223,7 +223,7 @@ wait_time = 0.25
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1486871270]
 
-[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("blocks_gained_label", "character", "menu_button", "settings_menu", "bag_menu", "bag_button")]
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("upgrade_points_label", "ore_count_label", "character", "menu_button", "settings_menu", "bag_menu", "bag_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -231,7 +231,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_3wy1v")
-blocks_gained_label = NodePath("PanelContainer/GridContainer/BlocksGainedLabel")
+upgrade_points_label = NodePath("StatsHUD/GridContainer/UpgradePointsLabel")
+ore_count_label = NodePath("StatsHUD/GridContainer/OreCountLabel")
 character = NodePath("../../Character")
 menu_button = NodePath("MenuButton")
 settings_menu = NodePath("SettingsMenu")
@@ -259,20 +260,35 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI" unique_id=2085223383]
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="StatsHUD" type="PanelContainer" parent="CanvasLayer/UI" unique_id=2085223383]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -27.5
+offset_right = 27.5
+offset_bottom = 22.0
+grow_horizontal = 2
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI/PanelContainer" unique_id=1700349441]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/UI/StatsHUD" unique_id=1700349441]
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
 
-[node name="BlocksGainedTitle" type="Label" parent="CanvasLayer/UI/PanelContainer/GridContainer" unique_id=1711781393]
+[node name="Label1" type="Label" parent="CanvasLayer/UI/StatsHUD/GridContainer" unique_id=1711781393]
 layout_mode = 2
-text = "total mined:"
+text = "Upgrade Points:"
 
-[node name="BlocksGainedLabel" type="Label" parent="CanvasLayer/UI/PanelContainer/GridContainer" unique_id=1717324239]
+[node name="UpgradePointsLabel" type="Label" parent="CanvasLayer/UI/StatsHUD/GridContainer" unique_id=2120726539]
+layout_mode = 2
+text = "0"
+
+[node name="Label2" type="Label" parent="CanvasLayer/UI/StatsHUD/GridContainer" unique_id=1717324239]
+layout_mode = 2
+text = "Ore:"
+
+[node name="OreCountLabel" type="Label" parent="CanvasLayer/UI/StatsHUD/GridContainer" unique_id=1791036489]
 layout_mode = 2
 text = "0"
 
@@ -330,6 +346,22 @@ offset_right = 25.0
 grow_vertical = 0
 focus_mode = 0
 text = "Bag [E]"
+
+[node name="Upgrades" type="Button" parent="CanvasLayer/UI" unique_id=762769720]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -14.0
+offset_top = -17.0
+offset_right = 14.0
+grow_horizontal = 2
+grow_vertical = 0
+focus_mode = 0
+text = "Upgrades [Q]"
 
 [node name="SettingsMenu" type="CenterContainer" parent="CanvasLayer/UI" unique_id=226633205 node_paths=PackedStringArray("close_button", "volume_slider")]
 visible = false

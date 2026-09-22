@@ -2,7 +2,7 @@ extends Node
 
 enum Sound{ TICK, }
 
-const MUSIC := preload("res://audio/music/mix and master.mp3")
+const MUSIC := preload("res://audio/music/No evil.mp3")
 const SFX : Dictionary[Sound, AudioStream] = {
 	Sound.TICK: preload("res://audio/sfx/tick.wav"),
 }
@@ -23,6 +23,5 @@ func start_music() -> void:
 func play(sound: Sound) -> void:
 	sfx_player.stream = SFX[sound]
 	sfx_player.play()
-		
 		
 		
