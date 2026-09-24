@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Buff" format=3 uid="uid://yd008xn2r6d8"]
+
+[ext_resource type="Script" uid="uid://bjnujn5fnbyjv" path="res://buffs/buff.gd" id="1_c8t5t"]
+
+[resource]
+script = ExtResource("1_c8t5t")
+display_name = "Drill Speed"
+max_level = 5
+base = 1.0
+cap = 0.1
+base_cost = 30.0
+cost_mult = 1.5
+format = "%d"
+target = 1
+target_property = "drill_cooldown"

@@ -8,14 +8,14 @@ signal pressed()
 #var block : BlockData
 #var polygon_scene : PackedScene
 
-func _input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int) -> void:
-	if event.is_action_pressed("select"):
-		pressed.emit()
+func press() -> void:
+	pressed.emit()
+
+#func _input_event(_viewport: Viewport, event: InputEvent, _shape_idx: int) -> void:
+	#if event.is_action_pressed("select"):
+		#pressed.emit()
 
 func setup(block: BlockData, polygon_scene: PackedScene) -> void:
-	#block = p_block
-	#polygon_scene = p_polygon_scene
-	#
 	var poly = polygon_scene.instantiate() as Polygon2D
 	outline.add_child(poly)
 	poly.texture = block.texture

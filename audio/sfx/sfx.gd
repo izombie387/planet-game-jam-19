@@ -1,6 +1,6 @@
 extends Node
 
-enum Sound{ TICK, }
+enum Sound{ TICK, CLUNK, CLAP, LOCK, UPGRADE }
 
 const MUSIC := preload("res://audio/music/No evil.mp3")
 const SFX : Dictionary[Sound, AudioStream] = {
@@ -21,6 +21,8 @@ func start_music() -> void:
 	music_player.play()
 	
 func play(sound: Sound) -> void:
+	if sound not in SFX:
+		return
 	sfx_player.stream = SFX[sound]
 	sfx_player.play()
 		

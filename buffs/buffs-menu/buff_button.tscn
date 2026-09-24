@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://gs8m542pv027"]
+
+[ext_resource type="Script" uid="uid://b6mqop2bxn1ip" path="res://buffs/buffs-menu/buff_button.gd" id="1_c8yex"]
+
+[node name="BuffButton" type="PanelContainer" unique_id=1250270266 node_paths=PackedStringArray("button", "icon", "buff_name_label", "stat_label", "cost_label")]
+offset_right = 108.0
+offset_bottom = 45.0
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_type_variation = &"PanelContainerEmpty"
+script = ExtResource("1_c8yex")
+button = NodePath("Button")
+icon = NodePath("Margin/HBox/Icon")
+buff_name_label = NodePath("Margin/HBox/VBox/BuffNameLabel")
+stat_label = NodePath("Margin/HBox/VBox/HBox/StatLabel")
+cost_label = NodePath("Margin/HBox/VBox/HBox/CostLabel")
+
+[node name="Button" type="Button" parent="." unique_id=1853099765]
+layout_mode = 2
+focus_mode = 0
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=1813828081]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBox" type="HBoxContainer" parent="Margin" unique_id=137126653]
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="Icon" type="TextureRect" parent="Margin/HBox" unique_id=1239223336]
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 2
+expand_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Margin/HBox" unique_id=1021455619]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="BuffNameLabel" type="Label" parent="Margin/HBox/VBox" unique_id=1312784000]
+layout_mode = 2
+text = "BUFF NAME TEST"
+
+[node name="HBox" type="HBoxContainer" parent="Margin/HBox/VBox" unique_id=721706202]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="StatLabel" type="Label" parent="Margin/HBox/VBox/HBox" unique_id=1210831304]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.83, 0.7995667, 0.3735, 1)
+theme_override_font_sizes/font_size = 14
+text = "Stat 5->6"
+
+[node name="CostLabel" type="Label" parent="Margin/HBox/VBox/HBox" unique_id=1390199719]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0, 0.74, 0.74, 1)
+theme_override_font_sizes/font_size = 14
+text = "$30"
+horizontal_alignment = 2

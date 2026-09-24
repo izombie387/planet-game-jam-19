@@ -24,6 +24,7 @@ static var _blocks : Dictionary[Vector2i, BlockData]
 #var map : TileMapLayer
 static var world_bounds : Vector2i
 
+const EMPTY_RATIO := 0.2
 const CELL_SIZE := Vector2(16,16)
 const HALF_CELL := Vector2(8,8)
 static var WALL : BlockData = load("res://blocks/block_resources/pillar.tres")

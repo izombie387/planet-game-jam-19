@@ -8,16 +8,28 @@ var _dragging_shape : OreShape
 @export var smelt_button: Button
 @export var smelt_dialog: PanelContainer
 @export var drop_button: Button
+@export var explosion_particles: GPUParticles2D
+@export var close_button: Button
+@export var click_handler: Control
+@export var ray_cast: RayCast2D
 
 var _cells: Dictionary[Vector2i, OreShape]
 var empty_ore_shape_scene = load("res://blocks/ore-shapes/empty_ore_shape.tscn")
 var rigid_shape_scene = load("res://blocks/ore-shapes/rigid_shape.tscn")
 
 func _ready() -> void:
+	click_handler.gui_input.connect(_on_handler_gui_input)
+	close_button.pressed.connect(hide)
 	drop_button.pressed.connect(spawn_random_rigid_shape)
 	smelt_dialog.hide()
 	smelt_button.pressed.connect(_smelt_pressed)
 	visibility_changed.connect(_on_visibility_changed)
+	
+func _explode_at(pos: Vector2) -> void:
+	explosion_particles.position = pos
+	if explosion_particles.emitting:
+		explosion_particles.restart()
+	explosion_particles.emitting = true
 	
 func _on_visibility_changed() -> void:
 	if visible:
@@ -59,11 +71,7 @@ func _clear_grid() -> void:
 	for ore_shape in _cells.values():
 		ore_shape.queue_free()
 	_cells.clear()
-	
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		spawn_rigid_shape(null, null)
-
+				
 func spawn_random_rigid_shape(test:= false) -> void:
 	if test:
 		var rand_block = TileManager.get_random_block()
@@ -71,7 +79,7 @@ func spawn_random_rigid_shape(test:= false) -> void:
 		spawn_rigid_shape(rand_block, rand_poly)
 		return
 		
-	var block_type = PlayerStats.use_random_block()
+	var block_type = PlayerStats.pop_random_block()
 	if block_type != TileManager.OreType.NONE:
 		var block = TileManager.get_block_from_type(block_type)
 		var poly = TileManager.get_random_polygon()
@@ -90,36 +98,43 @@ func _on_rigid_pressed(block: BlockData, poly: PackedScene, body: RigidBody2D) -
 	var new_shape: OreShape = empty_ore_shape_scene.instantiate()
 	new_shape.setup(block, poly)
 	add_child(new_shape)
-	new_shape.area.input_event.connect(_on_ore_shape_input.bind(new_shape))
+	new_shape.area.shape_pressed.connect(_on_ore_shape_pressed)
 	_pickup(new_shape)
 	body.queue_free()
-		
-func _on_picker_pressed(ore_shape_scene: PackedScene, button: Button) -> void:
-	button.set_pressed_no_signal(false)
-	var new_shape: OreShape = ore_shape_scene.instantiate()
-	add_child(new_shape)
-	new_shape.area.input_event.connect(_on_ore_shape_input.bind(new_shape))
-	_pickup(new_shape)
-
-func _on_ore_shape_input(_vp: Node, event: InputEvent, _idx: int, shape: OreShape) -> void:
-	if event.is_action_pressed("select"):
-		if _dragging_shape:
-			return
-		_pickup(shape)
-		
-		_debug_show_cells()
-		
-func _unhandled_input(event: InputEvent) -> void:
-	#if event.is_action_pressed("close_menu"):
-		#hide()
-		
+	
+func _on_handler_gui_input(event: InputEvent) -> void:
 	if not _dragging_shape:
+		if event.is_action_pressed("select"):
+			_check_physics_click()
 		return
-		
-	if event.is_action_released("select"):
+	elif event.is_action_released("select"):
 		_drop_current_shape()
 	elif event.is_action_pressed("rotate_shape"):
 		_dragging_shape.rotate_90()
+	
+func _check_physics_click() -> void:
+	ray_cast.global_position = get_global_mouse_position()
+	ray_cast.force_raycast_update()
+	if ray_cast.is_colliding():
+		var c = ray_cast.get_collider()
+		if c.has_method("press"):
+			c.press()
+	else:
+		print("no body found")	
+	
+#func _on_picker_pressed(ore_shape_scene: PackedScene, button: Button) -> void:
+	#button.set_pressed_no_signal(false)
+	#var new_shape: OreShape = ore_shape_scene.instantiate()
+	#add_child(new_shape)
+	#new_shape.area.input_event.connect(_on_ore_shape_pressed.bind(new_shape))
+	#_pickup(new_shape)
+
+func _on_ore_shape_pressed(shape: OreShape) -> void:
+	if _dragging_shape:
+		return
+	_pickup(shape)
+	
+	_debug_show_cells()
 		
 func _drop_current_shape() -> void:
 	if _try_drop(get_global_mouse_position(), _dragging_shape):
@@ -127,11 +142,13 @@ func _drop_current_shape() -> void:
 	else:
 		_dragging_shape.queue_free()
 		_dragging_shape = null
+		#click_handler.dragging = false
 		return
 
 	_dragging_shape.modulate.a = 1.0
 	_dragging_shape.z_index -= 10
 	_dragging_shape = null
+	#click_handler.dragging = false
 	
 	_debug_show_cells()
 		
@@ -166,6 +183,7 @@ func _try_drop(drop_pos: Vector2, shape: OreShape) -> bool:
 	
 func _pickup(shape: OreShape) -> void:
 	_dragging_shape = shape
+	#click_handler.dragging = true
 	_dragging_shape.modulate.a = 0.75
 	_dragging_shape.z_index += 10
 	

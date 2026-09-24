@@ -24,7 +24,6 @@ const ACTION_DIRECTIONS: Dictionary[StringName, Vector2i] = {
 var _input_stack : Array[StringName]
 var _current_pos := Vector2i()
 var _state : State
-#var tile_manager : TileManager
 var _on_surface := true
 
 @export var particles: GPUParticles2D
@@ -33,6 +32,7 @@ var _on_surface := true
 @export var label: Label
 @export var anim: AnimationPlayer
 @export var map: TileMapLayer
+@export var player_stats: PlayerStats
 
 func _ready() -> void:
 	_set_state(State.IDLE)
@@ -75,8 +75,17 @@ func _check_movement() -> void:
 	else:
 		_try_move_or_dig(input_dir)
 	
+func _rotate_to(dir: Vector2i) -> void:
+	var raw_target = DIRECTION_ROTATIONS[dir]
+	var delta = angle_difference(sprite.rotation, raw_target)
+	var target_angle = sprite.rotation + delta
+	(create_tween()
+			.set_ease(Tween.EASE_IN_OUT)
+			.set_trans(Tween.TRANS_CUBIC)
+			.tween_property(sprite, "rotation", target_angle, 0.25))
+	
 func _try_move_or_dig(dir: Vector2i) -> void:
-	sprite.rotation = DIRECTION_ROTATIONS[dir]
+	_rotate_to(dir)
 	var target_pos = _current_pos + dir
 	if target_pos.y > TileManager.world_bounds.y:
 		_set_state(State.DIGGING)
@@ -109,7 +118,7 @@ func teleport(pos: Vector2i) -> void:
 func _move_to(pos: Vector2i) -> void:
 	var t = create_tween()
 	var new_position = map.map_to_local(pos)
-	t.tween_property(self, "position", new_position, 0.25)
+	t.tween_property(self, "position", new_position, player_stats.move_cooldown)
 	t.tween_callback(_done_moving)
 	_current_pos = pos
 	_set_state(State.MOVING)
@@ -133,6 +142,7 @@ func _set_state(new_state: State) -> void:
 		State.MOVING:
 			if _state == State.DIGGING:
 				stopped_digging.emit()
+			sprite.speed_scale = player_stats.drill_cooldown / 3.0
 			anim_name = &"default"
 		State.DIGGING:
 			anim_name = &"digging"

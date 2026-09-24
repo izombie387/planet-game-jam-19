@@ -1,0 +1,12 @@
+Open/Close menu -- chill click
+Explosion -- not too dramatic
+Upgrade -- positive chime or chord
+
+lower priority (i can re-use the menu click if needed)
+
+Smelt -- melty sound
+Drop Ore -- bouncy or metalic ore sound
+Movement -- maybe a short swish
+Mining click -- if youre fine with the one i made leave it
+
+they're all under 0.5 seconds i imagine

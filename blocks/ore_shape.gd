@@ -21,6 +21,7 @@ var starting_position : Vector2
 var debug_rotated_polygon
 
 func _ready() -> void:
+	area.my_shape = self
 	_find_cells()
 	_transfer_polygon()
 	starting_position = global_position

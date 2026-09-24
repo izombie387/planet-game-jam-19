@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://cekhm6bwcn4lg"]
+
+[ext_resource type="Script" uid="uid://dbr7qd46ovq05" path="res://buffs/buffs-menu/buffs_panel.gd" id="1_vidw1"]
+[ext_resource type="PackedScene" uid="uid://gs8m542pv027" path="res://buffs/buffs-menu/buff_button.tscn" id="2_e8skb"]
+[ext_resource type="Script" uid="uid://bjnujn5fnbyjv" path="res://buffs/buff.gd" id="3_fg2ki"]
+[ext_resource type="Resource" uid="uid://c25bjb23ucny3" path="res://buffs/buff-resources/move_speed.tres" id="4_wsu0c"]
+[ext_resource type="Resource" uid="uid://bhukoh4p3kg8" path="res://character/player_stats.tres" id="5_fg2ki"]
+[ext_resource type="Resource" uid="uid://yd008xn2r6d8" path="res://buffs/buff-resources/drill_speed.tres" id="5_i40v5"]
+[ext_resource type="Resource" uid="uid://deecmkq0fssyu" path="res://buffs/buff-resources/drill_power.tres" id="6_5pdoc"]
+
+[node name="UpgradesMenu" type="MarginContainer" unique_id=2043043131]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="BuffsPanel" type="PanelContainer" parent="." unique_id=432563597 node_paths=PackedStringArray("buffs_label", "upgrades_container")]
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("1_vidw1")
+buffs_label = NodePath("UpgradesConatiner/BuffsLabel")
+upgrades_container = NodePath("UpgradesConatiner")
+button_scene = ExtResource("2_e8skb")
+buff_arr = Array[ExtResource("3_fg2ki")]([ExtResource("4_wsu0c"), ExtResource("5_i40v5"), ExtResource("6_5pdoc")])
+player_stats = ExtResource("5_fg2ki")
+
+[node name="UpgradesConatiner" type="VBoxContainer" parent="BuffsPanel" unique_id=1684339130]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="BuffsLabel" type="Label" parent="BuffsPanel/UpgradesConatiner" unique_id=691325536]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5340001, 0.52, 0.8, 1)
+text = "BUFFS NAME"

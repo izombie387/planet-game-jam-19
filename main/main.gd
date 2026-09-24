@@ -5,13 +5,15 @@ extends Node2D
 @export var digging_sprite: Sprite2D
 @export var digging_timer: Timer
 @export var ui: UI
+@export var explosion_particles: GPUParticles2D
+@export var player_stats: PlayerStats
 
 var _block_healths: Dictionary[Vector2i, int]
 var _current_digging_pos : Vector2i
 
 func _ready() -> void:
 	Sfx.start_music()
-
+	
 	TileManager.setup(Vector2i(20,20))
 	var half_width := floori(TileManager.world_bounds.x / 2.0)
 	
@@ -25,9 +27,15 @@ func _ready() -> void:
 	map.clear()
 	_generate_tiles()
 	
+func _explode_at(pos: Vector2) -> void:
+	explosion_particles.position = pos
+	if explosion_particles.emitting:
+		explosion_particles.restart()
+	explosion_particles.emitting = true
+	
 func _on_dug() -> void:
 	digging_sprite.flip_h = not digging_sprite.flip_h
-	var new_block_health = _block_healths[_current_digging_pos] - 1
+	var new_block_health = _block_healths[_current_digging_pos] - maxi(1, int(player_stats.drill_power))
 	if new_block_health <= 0:
 		var block = TileManager.get_block(_current_digging_pos)
 		_gain_block_value(block)
@@ -35,6 +43,7 @@ func _on_dug() -> void:
 		TileManager.erase_block(_current_digging_pos)
 		character.on_block_erased(_current_digging_pos)
 		digging_sprite.hide()
+		_explode_at(map.map_to_local(_current_digging_pos))
 	else:
 		Sfx.play(Sfx.Sound.TICK)
 		_block_healths[_current_digging_pos] = new_block_health
@@ -63,18 +72,21 @@ func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 		p.value = _block_healths[_current_digging_pos]
 	
 	character.particles.emitting = true
+	character.particles.speed_scale = player_stats.drill_cooldown / 3.0
+	digging_timer.wait_time = player_stats.drill_cooldown
 	digging_timer.start()
 	Sfx.play(Sfx.Sound.TICK)
 	
 func _on_stopped_digging() -> void:
 	character.particles.emitting = false
 	digging_timer.stop()
-	print("  stopping dig timer")
 	
 func _generate_tiles() -> void:
 	var cell_pos : Vector2i
 	for x in TileManager.world_bounds.x:
 		for y in TileManager.world_bounds.y:
+			if randf() < TileManager.EMPTY_RATIO:
+				continue
 			cell_pos = Vector2i(x,y)
 			var random_block := TileManager.get_random_block()
 			map.set_cell(cell_pos, 0, random_block.atlas_coords)

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://53hi11ukcujv" path="res://blocks/bag_puzzle.gd" id="1_s1j75"]
 [ext_resource type="TileSet" uid="uid://dj1yuko67gim" path="res://blocks/tile_set.tres" id="1_w6r1x"]
+[ext_resource type="PackedScene" uid="uid://dbyiwh1v1isxf" path="res://art/particles/explosion_particles.tscn" id="2_2my2o"]
 [ext_resource type="Script" uid="uid://dw4bqy3ars6s6" path="res://blocks/smelt_dialog.gd" id="8_lftr4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4fa2g"]
@@ -10,92 +11,83 @@ size = Vector2(192, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lftr4"]
 size = Vector2(32, 192)
 
-[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("map", "spawn_point", "smelt_button", "smelt_dialog", "drop_button")]
+[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("map", "spawn_point", "smelt_button", "smelt_dialog", "drop_button", "explosion_particles", "close_button", "click_handler", "ray_cast")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_s1j75")
 map = NodePath("Map")
 spawn_point = NodePath("SpawnPoint")
 smelt_button = NodePath("SmeltButton")
 smelt_dialog = NodePath("SmeltDialog")
 drop_button = NodePath("DropButton")
+explosion_particles = NodePath("ExplosionParticles")
+close_button = NodePath("CloseButton")
+click_handler = NodePath("Margin/ClickHandler")
+ray_cast = NodePath("RayCast")
 
-[node name="BackgroundMargin" type="MarginContainer" parent="." unique_id=1609186332]
+[node name="Margin" type="MarginContainer" parent="." unique_id=1609186332]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
 
-[node name="Background" type="ColorRect" parent="BackgroundMargin" unique_id=1054577995]
+[node name="Panel" type="Panel" parent="Margin" unique_id=1555333360]
 z_index = -1
 layout_mode = 2
-mouse_filter = 2
-color = Color(0.77929306, 0.53311116, 0.3731747, 1)
+mouse_force_pass_scroll_events = false
 metadata/_edit_lock_ = true
+
+[node name="ClickHandler" type="Control" parent="Margin" unique_id=845790581]
+z_index = 5
+layout_mode = 2
+mouse_force_pass_scroll_events = false
+
+[node name="ExplosionParticles" parent="." unique_id=1759939790 instance=ExtResource("2_2my2o")]
+z_index = 10
 
 [node name="Map" type="TileMapLayer" parent="." unique_id=634805700]
 tile_map_data = PackedByteArray("AAAGAAQAAAAFAAAAAAAGAAUAAAAFAAAAAAAGAAYAAAAFAAAAAAAGAAcAAAAFAAAAAAAGAAgAAAAFAAAAAAACAAQAAAAFAAAAAAADAAQAAAAFAAAAAAAEAAQAAAAFAAAAAAAFAAQAAAAFAAAAAAAFAAUAAAAFAAAAAAAEAAUAAAAFAAAAAAADAAUAAAAFAAAAAAACAAUAAAAFAAAAAAACAAYAAAAFAAAAAAADAAYAAAAFAAAAAAAEAAYAAAAFAAAAAAAFAAYAAAAFAAAAAAAFAAcAAAAFAAAAAAAEAAcAAAAFAAAAAAADAAcAAAAFAAAAAAACAAcAAAAFAAAAAAACAAgAAAAFAAAAAAADAAgAAAAFAAAAAAAEAAgAAAAFAAAAAAAFAAgAAAAFAAAAAAA=")
 tile_set = ExtResource("1_w6r1x")
 
-[node name="GridContainer" type="GridContainer" parent="." unique_id=896021652]
-layout_mode = 0
-offset_left = 344.0
-offset_top = 88.0
-offset_right = 344.0
-offset_bottom = 88.0
-grow_horizontal = 0
-grow_vertical = 2
-
-[node name="Label" type="Label" parent="." unique_id=1724537818]
-visible = false
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -20.0
-offset_right = 20.0
-offset_bottom = 9.0
-grow_horizontal = 2
-text = "drag and place
-right click to rotate"
-
 [node name="Walls" type="Node2D" parent="." unique_id=519457974]
 
 [node name="floor" type="StaticBody2D" parent="Walls" unique_id=1293438538]
-position = Vector2(256, 192)
+position = Vector2(256, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/floor" unique_id=1476383157]
 position = Vector2(16, 0)
 shape = SubResource("RectangleShape2D_4fa2g")
 
 [node name="left" type="StaticBody2D" parent="Walls" unique_id=779426520]
-position = Vector2(192, 112)
+position = Vector2(192, 96)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/left" unique_id=1678018581]
 shape = SubResource("RectangleShape2D_lftr4")
 
 [node name="left2" type="StaticBody2D" parent="Walls" unique_id=1678965460]
-position = Vector2(352, 112)
+position = Vector2(352, 96)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/left2" unique_id=971757936]
 shape = SubResource("RectangleShape2D_lftr4")
 
 [node name="BasketPolygon" type="Polygon2D" parent="Walls" unique_id=890396994]
-color = Color(0.3299832, 0.32998317, 0.32998317, 1)
-polygon = PackedVector2Array(208, 16, 208, 176, 336, 176, 336, 16, 352, 16, 352, 192, 192, 192, 192, 16)
+color = Color(0.41143367, 0.41143367, 0.4114336, 1)
+polygon = PackedVector2Array(336, 192, 336, 32, 208.00002, 32, 208, 192, 192.00002, 192, 192, 16, 352, 16, 352, 192)
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1967652053]
-position = Vector2(272, 0)
+position = Vector2(272, 160)
 
 [node name="SmeltButton" type="Button" parent="." unique_id=560673136]
 custom_minimum_size = Vector2(48, 0)
@@ -104,17 +96,25 @@ offset_left = 48.0
 offset_top = 176.0
 offset_right = 56.0
 offset_bottom = 184.0
-theme_override_colors/font_color = Color(0.9764706, 0.9764706, 0.9764706, 1)
 text = "Smelt"
+
+[node name="CloseButton" type="Button" parent="." unique_id=756178953]
+visible = false
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 176.0
+offset_right = 208.0
+offset_bottom = 193.0
+text = "Close [E]"
 
 [node name="DropButton" type="Button" parent="." unique_id=1698171276]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 0
 offset_left = 256.0
-offset_top = 16.0
+offset_top = 176.0
 offset_right = 304.0
-offset_bottom = 33.0
-theme_override_colors/font_color = Color(0.9764706, 0.9764706, 0.9764706, 1)
+offset_bottom = 193.0
 text = "Drop Ore [5]"
 
 [node name="SmeltDialog" type="PanelContainer" parent="." unique_id=2032398847 node_paths=PackedStringArray("label", "button")]
@@ -144,5 +144,11 @@ layout_mode = 2
 [node name="Button" type="Button" parent="SmeltDialog/VBoxContainer" unique_id=1152186244]
 layout_mode = 2
 size_flags_vertical = 8
-theme_override_colors/font_color = Color(0.9764706, 0.9764706, 0.9764706, 1)
 text = "Collect"
+
+[node name="RayCast" type="RayCast2D" parent="." unique_id=2068592069]
+position = Vector2(16, 16)
+enabled = false
+target_position = Vector2(0, 0)
+hit_from_inside = true
+collide_with_areas = true

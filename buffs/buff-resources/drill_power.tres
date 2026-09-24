@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Buff" format=3 uid="uid://deecmkq0fssyu"]
+
+[ext_resource type="Script" uid="uid://bjnujn5fnbyjv" path="res://buffs/buff.gd" id="1_nf5lf"]
+
+[resource]
+script = ExtResource("1_nf5lf")
+display_name = "Drill Power"
+max_level = 20
+base = 1.0
+cap = 20.0
+base_cost = 30.0
+cost_mult = 1.5
+format = "%d"
+target = 1
+target_property = "drill_power"

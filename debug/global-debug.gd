@@ -9,9 +9,9 @@ func _toggle_fullscreen():
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("fullscreen"):
 		_toggle_fullscreen()
-	if event.pressed:
+	elif event.is_action_pressed("reset_game"):
+		get_tree().reload_current_scene()
+	elif event.pressed:
 		match event.keycode:
-			KEY_R:
-				get_tree().reload_current_scene()
 			KEY_M:
 				PlayerStats.add_points(100)

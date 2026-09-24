@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://dbyiwh1v1isxf"]
+
+[ext_resource type="Texture2D" uid="uid://brsc1j0yh7kk2" path="res://art/particles/explosion.png" id="1_rpcqj"]
+[ext_resource type="Material" uid="uid://cva8lorvcfbaa" path="res://art/particles/explosion_process.material" id="2_cey6h"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mvsv5"]
+blend_mode = 1
+
+[node name="ExplosionParticles" type="GPUParticles2D" unique_id=1759939790]
+modulate = Color(1, 1, 0, 0.19607843)
+material = SubResource("CanvasItemMaterial_mvsv5")
+emitting = false
+amount = 4
+texture = ExtResource("1_rpcqj")
+lifetime = 2.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 0.75
+process_material = ExtResource("2_cey6h")

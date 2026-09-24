@@ -72,9 +72,10 @@ corner_detail = 5
 
 [resource]
 default_font_size = 6
-Button/colors/font_color = Color(0.5500873, 0.55008817, 0.55008733, 1)
+Button/colors/font_color = Color(0.8441346, 0.8441347, 0.84413457, 1)
 Button/styles/disabled = SubResource("StyleBoxFlat_rqugq")
 Button/styles/hover = SubResource("StyleBoxFlat_6lx7k")
 Button/styles/normal = ExtResource("1_rqugq")
 Button/styles/pressed = SubResource("StyleBoxFlat_iqtc0")
+Panel/styles/panel = SubResource("StyleBoxFlat_jf26r")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_jf26r")

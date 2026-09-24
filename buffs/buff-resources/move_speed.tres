@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Buff" format=3 uid="uid://c25bjb23ucny3"]
+
+[ext_resource type="Script" uid="uid://bjnujn5fnbyjv" path="res://buffs/buff.gd" id="1_0ngk1"]
+
+[resource]
+script = ExtResource("1_0ngk1")
+display_name = "Move Speed"
+max_level = 5
+base = 1.0
+cap = 0.1
+base_cost = 20.0
+cost_mult = 1.5
+format = "%d"
+target = 1
+target_property = "move_cooldown"

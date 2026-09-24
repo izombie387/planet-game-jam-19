@@ -1,25 +1,23 @@
 class_name PlayerStats
-extends RefCounted
+extends Resource
 
 static var total_blocks_mined := 0
 static var upgrade_points := 0
 static var total_ore := 0
 static var ore_collected: Dictionary[TileManager.OreType, int]
 
-static func _static_init() -> void:
-	for ore_type in TileManager.OreType.values():
-		ore_collected[ore_type] = 0
-	print("ore tracking populated: %s" % ore_collected)
+var move_cooldown: float
+var drill_power: float
+var drill_cooldown: float
 
 static func add_block(block_type: TileManager.OreType) -> void:
 	if block_type not in ore_collected:
-		print("%s not in ore_collected" % TileManager.OreType.find_key(block_type))
-		return
+		ore_collected[block_type] = 0
 	ore_collected[block_type] += 1
 	total_blocks_mined += 1
 	total_ore += 1
 
-static func use_random_block() -> TileManager.OreType:
+static func pop_random_block() -> TileManager.OreType:
 	if ore_collected.is_empty():
 		return TileManager.OreType.NONE
 	var ore = ore_collected.keys().pick_random()
@@ -31,3 +29,9 @@ static func use_random_block() -> TileManager.OreType:
 
 static func add_points(amount: int) -> void:
 	upgrade_points += amount
+
+# signal buff_changed(buff: Buff, buff_state: State, unlock_dist: int)
+
+func on_buff_changed(buff: Buff, _buff_state: Buff.State, _unlock_dist: int) -> void:
+	set(buff.target_property, buff.current)
+	print("Setting %s to %.1f" % [buff.target_property, buff.current])

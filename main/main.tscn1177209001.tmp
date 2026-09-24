@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://ck5mbb5cu12ow" path="res://main/main.gd" id="1_xwkvk"]
 [ext_resource type="Material" uid="uid://cwmwdn44t18ur" path="res://art/background/background-noise.material" id="2_67ri8"]
-[ext_resource type="PackedScene" uid="uid://dbyiwh1v1isxf" path="res://art/particles/explosion_particles.tscn" id="2_na0o7"]
 [ext_resource type="Script" uid="uid://bifhfpblj3i7a" path="res://character/character.gd" id="2_pjrb6"]
 [ext_resource type="TileSet" uid="uid://dj1yuko67gim" path="res://blocks/tile_set.tres" id="3_fwcvl"]
 [ext_resource type="Script" uid="uid://bfyoqcullthvw" path="res://main/digging_sprite.gd" id="4_c651c"]
@@ -10,10 +9,9 @@
 [ext_resource type="Script" uid="uid://b56v3dlpn0hcf" path="res://ui/ui.gd" id="5_3wy1v"]
 [ext_resource type="Texture2D" uid="uid://u2vsi28nc5f6" path="res://art/player/player_v2.png" id="5_4dugh"]
 [ext_resource type="Gradient" uid="uid://due5mdn1f2aqi" path="res://character/particles-gradient.tres" id="7_0i4oc"]
-[ext_resource type="Resource" uid="uid://bhukoh4p3kg8" path="res://character/player_stats.tres" id="7_5xyti"]
 [ext_resource type="Texture2D" uid="uid://helc0rc6tmui" path="res://character/particles-gradient-texture.tres" id="8_bsumw"]
+[ext_resource type="Script" uid="uid://csv2mqoc01da5" path="res://main/particle_spawner.gd" id="10_bsumw"]
 [ext_resource type="Script" uid="uid://d4lfue1rmro02" path="res://ui/menu.gd" id="11_fwcvl"]
-[ext_resource type="PackedScene" uid="uid://cekhm6bwcn4lg" path="res://buffs/buffs-menu/buffs_panel.tscn" id="13_73k8k"]
 [ext_resource type="PackedScene" uid="uid://wk1rwbag11xv" path="res://blocks/bag-puzzle.tscn" id="13_na0o7"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mjt85"]
@@ -37,18 +35,6 @@ animations = [{
 "name": &"digging",
 "speed": 4.0
 }]
-
-[sub_resource type="Gradient" id="Gradient_73k8k"]
-offsets = PackedFloat32Array(0, 0.7378787)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_73k8k"]
-gradient = SubResource("Gradient_73k8k")
-width = 30
-height = 60
-fill = 1
-fill_from = Vector2(0.5, 0.5)
-metadata/_snap_enabled = true
 
 [sub_resource type="Animation" id="Animation_xwkvk"]
 length = 0.001
@@ -108,10 +94,6 @@ gravity = Vector3(0, 98, 0)
 damping_max = 10.0
 alpha_curve = SubResource("CurveTexture_ctmnj")
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_73k8k"]
-blend_mode = 2
-light_mode = 1
-
 [sub_resource type="Gradient" id="Gradient_c651c"]
 offsets = PackedFloat32Array(0.109352164, 1)
 colors = PackedColorArray(0.33333334, 0, 0, 1, 1, 1, 1, 0)
@@ -139,23 +121,25 @@ content_margin_bottom = 2.0
 bg_color = Color(0.30588236, 0.64705884, 0.5137255, 1)
 corner_detail = 1
 
-[node name="Main" type="Node2D" unique_id=1129783564 node_paths=PackedStringArray("map", "character", "digging_sprite", "digging_timer", "ui", "explosion_particles")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bsumw"]
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="Main" type="Node2D" unique_id=1129783564 node_paths=PackedStringArray("map", "character", "digging_sprite", "digging_timer", "ui")]
 script = ExtResource("1_xwkvk")
 map = NodePath("map")
 character = NodePath("Character")
 digging_sprite = NodePath("DiggingSprite")
 digging_timer = NodePath("DiggingTimer")
 ui = NodePath("CanvasLayer/UI")
-explosion_particles = NodePath("ExplosionParticles")
-player_stats = ExtResource("7_5xyti")
-
-[node name="CanvasDarken" type="CanvasModulate" parent="." unique_id=1924935898]
-color = Color(0.30427268, 0.30427268, 0.30427265, 1)
-
-[node name="ExplosionParticles" parent="." unique_id=1759939790 instance=ExtResource("2_na0o7")]
-z_index = 5
-lifetime = 1.0
-explosiveness = 0.5
 
 [node name="Parallax" type="Parallax2D" parent="." unique_id=260809456]
 scroll_scale = Vector2(0.75, 0.75)
@@ -185,20 +169,12 @@ sprite = NodePath("Sprite")
 label = NodePath("Label")
 anim = NodePath("Anim")
 map = NodePath("../map")
-player_stats = ExtResource("7_5xyti")
 
 [node name="Camera2D" type="Camera2D" parent="Character" unique_id=68938292]
 
 [node name="Sprite" type="AnimatedSprite2D" parent="Character" unique_id=1744177911]
 sprite_frames = SubResource("SpriteFrames_mjt85")
 animation = &"digging"
-
-[node name="PointLight2D" type="PointLight2D" parent="Character/Sprite" unique_id=1854812268]
-texture_filter = 1
-position = Vector2(30, 0)
-rotation = 1.5707964
-texture = SubResource("GradientTexture2D_73k8k")
-texture_scale = 3.0
 
 [node name="Anim" type="AnimationPlayer" parent="Character" unique_id=2052103371]
 libraries/ = SubResource("AnimationLibrary_3wy1v")
@@ -216,34 +192,6 @@ emitting = false
 texture = ExtResource("8_bsumw")
 lifetime = 2.0
 process_material = SubResource("ParticleProcessMaterial_4fa2g")
-
-[node name="ScreenDarken-test" type="ColorRect" parent="Character" unique_id=1134573512]
-visible = false
-z_index = 25
-material = SubResource("CanvasItemMaterial_73k8k")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -247.11111
-offset_top = -132.0
-offset_right = 199.11111
-offset_bottom = 119.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.29411766)
-
-[node name="Background2" type="ColorRect" parent="Character" unique_id=1484059753]
-z_index = -5
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -273.0
-offset_top = -167.0
-offset_right = 206.0
-offset_bottom = 130.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
 
 [node name="DiggingSprite" type="Sprite2D" parent="." unique_id=735836810 node_paths=PackedStringArray("progress_bar")]
 visible = false
@@ -271,11 +219,11 @@ value = 5.0
 show_percentage = false
 
 [node name="DiggingTimer" type="Timer" parent="." unique_id=614684359]
-wait_time = 0.1
+wait_time = 0.25
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1486871270]
 
-[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("upgrades_menu", "upgrade_points_label", "ore_count_label", "character", "menu_button", "settings_menu", "bag_menu", "bag_button", "upgrades_button")]
+[node name="UI" type="Control" parent="CanvasLayer" unique_id=1691130790 node_paths=PackedStringArray("upgrade_points_label", "ore_count_label", "character", "menu_button", "settings_menu", "bag_menu", "bag_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -283,15 +231,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_3wy1v")
-upgrades_menu = NodePath("UpgradesMenu")
 upgrade_points_label = NodePath("StatsHUD/GridContainer/UpgradePointsLabel")
 ore_count_label = NodePath("StatsHUD/GridContainer/OreCountLabel")
 character = NodePath("../../Character")
 menu_button = NodePath("MenuButton")
 settings_menu = NodePath("SettingsMenu")
-bag_menu = NodePath("BagMenu")
+bag_menu = NodePath("../../BagLayer/BagMenu")
 bag_button = NodePath("BagButton")
-upgrades_button = NodePath("UpgradesButton")
 metadata/_edit_lock_ = true
 
 [node name="BagSizeReference" type="PanelContainer" parent="CanvasLayer/UI" unique_id=2085904344]
@@ -346,6 +292,36 @@ text = "Ore:"
 layout_mode = 2
 text = "0"
 
+[node name="upgrade_menu_button" type="Button" parent="CanvasLayer/UI" unique_id=1272190977]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_top = -30.0
+offset_right = 50.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Upgrades"
+
+[node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer/UI" unique_id=969672011]
+visible = false
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+
 [node name="MenuButton" type="Button" parent="CanvasLayer/UI" unique_id=275690025]
 layout_mode = 1
 anchors_preset = 3
@@ -358,7 +334,6 @@ offset_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
-theme_override_colors/font_color = Color(0.9764706, 0.9764706, 0.9764706, 1)
 text = "Menu"
 
 [node name="BagButton" type="Button" parent="CanvasLayer/UI" unique_id=1378165590]
@@ -370,10 +345,10 @@ offset_top = -17.0
 offset_right = 25.0
 grow_vertical = 0
 focus_mode = 0
-theme_override_colors/font_color = Color(0.9764706, 0.9764706, 0.9764706, 1)
 text = "Bag [E]"
 
-[node name="UpgradesButton" type="Button" parent="CanvasLayer/UI" unique_id=762769720]
+[node name="Upgrades" type="Button" parent="CanvasLayer/UI" unique_id=762769720]
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -396,13 +371,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 script = ExtResource("11_fwcvl")
 close_button = NodePath("PanelContainer/VBoxContainer/CloseButton")
 volume_slider = NodePath("PanelContainer/VBoxContainer/GridContainer/VolumeSlider")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI/SettingsMenu" unique_id=154696299]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bsumw")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/SettingsMenu/PanelContainer" unique_id=583014151]
 layout_mode = 2
@@ -436,15 +411,16 @@ step = 0.05
 value = 0.4
 
 [node name="CloseButton" type="Button" parent="CanvasLayer/UI/SettingsMenu/PanelContainer/VBoxContainer" unique_id=1580209708]
-visible = false
 layout_mode = 2
 text = "CLOSE"
 
-[node name="UpgradesMenu" parent="CanvasLayer/UI" unique_id=2043043131 instance=ExtResource("13_73k8k")]
-visible = false
-layout_mode = 1
+[node name="ParticleSpawner" type="Node" parent="." unique_id=2084351405]
+script = ExtResource("10_bsumw")
 
-[node name="BagMenu" parent="CanvasLayer/UI" unique_id=263022249 instance=ExtResource("13_na0o7")]
+[node name="BagLayer" type="CanvasLayer" parent="." unique_id=998629276]
+layer = 2
+
+[node name="BagMenu" parent="BagLayer" unique_id=263022249 instance=ExtResource("13_na0o7")]
 visible = false
-z_index = 5
-layout_mode = 1
+mouse_filter = 1
+debug_cells = null
