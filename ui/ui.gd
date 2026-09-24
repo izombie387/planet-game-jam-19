@@ -22,8 +22,8 @@ enum Menu { BAG, SETTINGS, NONE, UPGRADES }
 func _ready() -> void:
 	upgrades_button.pressed.connect(_menu_toggled.bind(Menu.UPGRADES))
 	bag_button.pressed.connect(_menu_toggled.bind(Menu.BAG))
-	bag_menu.hide()
 	menu_button.pressed.connect(_menu_toggled.bind(Menu.SETTINGS))
+	bag_menu.hide()
 	settings_menu.hide()
 	character.surfaced.connect(_toggled_on_surface.bind(true))
 	character.submerged.connect(_toggled_on_surface.bind(false))
@@ -56,24 +56,14 @@ func get_current_menu() -> Menu:
 	
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_bag"):
-		settings_menu.hide()
-		bag_menu.visible = not bag_menu.visible
+		_menu_toggled(Menu.BAG)
 		update_stats(PlayerStats.upgrade_points, PlayerStats.total_ore)
 	
 	elif event.is_action_pressed("toggle_upgrades"):
-		upgrades_menu.visible = not upgrades_menu.visible
+		_menu_toggled(Menu.UPGRADES)
 		
 	elif event.is_action_pressed("ui_cancel"):
-		match get_current_menu():
-			Menu.NONE:
-				settings_menu.show()
-			Menu.BAG:
-				bag_menu.hide()
-				update_stats(PlayerStats.upgrade_points, PlayerStats.total_ore)
-			Menu.SETTINGS:
-				settings_menu.hide()
-			Menu.UPGRADES:
-				upgrades_menu.hide()
+		_menu_toggled(Menu.SETTINGS)
 				
 				
 				

@@ -21,11 +21,13 @@ var starting_position : Vector2
 var debug_rotated_polygon
 
 func _ready() -> void:
-	area.my_shape = self
 	_find_cells()
 	_transfer_polygon()
 	starting_position = global_position
 	area.input_pickable = true
+	if Engine.is_editor_hint():
+		return
+	area.my_shape = self
 	
 func setup(block: BlockData, polygon_scene: PackedScene) -> void:
 	poly = polygon_scene.instantiate() as Polygon2D
