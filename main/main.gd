@@ -12,6 +12,9 @@ var _block_healths: Dictionary[Vector2i, int]
 var _current_digging_pos : Vector2i
 
 func _ready() -> void:
+	# Warm-up the shader for web export
+	_explode_at(character.global_position)
+	
 	Sfx.start_music()
 	
 	TileManager.setup(Vector2i(20,20))
@@ -72,7 +75,8 @@ func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 		p.value = _block_healths[_current_digging_pos]
 	
 	character.particles.emitting = true
-	character.particles.speed_scale = player_stats.drill_cooldown / 3.0
+	character.particles.speed_scale = 0.5 / player_stats.drill_cooldown
+	print("set particle speed to ", character.particles.speed_scale)
 	digging_timer.wait_time = player_stats.drill_cooldown
 	digging_timer.start()
 	Sfx.play(Sfx.Sound.TICK)

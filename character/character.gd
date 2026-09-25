@@ -145,7 +145,7 @@ func _set_state(new_state: State) -> void:
 		State.MOVING:
 			if _state == State.DIGGING:
 				stopped_digging.emit()
-			sprite.speed_scale = player_stats.drill_cooldown / 3.0
+			sprite.speed_scale = 0.5 / player_stats.drill_cooldown
 			anim_name = &"default"
 		State.DIGGING:
 			anim_name = &"digging"

@@ -4,12 +4,12 @@
 
 [resource]
 script = ExtResource("1_c8t5t")
-display_name = "Drill Speed"
+display_name = "Drill Cooldown"
 max_level = 10
 base = 0.8
 cap = 0.025
 base_cost = 8.0
 cost_mult = 2.0
-format = "%d"
+format = "%.01f"
 target = 1
 target_property = "drill_cooldown"

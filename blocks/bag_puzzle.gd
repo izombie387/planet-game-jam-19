@@ -1,7 +1,7 @@
 extends Control
 
 var _dragging_shape : OreShape
-@export var ore_pickers: VBoxContainer
+#@export var ore_pickers: VBoxContainer
 @export var map: TileMapLayer
 @export var debug_cells := false
 @export var spawn_point: Marker2D
@@ -13,6 +13,8 @@ var _dragging_shape : OreShape
 @export var click_handler: Control
 @export var ray_cast: RayCast2D
 @export var clear_button: Button
+@export var points_label: Label
+@export var player_stats: PlayerStats
 
 var _cells: Dictionary[Vector2i, OreShape]
 var empty_ore_shape_scene = load("res://blocks/ore-shapes/empty_ore_shape.tscn")
@@ -49,12 +51,12 @@ func populate_ore() -> void:
 	drop_button.text = "Drop Ore [%d]" % total
 	
 func _smelt_pressed() -> void:
-	var total_cells = map.get_used_cells().size()
-	var filled_cells = _cells.size()
-	var percent = (filled_cells / float(total_cells)) * 100.0
-	var bonus_multi:= 0.5
+	var total_points := _get_point_total()
+	_clear_grid()
+	player_stats.add_points(total_points)
+	points_label.text = "+$%d" % total_points
 	
-	# Count ore types
+func _get_point_total() -> int:
 	var ore_types := {}
 	for ore_shape in _cells.values():
 		var block_name = ore_shape.block.name
@@ -62,27 +64,26 @@ func _smelt_pressed() -> void:
 			ore_types[block_name] = 0
 		ore_types[block_name] += 1 * ore_shape.block.puzzle_points
 		
-	match percent:
-		var x when x > 99:
-			bonus_multi = 5.0
-		var x when x > 75:
-			bonus_multi = 2.0
-		var x when x > 10:
-			bonus_multi = 1.1
-		_:
-			pass
+	var total_cells = map.get_used_cells().size()
+	var filled_cells = _cells.size()
+	var percent := float(filled_cells) / float(total_cells)
+
+	var bonus_multi := percent * 5.0
 			
-	var total_points = int(filled_cells * bonus_multi)
+	var ore_points_sum = ore_types.values().reduce(func(a,c): return a+c, 0)
+	var total_points = int(ore_points_sum * bonus_multi)
 	var message = "\n".join([
-			"%s" % JSON.stringify(ore_types, " "),
-			"%d percent full" % percent,
-			"%.1fx multi" % bonus_multi,
-			"total points = %d" % total_points
+			"%s" % (JSON.stringify(ore_types, "")
+					.replace("{", "")
+					.replace("}", "")
+					.replace("\"", ""))
+					.replace(":", "$"),
+			"%.1f X Bonus (%d Percent Filled)" % [bonus_multi, percent * 100],
+			"Total $ %d" % total_points
 	])
-	smelt_dialog.label.text = message
-	smelt_dialog.show()
-	_clear_grid()
-	PlayerStats.add_points(total_points)
+	points_label.text = message
+	
+	return total_points
 	
 func _clear_grid() -> void:
 	for ore_shape in _cells.values():
@@ -192,6 +193,7 @@ func _try_drop(drop_pos: Vector2, shape: OreShape) -> bool:
 		_cells[c] = shape
 		
 	shape.global_position = map.map_to_local(origin)
+	_get_point_total()
 	return true
 	
 func _pickup(shape: OreShape) -> void:
@@ -204,6 +206,8 @@ func _pickup(shape: OreShape) -> void:
 		var c = origin + offset
 		if _cells.get(c) == shape:
 			_cells.erase(c)
+			
+	_get_point_total()
 		
 func _process(_delta: float) -> void:
 	if _dragging_shape:

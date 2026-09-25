@@ -4,12 +4,12 @@
 
 [resource]
 script = ExtResource("1_0ngk1")
-display_name = "Move Speed"
+display_name = "Move Cooldown"
 max_level = 6
 base = 0.8
 cap = 0.075
 base_cost = 5.0
 cost_mult = 2.0
-format = "%d"
+format = "%.01f"
 target = 1
 target_property = "move_cooldown"

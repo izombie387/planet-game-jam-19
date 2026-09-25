@@ -17,9 +17,11 @@ enum Menu { BAG, SETTINGS, NONE, UPGRADES }
 @export var bag_menu: Control
 @export var bag_button: Button
 @export var upgrades_button: Button
-
+@export var player_stats: PlayerStats
 
 func _ready() -> void:
+	player_stats.upgrade_points_changed.connect(func(total):
+				upgrade_points_label.text = str(total))
 	upgrades_button.pressed.connect(_menu_toggled.bind(Menu.UPGRADES))
 	bag_button.pressed.connect(_menu_toggled.bind(Menu.BAG))
 	menu_button.pressed.connect(_menu_toggled.bind(Menu.SETTINGS))

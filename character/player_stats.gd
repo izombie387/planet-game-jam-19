@@ -1,6 +1,8 @@
 class_name PlayerStats
 extends Resource
 
+signal upgrade_points_changed(total: int)
+
 static var total_blocks_mined := 0
 static var upgrade_points := 0
 static var total_ore := 0
@@ -27,8 +29,12 @@ static func pop_random_block() -> TileManager.OreType:
 	total_ore -= 1
 	return ore
 
-static func add_points(amount: int) -> void:
+static func add_points_no_signal(amount: int) -> void:
 	upgrade_points += amount
+
+func add_points(amount: int) -> void:
+	upgrade_points += amount
+	upgrade_points_changed.emit(upgrade_points)
 
 func on_buff_changed(buff: Buff, _buff_state: Buff.State, _unlock_dist: int) -> void:
 	set(buff.target_property, buff.current)
