@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://ck3a1rd0ff7b1" path="res://main/digging_sprite.tscn" id="12_n3o0a"]
 [ext_resource type="PackedScene" uid="uid://cekhm6bwcn4lg" path="res://buffs/buffs-menu/buffs_panel.tscn" id="13_73k8k"]
 [ext_resource type="PackedScene" uid="uid://wk1rwbag11xv" path="res://blocks/bag-puzzle.tscn" id="13_na0o7"]
+[ext_resource type="Texture2D" uid="uid://cfhnghhf1gnyv" path="res://art/blocks/non-ore/upsidedown-tree.png" id="16_n3o0a"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mjt85"]
 animations = [{
@@ -390,3 +391,9 @@ layout_mode = 1
 [node name="ReferenceRect" type="ReferenceRect" parent="." unique_id=1840449671]
 offset_right = 320.0
 offset_bottom = 320.0
+border_color = Color(1, 0.44313726, 0, 1)
+border_width = 1.5
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=396255124]
+position = Vector2(335, 377)
+texture = ExtResource("16_n3o0a")

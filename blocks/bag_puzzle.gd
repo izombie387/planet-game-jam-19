@@ -12,6 +12,7 @@ var _dragging_shape : OreShape
 @export var close_button: Button
 @export var click_handler: Control
 @export var ray_cast: RayCast2D
+@export var clear_button: Button
 
 var _cells: Dictionary[Vector2i, OreShape]
 var empty_ore_shape_scene = load("res://blocks/ore-shapes/empty_ore_shape.tscn")
@@ -19,11 +20,18 @@ var rigid_shape_scene = load("res://blocks/ore-shapes/rigid_shape.tscn")
 
 func _ready() -> void:
 	click_handler.gui_input.connect(_on_handler_gui_input)
+	clear_button.pressed.connect(_clear_box)
 	close_button.pressed.connect(hide)
 	drop_button.pressed.connect(spawn_random_rigid_shape)
 	smelt_dialog.hide()
 	smelt_button.pressed.connect(_smelt_pressed)
 	visibility_changed.connect(_on_visibility_changed)
+	
+func _clear_box() -> void:
+	var shapes = get_tree().get_nodes_in_group("rigid_shapes")
+	print("clearing ", shapes)
+	for rigid in shapes:
+		rigid.queue_free()
 	
 func _explode_at(pos: Vector2) -> void:
 	explosion_particles.position = pos
@@ -45,6 +53,15 @@ func _smelt_pressed() -> void:
 	var filled_cells = _cells.size()
 	var percent = (filled_cells / float(total_cells)) * 100.0
 	var bonus_multi:= 0.5
+	
+	# Count ore types
+	var ore_types := {}
+	for ore_shape in _cells.values():
+		var block_name = ore_shape.block.name
+		if block_name not in ore_types:
+			ore_types[block_name] = 0
+		ore_types[block_name] += 1 * ore_shape.block.puzzle_points
+		
 	match percent:
 		var x when x > 99:
 			bonus_multi = 5.0
@@ -57,8 +74,8 @@ func _smelt_pressed() -> void:
 			
 	var total_points = int(filled_cells * bonus_multi)
 	var message = "\n".join([
+			"%s" % JSON.stringify(ore_types, " "),
 			"%d percent full" % percent,
-			"%d spaces filled" % filled_cells,
 			"%.1fx multi" % bonus_multi,
 			"total points = %d" % total_points
 	])
@@ -93,6 +110,7 @@ func spawn_rigid_shape(block: BlockData, poly: PackedScene) -> void:
 	rigid_shape.pressed.connect(_on_rigid_pressed.bind(block, poly, rigid_shape))
 	add_child(rigid_shape)
 	rigid_shape.position = spawn_point.position
+	rigid_shape.add_to_group("rigid_shapes")
 
 func _on_rigid_pressed(block: BlockData, poly: PackedScene, body: RigidBody2D) -> void:
 	var new_shape: OreShape = empty_ore_shape_scene.instantiate()
@@ -103,13 +121,16 @@ func _on_rigid_pressed(block: BlockData, poly: PackedScene, body: RigidBody2D) -
 	body.queue_free()
 	
 func _on_handler_gui_input(event: InputEvent) -> void:
-	if not _dragging_shape:
+	if not is_instance_valid(_dragging_shape):
+		_dragging_shape = null
 		if event.is_action_pressed("select"):
 			_check_physics_click()
 		return
 	elif event.is_action_released("select"):
+		assert(_dragging_shape)
 		_drop_current_shape()
 	elif event.is_action_pressed("rotate_shape"):
+		assert(_dragging_shape)
 		_dragging_shape.rotate_90()
 	
 func _check_physics_click() -> void:
@@ -120,14 +141,7 @@ func _check_physics_click() -> void:
 		if c.has_method("press"):
 			c.press()
 	else:
-		print("no body found")	
-	
-#func _on_picker_pressed(ore_shape_scene: PackedScene, button: Button) -> void:
-	#button.set_pressed_no_signal(false)
-	#var new_shape: OreShape = ore_shape_scene.instantiate()
-	#add_child(new_shape)
-	#new_shape.area.input_event.connect(_on_ore_shape_pressed.bind(new_shape))
-	#_pickup(new_shape)
+		print("no body found")
 
 func _on_ore_shape_pressed(shape: OreShape) -> void:
 	if _dragging_shape:
@@ -140,15 +154,14 @@ func _drop_current_shape() -> void:
 	if _try_drop(get_global_mouse_position(), _dragging_shape):
 		pass
 	else:
+		spawn_rigid_shape(_dragging_shape.block, _dragging_shape.polygon_scene)
 		_dragging_shape.queue_free()
 		_dragging_shape = null
-		#click_handler.dragging = false
 		return
 
 	_dragging_shape.modulate.a = 1.0
 	_dragging_shape.z_index -= 10
 	_dragging_shape = null
-	#click_handler.dragging = false
 	
 	_debug_show_cells()
 		
@@ -183,7 +196,6 @@ func _try_drop(drop_pos: Vector2, shape: OreShape) -> bool:
 	
 func _pickup(shape: OreShape) -> void:
 	_dragging_shape = shape
-	#click_handler.dragging = true
 	_dragging_shape.modulate.a = 0.75
 	_dragging_shape.z_index += 10
 	

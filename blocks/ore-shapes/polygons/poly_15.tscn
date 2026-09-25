@@ -1,4 +1,0 @@
-[gd_scene format=3 uid="uid://0js6idcybqin"]
-
-[node name="Polygon2D16" type="Polygon2D" unique_id=474528592]
-polygon = PackedVector2Array(0, 16, 0, 0, -16, 0, -16, -16, -32, -16, -32, -32, 0, -32, 0, -16, 16, -16, 16, 16)

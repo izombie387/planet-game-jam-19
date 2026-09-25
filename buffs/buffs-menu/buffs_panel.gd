@@ -8,9 +8,14 @@ extends PanelContainer
 @export var player_stats: PlayerStats
 
 func _ready() -> void:
+	visibility_changed.connect(_on_visibility_changed)
 	for placeholder in get_tree().get_nodes_in_group("placeholder"):
 		placeholder.queue_free()
 	load_buffs()
+		
+func _on_visibility_changed() -> void:
+	if visible:
+		_update_buffs()
 		
 func load_buffs() -> void:
 	buff_arr.sort_custom(func(a: Buff, b: Buff):
@@ -60,6 +65,7 @@ func _on_buff_pressed(buff: Buff) -> void:
 					cap_action.call()
 				
 	PlayerStats.upgrade_points -= buff_cost
-	buff.update(PlayerStats.total_blocks_mined, PlayerStats.upgrade_points)
+	#buff.update(PlayerStats.total_blocks_mined, PlayerStats.upgrade_points)
+	_update_buffs()
 		
 		

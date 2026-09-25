@@ -28,6 +28,7 @@ func _populate(buff: Buff):
 	cost_label.text = "$%d" % buff.get_cost()
 	
 func _on_buff_changed(buff: Buff, buff_state: Buff.State, unlock_dist: int) -> void:
+	print("Buff changed, updaing button")
 	_update(buff, buff_state, unlock_dist)
 	
 func _set_locked(locked: bool) -> void:

@@ -30,8 +30,6 @@ static func pop_random_block() -> TileManager.OreType:
 static func add_points(amount: int) -> void:
 	upgrade_points += amount
 
-# signal buff_changed(buff: Buff, buff_state: State, unlock_dist: int)
-
 func on_buff_changed(buff: Buff, _buff_state: Buff.State, _unlock_dist: int) -> void:
 	set(buff.target_property, buff.current)
 	print("Setting %s to %.1f" % [buff.target_property, buff.current])

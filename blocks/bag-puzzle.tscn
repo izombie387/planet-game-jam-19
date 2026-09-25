@@ -11,7 +11,7 @@ size = Vector2(192, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lftr4"]
 size = Vector2(32, 192)
 
-[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("map", "spawn_point", "smelt_button", "smelt_dialog", "drop_button", "explosion_particles", "close_button", "click_handler", "ray_cast")]
+[node name="Bag" type="Control" unique_id=263022249 node_paths=PackedStringArray("map", "spawn_point", "smelt_button", "smelt_dialog", "drop_button", "explosion_particles", "close_button", "click_handler", "ray_cast", "clear_button")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +29,7 @@ explosion_particles = NodePath("ExplosionParticles")
 close_button = NodePath("CloseButton")
 click_handler = NodePath("Margin/ClickHandler")
 ray_cast = NodePath("RayCast")
+clear_button = NodePath("ClearButton")
 
 [node name="Margin" type="MarginContainer" parent="." unique_id=1609186332]
 layout_mode = 1
@@ -117,6 +118,15 @@ offset_top = 176.0
 offset_right = 304.0
 offset_bottom = 193.0
 text = "Drop Ore [5]"
+
+[node name="ClearButton" type="Button" parent="." unique_id=812771852]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 0
+offset_left = 256.0
+offset_top = 16.0
+offset_right = 304.0
+offset_bottom = 33.0
+text = "Clear"
 
 [node name="SmeltDialog" type="PanelContainer" parent="." unique_id=2032398847 node_paths=PackedStringArray("label", "button")]
 visible = false

@@ -13,4 +13,5 @@ drop_rate = 2
 particle_color_inner = Color(0.16862746, 0.40784314, 0.7529412, 1)
 particle_color_outter = Color(0.043137256, 0.9882353, 0.24313726, 1)
 texture = ExtResource("2_lvsm1")
+puzzle_points = 8
 metadata/_custom_type_script = "uid://bjch5nrqx0npy"

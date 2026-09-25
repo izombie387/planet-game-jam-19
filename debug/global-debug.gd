@@ -15,3 +15,5 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		match event.keycode:
 			KEY_M:
 				PlayerStats.add_points(100)
+			KEY_O:
+				PlayerStats.add_block(TileManager.OreType.GOLD)

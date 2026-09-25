@@ -10,7 +10,7 @@ bounce = 0.25
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ndbl3"]
 blend_mode = 1
 
-[node name="RigidShape" type="RigidBody2D" unique_id=270210559 node_paths=PackedStringArray("collision", "outline")]
+[node name="RigidShape" type="RigidBody2D" unique_id=270210559 node_paths=PackedStringArray("collision", "outline") groups=["rigid_shapes"]]
 physics_material_override = SubResource("PhysicsMaterial_ndbl3")
 gravity_scale = -1.0
 script = ExtResource("1_rrqr5")

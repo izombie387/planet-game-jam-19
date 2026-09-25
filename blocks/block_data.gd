@@ -10,6 +10,7 @@ extends Resource
 @export var particle_color_inner := Color(1.0, 0.65, 0.65)
 @export var particle_color_outter := Color(0.36, 0.234, 0.234)
 @export var texture: Texture2D
+@export var puzzle_points := 1
 
 func get_outline_color() -> Color:
 	return particle_color_outter

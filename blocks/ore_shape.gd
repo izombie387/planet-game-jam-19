@@ -16,6 +16,9 @@ extends Node2D
 @export var _debug_draw_cells := false
 @export var outline: Node2D
 
+var block: BlockData
+var polygon_scene: PackedScene
+
 var starting_position : Vector2
 
 var debug_rotated_polygon
@@ -29,7 +32,10 @@ func _ready() -> void:
 		return
 	area.my_shape = self
 	
-func setup(block: BlockData, polygon_scene: PackedScene) -> void:
+func setup(p_block: BlockData, p_polygon_scene: PackedScene) -> void:
+	block = p_block
+	polygon_scene = p_polygon_scene
+	
 	poly = polygon_scene.instantiate() as Polygon2D
 	outline.add_child(poly)
 	poly.texture = block.texture

@@ -6,14 +6,6 @@ enum OreType {
 	STONE=4, NONE=6, DIRT=7,
 }
 
-#const TEXTURES := {
-	#OreType.DIAMOND: preload("res://art/blocks/diamond.png"),
-	#OreType.EMERALD: preload("res://art/blocks/emrald.png"),
-	#OreType.GOLD: preload("res://art/blocks/gold.png"),
-	#OreType.IRON: preload("res://art/blocks/iron.png"),
-	#OreType.STONE: preload("res://art/blocks/stone_block.png"),
-#}
-
 static var rng := RandomNumberGenerator.new()
 static var _block_weights := PackedFloat32Array()
 static var _poly_weights := PackedFloat32Array()
@@ -21,7 +13,6 @@ static var _block_types : Array[BlockData]
 static var _wall_types : Array[BlockData]
 
 static var _blocks : Dictionary[Vector2i, BlockData]
-#var map : TileMapLayer
 static var world_bounds : Vector2i
 
 const EMPTY_RATIO := 0.2
@@ -37,7 +28,7 @@ static var RESOURCES : Dictionary[OreType, BlockData] = {
 	OreType.DIRT: load("res://blocks/block_resources/dirt.tres"),
 }
 
-const TOTAL_POLYS = 17
+const TOTAL_POLYS = 12
 
 static func get_random_polygon() -> PackedScene:
 	var i = rng.rand_weighted(_poly_weights)
@@ -51,7 +42,6 @@ static func _static_init() -> void:
 	load_resources()
 	
 static func setup(p_world_bounds: Vector2i) -> void:
-	#map = current_map
 	world_bounds = p_world_bounds
 
 static func get_block_from_local(map: TileMapLayer, position: Vector2) -> BlockData:
