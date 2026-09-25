@@ -28,10 +28,12 @@ content_margin_bottom = 2.0
 bg_color = Color(0.30588236, 0.64705884, 0.5137255, 1)
 corner_detail = 1
 
-[node name="DiggingSprite" type="Sprite2D" unique_id=1655942141 node_paths=PackedStringArray("progress_bar")]
+[node name="DiggingSprite" type="Sprite2D" unique_id=1655942141 node_paths=PackedStringArray("progress_bar", "hp_label")]
+z_index = 1
 texture = SubResource("GradientTexture2D_6t0lm")
 script = ExtResource("1_s4xky")
 progress_bar = NodePath("ProgressBar")
+hp_label = NodePath("HpLabel")
 
 [node name="ProgressBar" type="ProgressBar" parent="." unique_id=574151769]
 anchors_preset = 12
@@ -50,3 +52,14 @@ max_value = 10.0
 step = 1.0
 value = 5.0
 show_percentage = false
+
+[node name="HpLabel" type="Label" parent="." unique_id=1892880704]
+offset_left = -5.0
+offset_top = 1.0
+offset_right = 5.0
+offset_bottom = 13.0
+theme_override_colors/font_color = Color(0.96127135, 0.9612712, 0.9612712, 1)
+theme_override_colors/font_outline_color = Color(0.2144889, 0.21448871, 0.21448874, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 8
+text = "10"

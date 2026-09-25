@@ -13,7 +13,7 @@ var _current_digging_pos : Vector2i
 
 func _ready() -> void:
 	# Warm-up the shader for web export
-	_explode_at(character.global_position)
+	explosion_particles.emitting = true
 	
 	Sfx.start_music()
 	
@@ -35,11 +35,12 @@ func _explode_at(pos: Vector2) -> void:
 	if explosion_particles.emitting:
 		explosion_particles.restart()
 	explosion_particles.emitting = true
+	Sfx.play(Sfx.Sound.EXPLOSION)
 	
 func _on_dug() -> void:
-	digging_sprite.animate()
-	var new_block_health = _block_healths[_current_digging_pos] - maxi(1, int(player_stats.drill_power))
-	if new_block_health <= 0:
+	var block_health = _block_healths[_current_digging_pos] - maxi(1, int(player_stats.drill_power))
+	digging_sprite.animate(block_health)
+	if block_health <= 0:
 		var block = TileManager.get_block(_current_digging_pos)
 		_gain_block_value(block)
 		map.erase_cell(_current_digging_pos)
@@ -49,8 +50,8 @@ func _on_dug() -> void:
 		_explode_at(map.map_to_local(_current_digging_pos))
 	else:
 		Sfx.play(Sfx.Sound.TICK)
-		_block_healths[_current_digging_pos] = new_block_health
-		digging_sprite.progress_bar.value = new_block_health
+		_block_healths[_current_digging_pos] = block_health
+		digging_sprite.progress_bar.value = block_health
 	
 func _gain_block_value(block_data: BlockData) -> void:
 	PlayerStats.add_block(block_data.ore_type)
@@ -58,7 +59,7 @@ func _gain_block_value(block_data: BlockData) -> void:
 	
 func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 	_current_digging_pos = pos
-	if block.is_wall:
+	if block.is_wall():
 		return
 		
 	var init_block_health := block.init_health
@@ -73,6 +74,8 @@ func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 		p.value = init_block_health
 	else:
 		p.value = _block_healths[_current_digging_pos]
+	
+	digging_sprite.animate(p.value)
 	
 	character.particles.emitting = true
 	character.particles.speed_scale = 0.5 / player_stats.drill_cooldown
@@ -95,6 +98,10 @@ func _generate_tiles() -> void:
 			var random_block := TileManager.get_random_block()
 			map.set_cell(cell_pos, 0, random_block.atlas_coords)
 			TileManager.set_block(random_block, cell_pos)
+			
+	# Set the Tree block
+	var tree_coords := Vector2i(TileManager.world_bounds.x - 1, TileManager.world_bounds.y)
+	TileManager.set_tree(tree_coords)
 			
 	var top = -1
 	var bottom = TileManager.world_bounds.y

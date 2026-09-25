@@ -1,14 +1,13 @@
 extends Control
 
 var _dragging_shape : OreShape
-#@export var ore_pickers: VBoxContainer
 @export var map: TileMapLayer
 @export var debug_cells := false
 @export var spawn_point: Marker2D
 @export var smelt_button: Button
 @export var smelt_dialog: PanelContainer
 @export var drop_button: Button
-@export var explosion_particles: GPUParticles2D
+#@export var explosion_particles: GPUParticles2D
 @export var close_button: Button
 @export var click_handler: Control
 @export var ray_cast: RayCast2D
@@ -30,16 +29,17 @@ func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
 	
 func _clear_box() -> void:
+	Sfx.play(Sfx.Sound.CLICK)
 	var shapes = get_tree().get_nodes_in_group("rigid_shapes")
 	print("clearing ", shapes)
 	for rigid in shapes:
 		rigid.queue_free()
 	
-func _explode_at(pos: Vector2) -> void:
-	explosion_particles.position = pos
-	if explosion_particles.emitting:
-		explosion_particles.restart()
-	explosion_particles.emitting = true
+#func _explode_at(pos: Vector2) -> void:
+	#explosion_particles.position = pos
+	#if explosion_particles.emitting:
+		#explosion_particles.restart()
+	#explosion_particles.emitting = true
 	
 func _on_visibility_changed() -> void:
 	if visible:
@@ -53,10 +53,14 @@ func populate_ore() -> void:
 func _smelt_pressed() -> void:
 	var total_points := _get_point_total()
 	_clear_grid()
-	player_stats.add_points(total_points)
-	points_label.text = "+$%d" % total_points
+	if total_points > 0:
+		Sfx.play(Sfx.Sound.UPGRADE)
+		#Sfx.play(Sfx.Sound.CLICK)
+		player_stats.add_points(total_points)
+		points_label.text = "+$%d" % total_points
 	
 func _get_point_total() -> int:
+	Sfx.play(Sfx.Sound.CLICK)
 	var ore_types := {}
 	for ore_shape in _cells.values():
 		var block_name = ore_shape.block.name
@@ -97,6 +101,8 @@ func spawn_random_rigid_shape(test:= false) -> void:
 		spawn_rigid_shape(rand_block, rand_poly)
 		return
 		
+	Sfx.play(Sfx.Sound.CLICK)
+	
 	var block_type = PlayerStats.pop_random_block()
 	if block_type != TileManager.OreType.NONE:
 		var block = TileManager.get_block_from_type(block_type)
@@ -114,6 +120,7 @@ func spawn_rigid_shape(block: BlockData, poly: PackedScene) -> void:
 	rigid_shape.add_to_group("rigid_shapes")
 
 func _on_rigid_pressed(block: BlockData, poly: PackedScene, body: RigidBody2D) -> void:
+	Sfx.play(Sfx.Sound.CLICK)
 	var new_shape: OreShape = empty_ore_shape_scene.instantiate()
 	new_shape.setup(block, poly)
 	add_child(new_shape)
@@ -130,9 +137,11 @@ func _on_handler_gui_input(event: InputEvent) -> void:
 	elif event.is_action_released("select"):
 		assert(_dragging_shape)
 		_drop_current_shape()
+		Sfx.play(Sfx.Sound.CLICK)
 	elif event.is_action_pressed("rotate_shape"):
 		assert(_dragging_shape)
 		_dragging_shape.rotate_90()
+		Sfx.play(Sfx.Sound.CLICK)
 	
 func _check_physics_click() -> void:
 	ray_cast.global_position = get_global_mouse_position()
@@ -141,6 +150,7 @@ func _check_physics_click() -> void:
 		var c = ray_cast.get_collider()
 		if c.has_method("press"):
 			c.press()
+			Sfx.play(Sfx.Sound.CLICK)
 	else:
 		print("no body found")
 
@@ -148,10 +158,11 @@ func _on_ore_shape_pressed(shape: OreShape) -> void:
 	if _dragging_shape:
 		return
 	_pickup(shape)
-	
+	Sfx.play(Sfx.Sound.CLICK)
 	_debug_show_cells()
 		
 func _drop_current_shape() -> void:
+	Sfx.play(Sfx.Sound.CLICK)
 	if _try_drop(get_global_mouse_position(), _dragging_shape):
 		pass
 	else:

@@ -3,8 +3,6 @@ extends Node2D
 
 enum State { IDLE, DIGGING, MOVING }
 
-signal surfaced()
-signal submerged()
 signal started_digging(pos: Vector2i, block: BlockData)
 signal stopped_digging()
 
@@ -24,7 +22,6 @@ const ACTION_DIRECTIONS: Dictionary[StringName, Vector2i] = {
 var _input_stack : Array[StringName]
 var _current_pos := Vector2i()
 var _state : State
-var _on_surface := true
 
 @export var particles: GPUParticles2D
 @export var particle_gradient: Gradient
@@ -92,12 +89,7 @@ func _try_move_or_dig(dir: Vector2i) -> void:
 	var target_pos = _current_pos + dir
 	if target_pos.y > TileManager.world_bounds.y:
 		_set_state(State.DIGGING)
-		surfaced.emit()
-		_on_surface = true
 		return
-	elif _on_surface:
-		submerged.emit()
-		_on_surface = false
 	var block = TileManager.get_block(target_pos)
 	if not block:
 		_move_to(target_pos)
@@ -110,7 +102,7 @@ func on_block_erased(_pos: Vector2i) -> void:
 func _dig_at(pos: Vector2i, block: BlockData) -> void:
 	started_digging.emit(pos, block)
 	_set_state(State.DIGGING)
-	if not block.is_wall:
+	if not block.is_wall():
 		particle_gradient.colors = block.get_particles_colors()
 	
 func teleport(pos: Vector2i) -> void:

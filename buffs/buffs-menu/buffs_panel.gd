@@ -47,16 +47,16 @@ func _on_buff_pressed(buff: Buff) -> void:
 	if buff.is_maxed():
 		return
 	if PlayerStats.upgrade_points < buff_cost:
-		Sfx.play(Sfx.Sound.CLUNK)
+		Sfx.play(Sfx.Sound.CLICK)
 		return
 	match buff.increment_buff():
 		Buff.IncResult.NOT_FOUND:
 			return
 		Buff.IncResult.INCREMENTED:
-			Sfx.play(Sfx.Sound.CLAP)
+			Sfx.play(Sfx.Sound.CLICK)
 			Sfx.play(Sfx.Sound.UPGRADE)
 		Buff.IncResult.JUST_MAXED:
-			Sfx.play(Sfx.Sound.LOCK)
+			Sfx.play(Sfx.Sound.CLICK)
 			Sfx.play(Sfx.Sound.UPGRADE)
 			var cap_action_name := buff.cap_action
 			if cap_action_name:

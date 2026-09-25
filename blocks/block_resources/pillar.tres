@@ -8,4 +8,5 @@ name = "Pillar"
 ore_type = 6
 atlas_coords = Vector2i(2, 1)
 is_wall = true
+function = 1
 metadata/_custom_type_script = "uid://bjch5nrqx0npy"

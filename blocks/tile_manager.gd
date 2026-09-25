@@ -3,14 +3,25 @@ extends RefCounted
 
 enum OreType {
 	DIAMOND=0, EMERALD=1, GOLD=2, IRON=3, 
-	STONE=4, NONE=6, DIRT=7,
+	STONE=4, NONE=6, DIRT=7, TREE=8,
+}
+enum Function {
+	BLOCK=0, WALL=1, SPECIAL_BLOCK=2, NONE=3
+}
+
+static var _blocks_by_function := {
+	Function.BLOCK : Array(),
+	Function.WALL : Array(),
+	Function.SPECIAL_BLOCK : Array(),
 }
 
 static var rng := RandomNumberGenerator.new()
 static var _block_weights := PackedFloat32Array()
 static var _poly_weights := PackedFloat32Array()
-static var _block_types : Array[BlockData]
-static var _wall_types : Array[BlockData]
+
+#static var _block_types : Array[BlockData]
+#static var _wall_types : Array[BlockData]
+#static var _special_types : Array[BlockData]
 
 static var _blocks : Dictionary[Vector2i, BlockData]
 static var world_bounds : Vector2i
@@ -26,6 +37,7 @@ static var RESOURCES : Dictionary[OreType, BlockData] = {
 	OreType.IRON: load("res://blocks/block_resources/iron.tres"),
 	OreType.STONE: load("res://blocks/block_resources/stone.tres"),
 	OreType.DIRT: load("res://blocks/block_resources/dirt.tres"),
+	OreType.TREE: load("res://blocks/block_resources/tree.tres"),
 }
 
 const TOTAL_POLYS = 12
@@ -60,19 +72,32 @@ static func erase_block(coords: Vector2i) -> void:
 static func set_block(block: BlockData, coords: Vector2i) -> void:
 	_blocks[coords] = block
 
+static func set_tree(coords: Vector2i) -> void:
+	var tree_block = _blocks_by_function[Function.SPECIAL_BLOCK].get(0)
+	assert(tree_block)
+	_blocks[coords] = tree_block
+	
+#static func set_block_from_type(type: OreType, coords: Vector2i) -> void:
+	#var block = get_block_from_type(type)
+	#set_block(block, coords)
+
 static func load_resources() -> void:
 	for block in RESOURCES.values():
-		if block.is_wall:
-			_wall_types.append(block)
-		else:
-			_block_types.append(block)
-			var weight = maxf(float(block.drop_rate), 1.0)
-			_block_weights.append(weight)
-	
+		match block.function:
+			Function.BLOCK:
+				var weight = maxf(float(block.drop_rate), 1.0)
+				_block_weights.append(weight)
+			Function.WALL:
+				pass
+			Function.SPECIAL_BLOCK:
+				pass
+				
+		_blocks_by_function[block.function].append(block)
+		
 static func get_random_block() -> BlockData:
 	var idx := rng.rand_weighted(_block_weights)
-	var block = _block_types[idx]
+	var block = _blocks_by_function[Function.BLOCK][idx]
 	return block
 	
 static func get_wall() -> BlockData:
-	return _wall_types[0]
+	return _blocks_by_function[Function.WALL][0]

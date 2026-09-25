@@ -27,22 +27,15 @@ func _ready() -> void:
 	menu_button.pressed.connect(_menu_toggled.bind(Menu.SETTINGS))
 	bag_menu.hide()
 	settings_menu.hide()
-	character.surfaced.connect(_toggled_on_surface.bind(true))
-	character.submerged.connect(_toggled_on_surface.bind(false))
 	
 func _menu_toggled(menu: Menu) -> void:
+	Sfx.play(Sfx.Sound.CLICK)
 	for key in menus:
 		if key == menu:
 			menus[key].visible = not menus[key].visible
 		else:
 			menus[key].visible = false
-	
-func _toggled_on_surface(_is_on: bool) -> void:
-	pass
 
-func _on_submerged() -> void:
-	pass
-	
 func update_stats(upgrade_points: int, ore_count: int) -> void:
 	upgrade_points_label.text = str(upgrade_points)
 	ore_count_label.text = str(ore_count)
