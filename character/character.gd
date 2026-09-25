@@ -77,15 +77,18 @@ func _check_movement() -> void:
 	
 func _rotate_to(dir: Vector2i) -> void:
 	var raw_target = DIRECTION_ROTATIONS[dir]
-	var delta = angle_difference(sprite.rotation, raw_target)
+	var delta := angle_difference(sprite.rotation, raw_target)
+	if is_zero_approx(delta):
+		return
+	_set_state(State.MOVING)
 	var target_angle = sprite.rotation + delta
-	(create_tween()
+	await (create_tween()
 			.set_ease(Tween.EASE_IN_OUT)
 			.set_trans(Tween.TRANS_CUBIC)
-			.tween_property(sprite, "rotation", target_angle, 0.25))
+			.tween_property(sprite, "rotation", target_angle, 0.25)).finished
 	
 func _try_move_or_dig(dir: Vector2i) -> void:
-	_rotate_to(dir)
+	await _rotate_to(dir)
 	var target_pos = _current_pos + dir
 	if target_pos.y > TileManager.world_bounds.y:
 		_set_state(State.DIGGING)

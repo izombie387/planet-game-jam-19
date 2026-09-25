@@ -34,7 +34,7 @@ func _explode_at(pos: Vector2) -> void:
 	explosion_particles.emitting = true
 	
 func _on_dug() -> void:
-	digging_sprite.flip_h = not digging_sprite.flip_h
+	digging_sprite.animate()
 	var new_block_health = _block_healths[_current_digging_pos] - maxi(1, int(player_stats.drill_power))
 	if new_block_health <= 0:
 		var block = TileManager.get_block(_current_digging_pos)

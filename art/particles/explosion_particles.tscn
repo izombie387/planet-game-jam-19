@@ -7,7 +7,7 @@
 blend_mode = 1
 
 [node name="ExplosionParticles" type="GPUParticles2D" unique_id=1759939790]
-modulate = Color(1, 1, 0, 0.19607843)
+modulate = Color(0.20392157, 0.20392157, 0, 1)
 material = SubResource("CanvasItemMaterial_mvsv5")
 emitting = false
 amount = 4

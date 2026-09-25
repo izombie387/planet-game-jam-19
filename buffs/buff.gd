@@ -19,6 +19,7 @@ enum Target { NONE, PLAYER, MAIN, PUZZLE }
 @export var cap_text: String
 @export var target := Target.NONE
 @export var target_property : String
+@export var progress_curve := 0.5
 
 var current: float
 var level: int = 0
@@ -56,7 +57,9 @@ func get_upgrade_text() -> String:
 	return text
 	
 func _get_val_at_level(lev: int) -> float:
-	return lerpf(base, cap, float(lev) / max_level)
+	var weight := float(lev) / max_level
+	var curved_weight = ease(weight, progress_curve)
+	return lerpf(base, cap, curved_weight)
 	
 func increment_buff() -> IncResult:
 	if level >= max_level:

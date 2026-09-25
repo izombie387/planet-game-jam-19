@@ -5,11 +5,12 @@
 [resource]
 script = ExtResource("1_nf5lf")
 display_name = "Drill Power"
-max_level = 20
+max_level = 10
 base = 1.0
 cap = 20.0
-base_cost = 10.0
+base_cost = 12.0
 cost_mult = 1.5
 format = "%d"
 target = 1
 target_property = "drill_power"
+progress_curve = 1.0

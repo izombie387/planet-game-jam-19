@@ -1,11 +1,9 @@
 [gd_scene format=3 uid="uid://drxb2wtqhqtnq"]
 
 [ext_resource type="Script" uid="uid://ck5mbb5cu12ow" path="res://main/main.gd" id="1_xwkvk"]
-[ext_resource type="Material" uid="uid://cwmwdn44t18ur" path="res://art/background/background-noise.material" id="2_67ri8"]
 [ext_resource type="PackedScene" uid="uid://dbyiwh1v1isxf" path="res://art/particles/explosion_particles.tscn" id="2_na0o7"]
 [ext_resource type="Script" uid="uid://bifhfpblj3i7a" path="res://character/character.gd" id="2_pjrb6"]
 [ext_resource type="TileSet" uid="uid://dj1yuko67gim" path="res://blocks/tile_set.tres" id="3_fwcvl"]
-[ext_resource type="Script" uid="uid://bfyoqcullthvw" path="res://main/digging_sprite.gd" id="4_c651c"]
 [ext_resource type="Texture2D" uid="uid://dt8l3mrkpd560" path="res://art/player/player_v3.png" id="4_kfbq2"]
 [ext_resource type="Script" uid="uid://b56v3dlpn0hcf" path="res://ui/ui.gd" id="5_3wy1v"]
 [ext_resource type="Texture2D" uid="uid://u2vsi28nc5f6" path="res://art/player/player_v2.png" id="5_4dugh"]
@@ -14,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://bhukoh4p3kg8" path="res://character/player_stats.tres" id="7_5xyti"]
 [ext_resource type="Texture2D" uid="uid://helc0rc6tmui" path="res://character/particles-gradient-texture.tres" id="8_bsumw"]
 [ext_resource type="Script" uid="uid://d4lfue1rmro02" path="res://ui/menu.gd" id="11_fwcvl"]
+[ext_resource type="PackedScene" uid="uid://ck3a1rd0ff7b1" path="res://main/digging_sprite.tscn" id="12_n3o0a"]
 [ext_resource type="PackedScene" uid="uid://cekhm6bwcn4lg" path="res://buffs/buffs-menu/buffs_panel.tscn" id="13_73k8k"]
 [ext_resource type="PackedScene" uid="uid://wk1rwbag11xv" path="res://blocks/bag-puzzle.tscn" id="13_na0o7"]
 
@@ -113,33 +112,6 @@ alpha_curve = SubResource("CurveTexture_ctmnj")
 blend_mode = 2
 light_mode = 1
 
-[sub_resource type="Gradient" id="Gradient_c651c"]
-offsets = PackedFloat32Array(0.109352164, 1)
-colors = PackedColorArray(0.33333334, 0, 0, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_6t0lm"]
-gradient = SubResource("Gradient_c651c")
-width = 16
-height = 16
-fill_to = Vector2(0.5, 0.5)
-metadata/_snap_enabled = true
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xwkvk"]
-content_margin_left = 2.0
-content_margin_top = 2.0
-content_margin_right = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0.094000004, 0.2, 0.15936668, 1)
-corner_detail = 1
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c651c"]
-content_margin_left = 2.0
-content_margin_top = 2.0
-content_margin_right = 2.0
-content_margin_bottom = 2.0
-bg_color = Color(0.30588236, 0.64705884, 0.5137255, 1)
-corner_detail = 1
-
 [node name="Main" type="Node2D" unique_id=1129783564 node_paths=PackedStringArray("map", "character", "digging_sprite", "digging_timer", "ui", "explosion_particles")]
 script = ExtResource("1_xwkvk")
 map = NodePath("map")
@@ -160,24 +132,10 @@ explosiveness = 0.5
 
 [node name="Parallax" type="Parallax2D" parent="." unique_id=260809456]
 
-[node name="Background" type="ColorRect" parent="Parallax" unique_id=258514230]
-visible = false
-material = ExtResource("2_67ri8")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -96.0
-offset_top = -64.0
-offset_right = 432.0
-offset_bottom = 368.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_lock_ = true
-
-[node name="TextureRect" type="TextureRect" parent="Parallax" unique_id=2115234864]
-offset_left = -99.0
+[node name="BackgroundTiles" type="TextureRect" parent="Parallax" unique_id=2115234864]
+offset_left = -186.0
 offset_top = -149.0
-offset_right = 483.0
+offset_right = 538.0
 offset_bottom = 460.0
 texture = ExtResource("5_n3o0a")
 stretch_mode = 1
@@ -255,30 +213,8 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="DiggingSprite" type="Sprite2D" parent="." unique_id=735836810 node_paths=PackedStringArray("progress_bar")]
-visible = false
+[node name="DiggingSprite" parent="." unique_id=1655942141 instance=ExtResource("12_n3o0a")]
 position = Vector2(176, 96)
-texture = SubResource("GradientTexture2D_6t0lm")
-script = ExtResource("4_c651c")
-progress_bar = NodePath("ProgressBar")
-
-[node name="ProgressBar" type="ProgressBar" parent="DiggingSprite" unique_id=1406439974]
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = -12.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_styles/background = SubResource("StyleBoxFlat_xwkvk")
-theme_override_styles/fill = SubResource("StyleBoxFlat_c651c")
-max_value = 10.0
-step = 1.0
-value = 5.0
-show_percentage = false
 
 [node name="DiggingTimer" type="Timer" parent="." unique_id=614684359]
 wait_time = 0.1
@@ -450,3 +386,7 @@ layout_mode = 1
 visible = false
 z_index = 5
 layout_mode = 1
+
+[node name="ReferenceRect" type="ReferenceRect" parent="." unique_id=1840449671]
+offset_right = 320.0
+offset_bottom = 320.0
