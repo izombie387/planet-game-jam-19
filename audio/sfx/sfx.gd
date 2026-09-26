@@ -1,6 +1,6 @@
 extends Node
 
-enum Sound{ 
+enum Sound {
 	TICK, UPGRADE, EXPLOSION, CLICK,
 }
 
@@ -13,12 +13,18 @@ const SFX : Dictionary[Sound, AudioStream] = {
 	Sound.EXPLOSION: preload("res://audio/ogg/Explosion.ogg"),
 }
 
-var sfx_player := AudioStreamPlayer.new()
+const MAX_PLAYERS := 2
+var idx := 0
+var sfx_players : Array[AudioStreamPlayer] = [
+	AudioStreamPlayer.new(),
+	AudioStreamPlayer.new(),
+]
 var music_player := AudioStreamPlayer.new()
 
 func _ready() -> void:
-	add_child(sfx_player)
-	sfx_player.max_polyphony = 1
+	for sfx_player in sfx_players:
+		add_child(sfx_player)
+		sfx_player.max_polyphony = 1
 	
 	add_child(music_player)
 	var sync := AudioStreamSynchronized.new()
@@ -41,7 +47,9 @@ func start_music() -> void:
 func play(sound: Sound) -> void:
 	if sound not in SFX:
 		return
-	sfx_player.stream = SFX[sound]
-	sfx_player.play()
+	if sfx_players[idx].playing:
+		idx = (idx + 1) % MAX_PLAYERS
+	sfx_players[idx].stream = SFX[sound]
+	sfx_players[idx].play()
 		
 		

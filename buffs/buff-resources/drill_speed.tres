@@ -10,6 +10,6 @@ base = 0.8
 cap = 0.025
 base_cost = 8.0
 cost_mult = 2.0
-format = "%.01f"
+format = "%.2f"
 target = 1
 target_property = "drill_cooldown"

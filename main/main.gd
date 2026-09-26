@@ -2,11 +2,12 @@ extends Node2D
 
 @export var map: TileMapLayer
 @export var character: Character
-@export var digging_sprite: Sprite2D
+@export var digging_sprite: Node2D
 @export var digging_timer: Timer
 @export var ui: UI
 @export var explosion_particles: GPUParticles2D
 @export var player_stats: PlayerStats
+@export var tree_sprite: Sprite2D
 
 var _block_healths: Dictionary[Vector2i, int]
 var _current_digging_pos : Vector2i
@@ -36,19 +37,28 @@ func _explode_at(pos: Vector2) -> void:
 		explosion_particles.restart()
 	explosion_particles.emitting = true
 	Sfx.play(Sfx.Sound.EXPLOSION)
+
+func _remove_block(block: BlockData) -> void:	
+	_gain_block_value(block)
+	map.erase_cell(_current_digging_pos)
+	TileManager.erase_block(_current_digging_pos)
+	character.on_block_erased(_current_digging_pos)
+	digging_sprite.hide()
+	_explode_at(map.map_to_local(_current_digging_pos))
 	
 func _on_dug() -> void:
 	var block_health = _block_healths[_current_digging_pos] - maxi(1, int(player_stats.drill_power))
-	digging_sprite.animate(block_health)
+	var block = TileManager.get_block(_current_digging_pos)
 	if block_health <= 0:
-		var block = TileManager.get_block(_current_digging_pos)
-		_gain_block_value(block)
-		map.erase_cell(_current_digging_pos)
-		TileManager.erase_block(_current_digging_pos)
-		character.on_block_erased(_current_digging_pos)
-		digging_sprite.hide()
-		_explode_at(map.map_to_local(_current_digging_pos))
+		match block.function:
+			TileManager.Function.BLOCK:
+				_remove_block(block)
+			TileManager.Function.SPECIAL_BLOCK:
+				_remove_block(block)
+				tree_sprite.hide()
+				ui.roll_credits()
 	else:
+		digging_sprite.animate(block_health, block)
 		Sfx.play(Sfx.Sound.TICK)
 		_block_healths[_current_digging_pos] = block_health
 		digging_sprite.progress_bar.value = block_health
@@ -66,16 +76,16 @@ func _on_started_digging(pos: Vector2i, block: BlockData) -> void:
 	
 	digging_sprite.position = map.map_to_local(pos)
 	digging_sprite.show()
-	var p: ProgressBar = digging_sprite.progress_bar
-	p.max_value = init_block_health
+	var progress_bar: ProgressBar = digging_sprite.progress_bar
+	progress_bar.max_value = init_block_health
 	
 	if pos not in _block_healths:
 		_block_healths[_current_digging_pos] = init_block_health
-		p.value = init_block_health
+		progress_bar.value = init_block_health
 	else:
-		p.value = _block_healths[_current_digging_pos]
+		progress_bar.value = _block_healths[_current_digging_pos]
 	
-	digging_sprite.animate(p.value)
+	digging_sprite.animate(progress_bar.value, block)
 	
 	character.particles.emitting = true
 	character.particles.speed_scale = 0.5 / player_stats.drill_cooldown
