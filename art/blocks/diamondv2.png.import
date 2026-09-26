@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bu6ytyebx26jc"
-path="res://.godot/imported/diamond.png-2605ea88ce9a38b99d084fa45bc1a6b5.ctex"
+uid="uid://1aagclpnj5x6"
+path="res://.godot/imported/diamondv2.png-b20e7b39c53b8c4cc517836e59b93bc9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/blocks/diamond.png"
-dest_files=["res://.godot/imported/diamond.png-2605ea88ce9a38b99d084fa45bc1a6b5.ctex"]
+source_file="res://art/blocks/diamondv2.png"
+dest_files=["res://.godot/imported/diamondv2.png-b20e7b39c53b8c4cc517836e59b93bc9.ctex"]
 
 [params]
 
