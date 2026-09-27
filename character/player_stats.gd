@@ -12,6 +12,12 @@ var move_cooldown: float
 var drill_power: float
 var drill_cooldown: float
 
+func reset() -> void:
+	total_blocks_mined = 0
+	upgrade_points = 0
+	total_ore = 0
+	ore_collected.clear()
+
 static func add_block(block_type: TileManager.OreType) -> void:
 	if block_type not in ore_collected:
 		ore_collected[block_type] = 0
@@ -38,4 +44,7 @@ func add_points(amount: int) -> void:
 
 func on_buff_changed(buff: Buff, _buff_state: Buff.State, _unlock_dist: int) -> void:
 	set(buff.target_property, buff.current)
-	print("Setting %s to %.1f" % [buff.target_property, buff.current])
+	
+	
+	
+	

@@ -19,10 +19,6 @@ static var rng := RandomNumberGenerator.new()
 static var _block_weights := PackedFloat32Array()
 static var _poly_weights := PackedFloat32Array()
 
-#static var _block_types : Array[BlockData]
-#static var _wall_types : Array[BlockData]
-#static var _special_types : Array[BlockData]
-
 static var _blocks : Dictionary[Vector2i, BlockData]
 static var world_bounds : Vector2i
 
@@ -41,6 +37,9 @@ static var RESOURCES : Dictionary[OreType, BlockData] = {
 }
 
 const TOTAL_POLYS = 12
+
+static func reset() -> void:
+	_blocks.clear()
 
 static func get_random_polygon() -> PackedScene:
 	var i = rng.rand_weighted(_poly_weights)
@@ -76,10 +75,6 @@ static func set_tree(coords: Vector2i) -> void:
 	var tree_block = _blocks_by_function[Function.SPECIAL_BLOCK].get(0)
 	assert(tree_block)
 	_blocks[coords] = tree_block
-	
-#static func set_block_from_type(type: OreType, coords: Vector2i) -> void:
-	#var block = get_block_from_type(type)
-	#set_block(block, coords)
 
 static func load_resources() -> void:
 	for block in RESOURCES.values():

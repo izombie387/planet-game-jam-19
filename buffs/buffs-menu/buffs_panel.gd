@@ -11,6 +11,8 @@ func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
 	for placeholder in get_tree().get_nodes_in_group("placeholder"):
 		placeholder.queue_free()
+	# Reset the buffs incase of reload_scene
+	buff_arr.assign(buff_arr.map(func(b): return b.duplicate()))
 	load_buffs()
 		
 func _on_visibility_changed() -> void:

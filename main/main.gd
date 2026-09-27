@@ -16,16 +16,18 @@ func _ready() -> void:
 	# Warm-up the shader for web export
 	explosion_particles.emitting = true
 	
+	player_stats.reset()
 	Sfx.start_music()
 	
+	TileManager.reset()
 	TileManager.setup(Vector2i(20,20))
 	var half_width := floori(TileManager.world_bounds.x / 2.0)
 	
+	digging_timer.timeout.connect(_on_dug)
 	character.started_digging.connect(_on_started_digging)
 	character.stopped_digging.connect(_on_stopped_digging)
-	character.teleport(Vector2i(half_width, TileManager.world_bounds.y))
 	
-	digging_timer.timeout.connect(_on_dug)
+	character.teleport(Vector2i(half_width, TileManager.world_bounds.y))
 	character.setup(map)
 	
 	map.clear()

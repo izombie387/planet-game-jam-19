@@ -35,13 +35,22 @@ func _ready() -> void:
 	
 func get_sync() -> AudioStreamSynchronized:
 	return music_player.stream
+
+func set_evil_music_vol(vol: float) -> void:
+	var s := get_sync()
+	s.set_sync_stream_volume(1, vol)
+	
+#func toggle_evil_music(on: bool) -> void:
+	#var s := get_sync()
+	#var current_vol = s.get_sync_stream_volume(1)
+	#if (current_vol == 0.0 and on) or (current_vol == -80 and not on):
+		#return
+	#var f := func(vol): s.set_sync_stream_volume(1, vol)
+	#create_tween().tween_method(f, -80.0 if on else 0.0, 0.0 if on else -80.0, 4.0)
 	
 func start_music() -> void:
 	var s := get_sync()
-	if s.get_sync_stream_volume(1) == -80.0:
-		s.set_sync_stream_volume(1, 0.0)
-	else:
-		s.set_sync_stream_volume(1, -80.0)
+	s.set_sync_stream_volume(1, -80.0)
 	music_player.play()
 	
 func play(sound: Sound) -> void:

@@ -80,3 +80,7 @@ Button/styles/pressed = SubResource("StyleBoxFlat_iqtc0")
 Label/colors/font_color = Color(0.88, 0.88, 0.88, 1)
 Panel/styles/panel = SubResource("StyleBoxFlat_jf26r")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_jf26r")
+hint_label/base_type = &"Label"
+hint_label/colors/font_color = Color(0.8408281, 0.84082806, 0.84082806, 1)
+hint_label/colors/font_outline_color = Color(0.2117157, 0.2117157, 0.2117157, 1)
+hint_label/constants/outline_size = 4

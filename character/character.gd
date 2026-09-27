@@ -119,6 +119,13 @@ func _move_to(pos: Vector2i) -> void:
 	_set_state(State.MOVING)
 	
 	label.text = "%s" % pos
+	
+	var dist = pos.distance_squared_to(TileManager.world_bounds - Vector2i(2,0))
+	var volume = lerpf(0.0, -80.0, clampf(dist / 200.0, 0.0, 1.0))
+	Sfx.set_evil_music_vol(volume)
+	
+	print("Evil dist ", dist)
+	print("Vol ", volume)
 
 func _done_moving() -> void:
 	var input_dir := _get_input()

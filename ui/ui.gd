@@ -21,10 +21,12 @@ enum Menu { BAG, SETTINGS, NONE, UPGRADES, CREDITS }
 @export var player_stats: PlayerStats
 @export var credits: CenterContainer
 @export var time_label: Label
+@export var reset_button: Button
 
 var _start_time : int
 
 func _ready() -> void:
+	reset_button.pressed.connect(_reset_game)
 	_start_time = Time.get_ticks_msec()
 	player_stats.upgrade_points_changed.connect(func(total):
 				upgrade_points_label.text = str(total))
@@ -33,6 +35,10 @@ func _ready() -> void:
 	menu_button.pressed.connect(_menu_toggled.bind(Menu.SETTINGS))
 	for menu in menus.values():
 		menu.hide()
+	
+func _reset_game() -> void:
+	player_stats.reset_state()
+	get_tree().reload_current_scene()
 	
 func roll_credits() -> void:
 	var runtime: String = format_time(Time.get_ticks_msec() - _start_time)
