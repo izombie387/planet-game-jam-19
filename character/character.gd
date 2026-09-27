@@ -40,6 +40,7 @@ func setup(p_map: TileMapLayer) -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and not event.is_echo():
+		print("Char Input")
 		for action in ACTION_DIRECTIONS:
 			if event.is_action_pressed(action):
 				if not _input_stack.has(action):
@@ -153,6 +154,7 @@ func _set_state(new_state: State) -> void:
 	else:
 		anim.stop()
 
+	#print("New state ", State.find_key(new_state))
 	_state = new_state
 	
 	

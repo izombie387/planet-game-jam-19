@@ -13,8 +13,13 @@ var _block_healths: Dictionary[Vector2i, int]
 var _current_digging_pos : Vector2i
 
 func _ready() -> void:
-	# Warm-up the shader for web export
+	## Warm-ups for web export
 	explosion_particles.emitting = true
+	character.particles.emitting = true
+	get_tree().create_timer(0.2).timeout.connect(func():
+			character.particles.emitting = false)
+	Sfx.play(Sfx.Sound.TICK)
+	##
 	
 	player_stats.reset()
 	Sfx.start_music()
@@ -120,11 +125,11 @@ func _generate_tiles() -> void:
 	var left = -1
 	var right = TileManager.world_bounds.x
 	var wall = TileManager.WALL
-	var ground_atlas_coords = Vector2i(6,0)
+	#var ground_atlas_coords = Vector2i(6,0)
 	
 	for x in range(-1, right + 1):
-		cell_pos = Vector2i(x, bottom)
-		map.set_cell(cell_pos, 0, ground_atlas_coords)
+		#cell_pos = Vector2i(x, bottom)
+		#map.set_cell(cell_pos, 0, ground_atlas_coords)
 		
 		cell_pos = Vector2i(x, top)
 		map.set_cell(cell_pos, 0, wall.atlas_coords)

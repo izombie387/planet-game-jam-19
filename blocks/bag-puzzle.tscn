@@ -44,8 +44,8 @@ size_flags_vertical = 0
 [node name="PointsLabel" type="Label" parent="PointsDisplay" unique_id=977336831]
 layout_mode = 2
 size_flags_vertical = 1
-text = "Points Display
-Total"
+text = "Drop Ore, drag to puzzle, Smelt!
+(right click to rotate while heald)"
 horizontal_alignment = 2
 
 [node name="Margin" type="MarginContainer" parent="." unique_id=1609186332]
@@ -60,6 +60,7 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
+metadata/_edit_lock_ = true
 
 [node name="Panel" type="Panel" parent="Margin" unique_id=1555333360]
 z_index = -1
@@ -71,6 +72,7 @@ metadata/_edit_lock_ = true
 z_index = 5
 layout_mode = 2
 mouse_force_pass_scroll_events = false
+metadata/_edit_lock_ = true
 
 [node name="Map" type="TileMapLayer" parent="." unique_id=634805700]
 modulate = Color(0.37916782, 0.37916768, 0.37916768, 1)
@@ -112,6 +114,7 @@ offset_left = 48.0
 offset_top = 176.0
 offset_right = 56.0
 offset_bottom = 184.0
+focus_mode = 0
 text = "Smelt"
 
 [node name="CloseButton" type="Button" parent="." unique_id=756178953]
@@ -122,6 +125,7 @@ offset_left = 160.0
 offset_top = 176.0
 offset_right = 208.0
 offset_bottom = 193.0
+focus_mode = 0
 text = "Close [E]"
 
 [node name="DropButton" type="Button" parent="." unique_id=1698171276]
@@ -131,6 +135,7 @@ offset_left = 256.0
 offset_top = 176.0
 offset_right = 304.0
 offset_bottom = 193.0
+focus_mode = 0
 text = "Drop Ore [5]"
 
 [node name="ClearButton" type="Button" parent="." unique_id=812771852]
@@ -140,6 +145,7 @@ offset_left = 256.0
 offset_top = 16.0
 offset_right = 304.0
 offset_bottom = 33.0
+focus_mode = 0
 text = "Clear"
 
 [node name="SmeltDialog" type="PanelContainer" parent="." unique_id=2032398847 node_paths=PackedStringArray("label", "button")]
@@ -161,75 +167,7 @@ label = NodePath("VBoxContainer/Label")
 button = NodePath("VBoxContainer/Button")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SmeltDialog" unique_id=2012936306]
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 2
-auto_translate_mode = 0
-editor_description = ""
-visible = true
-modulate = Color(1, 1, 1, 1)
-self_modulate = Color(1, 1, 1, 1)
-show_behind_parent = false
-top_level = false
-clip_children = 0
-oversampling_with_scale = 0
-light_mask = 1
-visibility_layer = 1
-z_index = 0
-z_as_relative = true
-y_sort_enabled = false
-texture_filter = 0
-texture_repeat = 0
-material = null
-use_parent_material = false
-custom_minimum_size = Vector2(0, 0)
-custom_maximum_size = Vector2(-1, -1)
-propagate_maximum_size = true
-clip_contents = false
 layout_mode = 2
-size_flags_horizontal = 1
-size_flags_vertical = 1
-size_flags_stretch_ratio = 1.0
-offset_transform_enabled = false
-offset_transform_position = Vector2(0, 0)
-offset_transform_position_ratio = Vector2(0, 0)
-offset_transform_scale = Vector2(1, 1)
-offset_transform_rotation = 0.0
-offset_transform_pivot = Vector2(0, 0)
-offset_transform_pivot_ratio = Vector2(0.5, 0.5)
-offset_transform_visual_only = true
-localize_numeral_system = true
-layout_direction = 0
-translation_context = &""
-tooltip_text = ""
-tooltip_auto_translate_mode = 0
-focus_neighbor_left = NodePath("")
-focus_neighbor_top = NodePath("")
-focus_neighbor_right = NodePath("")
-focus_neighbor_bottom = NodePath("")
-focus_next = NodePath("")
-focus_previous = NodePath("")
-focus_mode = 0
-focus_behavior_recursive = 0
-mouse_filter = 1
-mouse_behavior_recursive = 0
-mouse_force_pass_scroll_events = true
-mouse_default_cursor_shape = 0
-accessibility_name = ""
-accessibility_description = ""
-accessibility_live = 0
-accessibility_controls_nodes = Array[NodePath]([])
-accessibility_described_by_nodes = Array[NodePath]([])
-accessibility_labeled_by_nodes = Array[NodePath]([])
-accessibility_flow_to_nodes = Array[NodePath]([])
-theme = null
-theme_type_variation = &""
-accessibility_region = false
-alignment = 0
-script = null
 
 [node name="Label" type="Label" parent="SmeltDialog/VBoxContainer" unique_id=1263536781]
 layout_mode = 2

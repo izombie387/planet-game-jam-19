@@ -1,6 +1,7 @@
 [gd_resource type="Theme" format=3 uid="uid://bh2q7wsrk6cg3"]
 
 [ext_resource type="StyleBox" uid="uid://d3ipav07vpoja" path="res://ui/button_normal.stylebox" id="1_rqugq"]
+[ext_resource type="FontFile" uid="uid://bhuoacbjf6fsg" path="res://ui/MPLUS1-Regular.ttf" id="2_jf26r"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rqugq"]
 content_margin_left = 4.0
@@ -71,6 +72,7 @@ corner_radius_bottom_left = 5
 corner_detail = 5
 
 [resource]
+default_font = ExtResource("2_jf26r")
 default_font_size = 6
 Button/colors/font_color = Color(0.8441346, 0.8441347, 0.84413457, 1)
 Button/styles/disabled = SubResource("StyleBoxFlat_rqugq")
